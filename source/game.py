@@ -7,7 +7,7 @@ from pygame.locals import *
 
 pygame.init()
 
-k_up = k_down = k_right = k_left = 0
+
 player = pygame.image.load('../images/hero_placeholder.png')
 HEIGHT = 500
 WIDTH = 675
@@ -23,7 +23,8 @@ windowSurface.blit(player, position)
 while True:
     windowSurface.fill(BLACK)
 
-    
+# Need to filter events to only KEYDOWN
+# this change may be temporary depending on how the game goes
     for event in pygame.event.get():
         if not hasattr(event, 'key'): continue
         if event.key == K_RIGHT: new_position = (position[0] + 10, position[1]) 
