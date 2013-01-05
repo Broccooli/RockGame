@@ -26,15 +26,17 @@ while True:
 # Need to filter events to only KEYDOWN
 # this change may be temporary depending on how the game goes
     for event in pygame.event.get():
-        if not hasattr(event, 'key'): continue
-        if event.key == K_RIGHT: new_position = (position[0] + 10, position[1]) 
-        elif event.key == K_LEFT: new_position = (position[0] - 10, position[1])
-        elif event.key == K_UP: new_position = (position[0], position[1] -10)
-        elif event.key == K_DOWN: new_position = (position[0], position[1] + 10)
-        elif event.key == K_ESCAPE: sys.exit(0) # quit the game
+        if event.type == pygame.KEYDOWN:
+         if event.key == K_RIGHT and position[0] < (WIDTH - 20): new_position = (position[0] + 10, position[1])
+         elif event.key == K_LEFT and position[0] > 20: new_position = (position[0] - 10, position[1])
+         elif event.key == K_UP and position[1] > (20):new_position = (position[0], position[1] -10)
+         elif event.key == K_DOWN and position [1] < (HEIGHT -20): new_position = (position[0], position[1] + 10)
+         elif event.key == K_ESCAPE: sys.exit(0) # quit the game
     position = new_position
     windowSurface.blit(player, position)
     pygame.display.update()
         
                 
     fpsClock.tick(30)
+    
+    
