@@ -20,6 +20,7 @@ BLACK = pygame.Color(255,255,255) #Temp background
 fpsClock = pygame.time.Clock()
 windowSurface.blit(player, position)
 
+pygame.key.set_repeat(1, 10)
 while True:
     windowSurface.fill(BLACK)
 
