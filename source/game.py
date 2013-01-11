@@ -4,8 +4,11 @@
 
 import os, pygame, sys
 from pygame.locals import *
+from doors import Door
 
 pygame.init()
+
+
 
 
 player = pygame.image.load('../images/hero_placeholder.png')
@@ -17,9 +20,12 @@ x = WIDTH / 2
 y = HEIGHT / 2
 # new_position = (x,y)
 
+door = Door()
+
+
+
 BLACK = pygame.Color(255,255,255) #Temp background
 fpsClock = pygame.time.Clock()
-windowSurface.blit(player, (x,y))
 
 pygame.key.set_repeat(1, 10)
 while True:
@@ -49,8 +55,8 @@ while True:
             y = 0
         
     windowSurface.blit(player, (x,y))
+    windowSurface.blit(door.image, door.rect)
     pygame.display.update()
     fpsClock.tick(30)
 
-    
     
