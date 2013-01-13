@@ -5,13 +5,14 @@
 import os, pygame, sys
 from pygame.locals import *
 from doors import Door
+from player import Player
 
 pygame.init()
 
 
 
 
-player = pygame.image.load('../images/hero_placeholder.png')
+
 HEIGHT = 500
 WIDTH = 675
 "Window 675 x 500"
@@ -21,7 +22,8 @@ y = HEIGHT / 2
 # new_position = (x,y)
 
 door = Door()
-
+door_group = pygame.sprite.RenderPlain(door)
+player = Player((x,y))
 
 
 BLACK = pygame.Color(255,255,255) #Temp background
@@ -53,9 +55,14 @@ while True:
         y -= 10
         if y <= 0:
             y = 0
-        
-    windowSurface.blit(player, (x,y))
-    windowSurface.blit(door.image, door.rect)
+     
+    
+    if pygame.sprite.collide_rect(player, door) == True:
+    	print "collide"
+     
+    windowSurface.blit(player.image, (x,y))
+    player.update_position((x,y))
+    door_group.draw(windowSurface)
     pygame.display.update()
     fpsClock.tick(30)
 
