@@ -24,6 +24,7 @@ y = HEIGHT / 2
 door = Door((5,15))
 door_group = pygame.sprite.RenderPlain(door)
 player = Player((x,y))
+playerGroup = pygame.sprite.RenderPlain(player)
 
 rocks_by_level = []
 #setting up rocks for this room. This is how it will be done for puzzles. 
@@ -50,31 +51,14 @@ while True:
         if event.type == QUIT:
             sys.exit(0) # Clicking the x now closes the game, not ESC
     
-    keys = pygame.key.get_pressed()
-    
-    if keys[K_LEFT]:
-        x -= 10
-        if x <= 0:
-            x = 0
-    if keys[K_RIGHT]:
-        x += 10
-        if x >= 643:
-            x = 643        
-    if keys[K_DOWN]:
-        y += 10
-        if y >= 468:
-            y = 468
-    if keys[K_UP]:
-        y -= 10
-        if y <= 0:
-            y = 0
-     
+
     
     if pygame.sprite.collide_rect(player, door) == True:
     	current_level = 1
      
-    windowSurface.blit(player.image, (x,y))
-    player.update_position((x,y))
+
+    player.update_position(rocks_by_level[current_level])
+    playerGroup.draw(windowSurface)
     door_group.draw(windowSurface)
     rocks_by_level[current_level].draw(windowSurface)
     pygame.display.update()
