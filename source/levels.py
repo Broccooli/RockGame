@@ -1,0 +1,21 @@
+import os, pygame, sys
+from pygame.locals import *
+
+from doors import Door
+from rocks import Rock
+
+class Levels():
+	def createLevels_Rock(self):
+		rocks_by_level = []
+		#setting up rocks for this room. This is how it will be done for puzzles. 
+		#Long yes, but it matters where we put it
+		test_room_rocks = [Rock((100, 10)), Rock((200, 205)), Rock((400, 300))]
+		test_room_rocks_group = pygame.sprite.RenderPlain(test_room_rocks)
+		rocks_by_level.append(test_room_rocks_group) #0
+		#this is how to make a group to represent the level, then add it to the level array
+		
+		#First room, rocks
+		s1r1_rocks = [Rock((500, 10)), Rock((300, 300)), Rock((110, 100))]
+		s1r1_rocks_group = pygame.sprite.RenderPlain(s1r1_rocks)
+		rocks_by_level.append(s1r1_rocks_group) #1
+		return rocks_by_level

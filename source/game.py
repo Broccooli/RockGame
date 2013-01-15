@@ -7,6 +7,7 @@ from pygame.locals import *
 from doors import Door
 from player import Player
 from rocks import Rock
+from levels import Levels
 
 pygame.init()
 
@@ -26,18 +27,8 @@ door_group = pygame.sprite.RenderPlain(door)
 player = Player((x,y))
 playerGroup = pygame.sprite.RenderPlain(player)
 
-rocks_by_level = []
-#setting up rocks for this room. This is how it will be done for puzzles. 
-#Long yes, but it matters where we put it
-test_room_rocks = [Rock((100, 10)), Rock((200, 205)), Rock((400, 300))]
-test_room_rocks_group = pygame.sprite.RenderPlain(test_room_rocks)
-rocks_by_level.append(test_room_rocks_group) #0
-#this is how to make a group to represent the level, then add it to the level array
+rocks_by_level = Levels().createLevels_Rock()
 
-#First room, rocks
-s1r1_rocks = [Rock((500, 10)), Rock((300, 300)), Rock((110, 100))]
-s1r1_rocks_group = pygame.sprite.RenderPlain(s1r1_rocks)
-rocks_by_level.append(s1r1_rocks_group) #1
 
 BLACK = pygame.Color(255,255,255) #Temp background
 fpsClock = pygame.time.Clock()
