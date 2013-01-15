@@ -22,13 +22,12 @@ x = WIDTH / 2
 y = HEIGHT / 2
 # new_position = (x,y)
 
-door = Door((5,15))
-door_group = pygame.sprite.RenderPlain(door)
+
 player = Player((x,y))
 playerGroup = pygame.sprite.RenderPlain(player)
 
 rocks_by_level = Levels().createLevels_Rock()
-
+doors_by_level = Levels().createLevels_Door()
 
 BLACK = pygame.Color(255,255,255) #Temp background
 fpsClock = pygame.time.Clock()
@@ -44,13 +43,14 @@ while True:
     
 
     
-    if pygame.sprite.collide_rect(player, door) == True:
-    	current_level = 1
-     
+	levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],True)
+	
+	if levelChange:
+		current_level = 1
 
     player.update_position(rocks_by_level[current_level])
     playerGroup.draw(windowSurface)
-    door_group.draw(windowSurface)
+    doors_by_level[current_level].draw(windowSurface)
     rocks_by_level[current_level].draw(windowSurface)
     pygame.display.update()
     fpsClock.tick(30)

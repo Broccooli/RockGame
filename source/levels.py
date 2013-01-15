@@ -19,3 +19,14 @@ class Levels():
 		s1r1_rocks_group = pygame.sprite.RenderPlain(s1r1_rocks)
 		rocks_by_level.append(s1r1_rocks_group) #1
 		return rocks_by_level
+		
+	def createLevels_Door(self):
+		doors_by_level = []
+		door_r0 = pygame.sprite.RenderPlain(Door((5, 20)))
+		doors_by_level.append(door_r0)
+		#room 0
+		
+		door_r1 = pygame.sprite.RenderPlain(Door((50, 25)))
+		doors_by_level.append(door_r1)
+		
+		return doors_by_level
