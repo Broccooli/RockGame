@@ -15,16 +15,17 @@ class Rock(pygame.sprite.Sprite):
     	other_rocks = pygame.sprite.RenderPlain(rocks)
     	other_rocks.remove(self)
     	if direction == "right":
-    		self.rect.topleft = self.position[0] + 15, self.position[1]
+    		self.rect.topleft = self.position[0] + 10, self.position[1]
     	if direction == "left":
-    		self.rect.topleft = self.position[0] - 15, self.position[1]
+    		self.rect.topleft = self.position[0] - 10, self.position[1]
     	if direction == "down":
-    		self.rect.topleft = self.position[0], self.position[1] +15
+    		self.rect.topleft = self.position[0], self.position[1] +10
     	if direction == "up":
-    		self.rect.topleft = self.position[0], self.position[1] -15		
+    		self.rect.topleft = self.position[0], self.position[1] -10		
     		
     	self.position = self.rect.topleft	
     	hit_rock = pygame.sprite.spritecollide(self, other_rocks, False)
     	
     	if hit_rock:
     		self.rect.topleft = old_position[0], old_position[1]
+    		self.position = old_position
