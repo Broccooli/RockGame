@@ -8,6 +8,7 @@ from doors import Door
 from player import Player
 from rocks import Rock
 from levels import Levels
+from attack import Attack
 
 pygame.init()
 
@@ -25,6 +26,8 @@ y = HEIGHT / 2
 
 player = Player((x,y))
 playerGroup = pygame.sprite.RenderPlain(player)
+attack = Attack()
+attackGroup = pygame.sprite.RenderPlain(attack)
 
 rocks_by_level = Levels().createLevels_Rock()
 doors_by_level = Levels().createLevels_Door()
@@ -49,8 +52,9 @@ while True:
 		current_level = 1
 		player.getBelt()
 
-    player.update_position(rocks_by_level[current_level])
+    player.update_position(rocks_by_level[current_level], attack)
     playerGroup.draw(windowSurface)
+    attackGroup.draw(windowSurface)
     doors_by_level[current_level].draw(windowSurface)
     rocks_by_level[current_level].draw(windowSurface)
     pygame.display.update()
