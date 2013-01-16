@@ -45,7 +45,8 @@ class Player(pygame.sprite.Sprite):
     	if hit_rock:
     		self.rect.topleft = old_position[0], old_position[1]
     		if self.has_belt:
-    			hit_rock[0].getMoved(rocks, direction)
+    			if keys[K_RSHIFT]:
+    				hit_rock[0].getMoved(rocks, direction)
     			
     def getBelt(self):
     	self.has_belt = True
