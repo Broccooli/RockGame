@@ -47,6 +47,7 @@ while True:
 	
 	if levelChange:
 		current_level = 1
+		player.getBelt()
 
     player.update_position(rocks_by_level[current_level])
     playerGroup.draw(windowSurface)
