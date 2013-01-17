@@ -17,14 +17,11 @@ class Rock(pygame.sprite.Sprite):
 	
     	if direction == "right":
     		self.rect.topleft = self.position[0] + 10, self.position[1]
-    	if direction == "left":
+    	elif direction == "left":
     		self.rect.topleft = self.position[0] - 10, self.position[1]
-    	if direction == "down":
+    	elif direction == "down":
     		self.rect.topleft = self.position[0], self.position[1] +10
-    	if direction == "up":
-
-    		self.rect.topleft = self.position[0], self.position[1] -10		
-
+    	elif direction == "up":	
     		self.rect.topleft = self.position[0], self.position[1] -10
     		
     	self.position = self.rect.topleft
