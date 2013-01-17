@@ -50,10 +50,11 @@ class Player(pygame.sprite.Sprite):
 		self.rect.topleft = x, y
 			
 		if self.attacking:
-			self.attack.attack(self)
+			self.attack.use(self)
 		if self.attack.is_done():
 			self.attacking = False
-			playerGroup.remove(self.attack)
+			self.attack.kill()
+			
 			
 		hit_rock = pygame.sprite.spritecollide(self, rocks, False)
 		if hit_rock:
