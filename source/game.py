@@ -50,7 +50,7 @@ while True:
 		current_level = 1
 		player.getBelt()
 
-    player.update_position(rocks_by_level[current_level], playerGroup)
+    player.update_position(rocks_by_level[current_level], playerGroup, enemies_by_level[current_level])
     playerGroup.draw(windowSurface)
     enemies_by_level[current_level].draw(windowSurface)
     enemies_by_level[current_level].update(player, rocks_by_level[current_level])

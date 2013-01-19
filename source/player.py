@@ -14,32 +14,33 @@ class Player(pygame.sprite.Sprite):
     	self.has_belt = False
     	self.attacking = False
     	self.attack = Attack()
+    	self.clock = 0
+    	self.direction = "up"
     	
-    def update_position(self, rocks, playerGroup):
+    def update_position(self, rocks, playerGroup, enemyGroup):
 		keys = pygame.key.get_pressed()
 		x = self.rect.topleft[0]
 		y = self.rect.topleft[1]
 		old_position = self.rect.topleft
-		direction = "still"
 		if keys[K_LEFT] and not self.attacking:
 			x -= 10
-			direction = "left"
+			self.direction = "left"
 			if x <= 0:
 				x = 0
 		if keys[K_RIGHT] and not self.attacking:
 			x += 10
-			direction = "right"
+			self.direction = "right"
 			if x >= 643:
 				x = 643
 		if keys[K_DOWN] and not self.attacking:
 			y += 10
-			direction = "down"
+			self.direction = "down"
 			if y >= 468:
 				y = 468
 				
 		if keys[K_UP] and not self.attacking:
 			y -= 10
-			direction = "up"
+			self.direction = "up"
 			if y <= 0:
 				y = 0
 		if keys[K_SPACE] and not self.attacking:
@@ -55,13 +56,21 @@ class Player(pygame.sprite.Sprite):
 			self.attacking = False
 			self.attack.kill()
 			
+		hit_enemy = pygame.sprite.spritecollide(self.attack, enemyGroup, False)
+		if hit_enemy:
+			if self.clock == 0:
+				hit_enemy[0].get_hit(self.direction)
+				self.clock = 30
+		else:
+			if self.clock > 0:
+				self.clock -= 1
 			
 		hit_rock = pygame.sprite.spritecollide(self, rocks, False)
 		if hit_rock:
 			self.rect.topleft = old_position[0], old_position[1]
 			if self.has_belt:
 				if keys[K_RSHIFT]:
-					hit_rock[0].getMoved(rocks, direction)
+					hit_rock[0].getMoved(rocks, self.direction)
 
     def getBelt(self):
     	self.has_belt = True
