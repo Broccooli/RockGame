@@ -20,10 +20,10 @@ class Attack(pygame.sprite.Sprite):
         
         self.done = True
             
-    def use(self, player):
+    def use(self, player, direction):
         
         if not self.ready:
-            self.__prepare(player)
+            self.__prepare(player, direction)
         else:
             self.__swing()
                 
@@ -32,7 +32,7 @@ class Attack(pygame.sprite.Sprite):
         return self.done
     
     # Prepares all the self variables to swing
-    def __prepare(self, player): # The double underscore makes a method private
+    def __prepare(self, player, direction): # The double underscore makes a method private
         self.done = False
         self.pcx = player.rect.centerx
         self.pcy = player.rect.centery
@@ -41,9 +41,20 @@ class Attack(pygame.sprite.Sprite):
         tempt1 = player.rect.height / 2
         self.radius = float(tempradius)
         self.t1 = float(tempt1)
-        self.starting_angle = math.degrees(math.asin((self.t1 / self.radius))) - .7
+        if direction == "up": #This one is good
+        	self.starting_angle = math.degrees(math.asin((self.t1 / self.radius))) - .7
+        	self.ending_angle = 34.5
+        elif direction == "down":#all wrong
+        	self.starting_angle = math.degrees(math.asin((self.t1 / self.radius))) + 1.4
+        	self.ending_angle = 60.5
+        elif direction == "left":#all wrong
+        	self.starting_angle = math.degrees(math.asin((self.t1 / self.radius))) - .14
+        	self.ending_angle = 30.5
+        elif direction == "right": #Good
+        	self.starting_angle = math.degrees(math.asin((self.t1 / self.radius))) + .7 
+        	self.ending_angle = 36.5
         #self.ending_angle = self.starting_angle - 180
-        self.ending_angle = 34.5
+        #self.ending_angle = 34.5
         self.angle = self.starting_angle
         self.ready = True
         

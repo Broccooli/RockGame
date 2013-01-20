@@ -25,22 +25,26 @@ class Player(pygame.sprite.Sprite):
 		if keys[K_LEFT] and not self.attacking:
 			x -= 10
 			self.direction = "left"
+			self.image = pygame.image.load('../images/hero_placeholder_left.png')
 			if x <= 0:
 				x = 0
 		if keys[K_RIGHT] and not self.attacking:
 			x += 10
 			self.direction = "right"
+			self.image = pygame.image.load('../images/hero_placeholder_right.png')
 			if x >= 643:
 				x = 643
 		if keys[K_DOWN] and not self.attacking:
 			y += 10
 			self.direction = "down"
+			self.image = pygame.image.load('../images/hero_placeholder_down.png')
 			if y >= 468:
 				y = 468
 				
 		if keys[K_UP] and not self.attacking:
 			y -= 10
 			self.direction = "up"
+			self.image = pygame.image.load('../images/hero_placeholder.png')
 			if y <= 0:
 				y = 0
 		if keys[K_SPACE] and not self.attacking:
@@ -51,7 +55,7 @@ class Player(pygame.sprite.Sprite):
 		self.rect.topleft = x, y
 			
 		if self.attacking:
-			self.attack.use(self)
+			self.attack.use(self, self.direction)
 		if self.attack.is_done():
 			self.attacking = False
 			self.attack.kill()
@@ -69,7 +73,7 @@ class Player(pygame.sprite.Sprite):
 		if hit_rock:
 			self.rect.topleft = old_position[0], old_position[1]
 			if self.has_belt:
-				if keys[K_RSHIFT]:
+				if keys[K_LSHIFT]:
 					hit_rock[0].getMoved(rocks, self.direction)
 
     def getBelt(self):

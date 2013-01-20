@@ -36,4 +36,7 @@ class Levels():
 		enemies_by_level = []
 		enemies_r0 = pygame.sprite.RenderPlain(Enemy((350, 350)))
 		enemies_by_level.append(enemies_r0)
+		
+		enemies_r1 = pygame.sprite.RenderPlain()
+		enemies_by_level.append(enemies_r1)
 		return enemies_by_level

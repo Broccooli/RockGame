@@ -11,7 +11,7 @@ class Enemy(pygame.sprite.Sprite):
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position[1]
-    	self.health = 3
+    	self.health = 1 #for 1 shot testing
     	self.clock = 0
     	
     	
