@@ -42,16 +42,24 @@ class Attack(pygame.sprite.Sprite):
         self.radius = float(tempradius)
         self.t1 = float(tempt1)
         if direction == "up": #This one is good
+                starting_x = player.rect.topleft[0] + 40
+                starting_y = player.rect.topright[1] + 13
         	self.starting_angle = math.degrees(math.asin((self.t1 / self.radius))) - .7
         	self.ending_angle = 34.5
-        elif direction == "down":#all wrong
-        	self.starting_angle = math.degrees(math.asin((self.t1 / self.radius))) + 1.4
-        	self.ending_angle = 60.5
-        elif direction == "left":#all wrong
-        	self.starting_angle = math.degrees(math.asin((self.t1 / self.radius))) - .14
-        	self.ending_angle = 30.5
+        elif direction == "down":#correct
+                starting_x = player.rect.topleft[0] - 8
+                starting_y = player.rect.bottomleft[1]
+        	self.starting_angle = 34.5 #math.degrees(math.asin((self.t1 / self.radius))) + 1.4
+        	self.ending_angle = 31.5
+        elif direction == "left":#correct
+                starting_x = player.rect.topleft[0]
+                starting_y = player.rect.topleft[1] + 8
+        	self.starting_angle = 181 #math.degrees(math.asin((self.t1 / self.radius))) + 1.4
+        	self.ending_angle = 177.5
         elif direction == "right": #Good
-        	self.starting_angle = math.degrees(math.asin((self.t1 / self.radius))) + .7 
+                starting_x = player.rect.topright[0]
+                starting_y = player.rect.topright[1] + 8
+        	self.starting_angle = 39 #math.degrees(math.asin((self.t1 / self.radius))) + .7 
         	self.ending_angle = 36.5
         #self.ending_angle = self.starting_angle - 180
         #self.ending_angle = 34.5
@@ -60,13 +68,14 @@ class Attack(pygame.sprite.Sprite):
         
         #This is used so that the attack sprite doesnt appear where it ended for a split second
         #after the next attack is called
-        starting_x = player.rect.topleft[0] + 40
-        starting_y = player.rect.topright[1] + 13
+        #starting_x = player.rect.topleft[0] + 40
+        #starting_y = player.rect.topright[1] + 13
         self.rect.topleft = starting_x, starting_y 
     
     # Peforms this iteration of the actual swing    
     def __swing(self):
         if (self.angle >= self.ending_angle):
+            print self.angle
             x = (self.pcx + (self.radius * math.cos(self.angle)))
             y = (self.pcy + (self.radius * math.sin(self.angle)))
             
