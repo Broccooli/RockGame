@@ -16,6 +16,8 @@ class Player(pygame.sprite.Sprite):
     	self.attack = Attack()
     	self.clock = 0
     	self.direction = "up"
+    	self.health = 5
+    	self.invul = 0 #typical invulnerable period
     	
     def update_position(self, rocks, playerGroup, enemyGroup):
 		keys = pygame.key.get_pressed()
@@ -53,7 +55,7 @@ class Player(pygame.sprite.Sprite):
 		
 		
 		self.rect.topleft = x, y
-			
+		self.position = self.rect.topleft	
 		if self.attacking:
 			self.attack.use(self, self.direction)
 		if self.attack.is_done():
@@ -75,6 +77,25 @@ class Player(pygame.sprite.Sprite):
 			if self.has_belt:
 				if keys[K_LSHIFT]:
 					hit_rock[0].getMoved(rocks, self.direction)
+					
+		if self.invul > 0:
+			self.invul -= 1
 
     def getBelt(self):
     	self.has_belt = True
+    	
+    def getHit(self, move_direction):
+    	self.health -= 1
+    	if self.invul == 0:
+    	 if move_direction == "right":
+    		self.rect.topleft = self.position[0] + 40, self.position[1]
+    	 elif move_direction == "left":
+    		self.rect.topleft = self.position[0] - 40, self.position[1]
+    	 elif move_direction == "down":
+    		self.rect.topleft = self.position[0], self.position[1] +40
+    	 elif move_direction == "up":
+    		self.rect.topleft = self.position[0], self.position[1] -40
+    	 self.position = self.rect.topleft
+    	 if self.health < 0:
+			self.kill()
+        self.invul = 15
