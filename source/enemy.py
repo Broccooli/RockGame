@@ -11,7 +11,7 @@ class Enemy(pygame.sprite.Sprite):
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position[1]
-    	self.health = 1 #for 1 shot testing
+    	self.health = 3 #for 1 shot testing
     	self.clock = 0
     	
     	
@@ -23,13 +23,13 @@ class Enemy(pygame.sprite.Sprite):
 			my_x = self.rect.topleft[0]
 			my_y = self.rect.topleft[1]
 			if x > self.rect.topleft[0]:
-				my_x += 5
+				my_x += 2
 			if x < self.rect.topleft[0]:
-				my_x -= 5
+				my_x -= 2
 			if y > self.rect.topleft[1]:
-				my_y += 5
+				my_y += 2
 			if y < self.rect.topleft[1]:
-				my_y -= 5
+				my_y -= 2
 			self.rect.topleft = my_x, my_y
 			
 		else:
@@ -47,8 +47,8 @@ class Enemy(pygame.sprite.Sprite):
 		elif direction == "left":
 			self.rect.topleft = self.position[0] - 40, self.position[1]
 		elif direction == "down":
-			self.rect.topleft = self.position[0], self.position[1] -40
-		elif direction == "up":
 			self.rect.topleft = self.position[0], self.position[1] +40
+		elif direction == "up":
+			self.rect.topleft = self.position[0], self.position[1] -40
 		if self.health == 0:
 			self.kill()

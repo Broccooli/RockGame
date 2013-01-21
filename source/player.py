@@ -23,26 +23,26 @@ class Player(pygame.sprite.Sprite):
 		y = self.rect.topleft[1]
 		old_position = self.rect.topleft
 		if keys[K_LEFT] and not self.attacking:
-			x -= 10
+			x -= 5
 			self.direction = "left"
 			self.image = pygame.image.load('../images/hero_placeholder_left.png')
 			if x <= 0:
 				x = 0
 		if keys[K_RIGHT] and not self.attacking:
-			x += 10
+			x += 5
 			self.direction = "right"
 			self.image = pygame.image.load('../images/hero_placeholder_right.png')
 			if x >= 643:
 				x = 643
 		if keys[K_DOWN] and not self.attacking:
-			y += 10
+			y += 5
 			self.direction = "down"
 			self.image = pygame.image.load('../images/hero_placeholder_down.png')
 			if y >= 468:
 				y = 468
 				
 		if keys[K_UP] and not self.attacking:
-			y -= 10
+			y -= 5
 			self.direction = "up"
 			self.image = pygame.image.load('../images/hero_placeholder.png')
 			if y <= 0:

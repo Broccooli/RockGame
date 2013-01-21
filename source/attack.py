@@ -54,8 +54,13 @@ class Attack(pygame.sprite.Sprite):
         elif direction == "left":#correct
                 starting_x = player.rect.topleft[0]
                 starting_y = player.rect.topleft[1] + 8
+<<<<<<< HEAD
         	self.starting_angle = 181 #math.degrees(math.asin((self.t1 / self.radius))) + 1.4
         	self.ending_angle = 177.5
+=======
+        	self.starting_angle = 180.5 #math.degrees(math.asin((self.t1 / self.radius))) + 1.4
+        	self.ending_angle = 178
+>>>>>>> Attack and Speed
         elif direction == "right": #Good
                 starting_x = player.rect.topright[0]
                 starting_y = player.rect.topright[1] + 8
@@ -75,7 +80,11 @@ class Attack(pygame.sprite.Sprite):
     # Peforms this iteration of the actual swing    
     def __swing(self):
         if (self.angle >= self.ending_angle):
+<<<<<<< HEAD
             print self.angle
+=======
+            #print self.angle
+>>>>>>> Attack and Speed
             x = (self.pcx + (self.radius * math.cos(self.angle)))
             y = (self.pcy + (self.radius * math.sin(self.angle)))
             
