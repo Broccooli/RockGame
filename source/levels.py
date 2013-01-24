@@ -3,7 +3,7 @@ from pygame.locals import *
 
 from doors import Door
 from rocks import Rock
-from enemy import Enemy
+from enemy import *
 
 class Levels():
 	def createLevels_Rock(self):
@@ -32,11 +32,11 @@ class Levels():
 		
 		return doors_by_level
 		
-	def createLevels_enemies(self):
+	def createLevels_enemies(self, windowSurface):
 		enemies_by_level = []
-		enemies_r0 = pygame.sprite.RenderPlain(Enemy((350, 350)))
+		enemies_r0 = pygame.sprite.RenderPlain(M_Enemy((350, 350)))
 		enemies_by_level.append(enemies_r0)
 		
-		enemies_r1 = pygame.sprite.RenderPlain()
+		enemies_r1 = pygame.sprite.RenderPlain(R_Enemy((400, 300), windowSurface))
 		enemies_by_level.append(enemies_r1)
 		return enemies_by_level

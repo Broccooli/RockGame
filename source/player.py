@@ -95,6 +95,7 @@ class Player(pygame.sprite.Sprite):
     		self.rect.topleft = self.position[0], self.position[1] +40
     	 elif move_direction == "up":
     		self.rect.topleft = self.position[0], self.position[1] -40
+    	 
     	 self.position = self.rect.topleft
     	 if self.health < 0:
 			self.kill()

@@ -28,7 +28,7 @@ playerGroup = pygame.sprite.RenderPlain(player)
 
 rocks_by_level = Levels().createLevels_Rock()
 doors_by_level = Levels().createLevels_Door()
-enemies_by_level = Levels().createLevels_enemies()
+enemies_by_level = Levels().createLevels_enemies(windowSurface)
 
 BLACK = pygame.Color(255,255,255) #Temp background
 fpsClock = pygame.time.Clock()
