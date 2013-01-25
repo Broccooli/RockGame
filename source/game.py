@@ -8,6 +8,7 @@ from doors import Door
 from player import Player
 from rocks import Rock
 from levels import Levels
+from HUB import HUB
 
 pygame.init()
 
@@ -25,10 +26,7 @@ y = HEIGHT / 2
 
 player = Player((x,y))
 playerGroup = pygame.sprite.RenderPlain(player)
-BLACK = pygame.Color(0,0,0)
-
-my_font = pygame.font.SysFont('impact', 15)
-
+HUB = HUB()
 
 
 rocks_by_level = Levels().createLevels_Rock()
@@ -61,13 +59,7 @@ while True:
     enemies_by_level[current_level].update(player, rocks_by_level[current_level])
     doors_by_level[current_level].draw(windowSurface)
     rocks_by_level[current_level].draw(windowSurface)
-    #might make a class for this
-    if int(player.getHealth()) >= 0:
-    	health_message = my_font.render("Health: " + player.getHealth(), True, BLACK)
-    else:
-    	health_message = my_font.render("DEAD", True, BLACK)
-    windowSurface.blit(health_message, (300, 10))
-    #to keep this file cleaner
+    HUB.drawHealth(player, windowSurface)
     pygame.display.update()
     fpsClock.tick(30)
     
