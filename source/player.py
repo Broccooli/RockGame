@@ -84,6 +84,9 @@ class Player(pygame.sprite.Sprite):
     def getBelt(self):
     	self.has_belt = True
     	
+    def getHealth(self):
+    	return str(self.health)
+    	
     def getHit(self, move_direction):
     	self.health -= 1
     	if self.invul == 0:

@@ -25,18 +25,23 @@ y = HEIGHT / 2
 
 player = Player((x,y))
 playerGroup = pygame.sprite.RenderPlain(player)
+BLACK = pygame.Color(0,0,0)
+
+my_font = pygame.font.SysFont('impact', 15)
+
+
 
 rocks_by_level = Levels().createLevels_Rock()
 doors_by_level = Levels().createLevels_Door()
 enemies_by_level = Levels().createLevels_enemies(windowSurface)
 
-BLACK = pygame.Color(255,255,255) #Temp background
+WHITE = pygame.Color(255,255,255) #Temp background
 fpsClock = pygame.time.Clock()
 
 current_level =0
 pygame.key.set_repeat(1, 10)
 while True:
-    windowSurface.fill(BLACK)
+    windowSurface.fill(WHITE)
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -56,7 +61,13 @@ while True:
     enemies_by_level[current_level].update(player, rocks_by_level[current_level])
     doors_by_level[current_level].draw(windowSurface)
     rocks_by_level[current_level].draw(windowSurface)
+    #might make a class for this
+    if int(player.getHealth()) >= 0:
+    	health_message = my_font.render("Health: " + player.getHealth(), True, BLACK)
+    else:
+    	health_message = my_font.render("DEAD", True, BLACK)
+    windowSurface.blit(health_message, (300, 10))
+    #to keep this file cleaner
     pygame.display.update()
     fpsClock.tick(30)
-
     
