@@ -93,6 +93,7 @@ class Attack(pygame.sprite.Sprite):
         else:
             self.ready = False
             self.done = True
+	    self.rect.topleft = 0,0
             
             
             

@@ -49,11 +49,11 @@ while True:
     
 
     
-	levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],True)
-	
-	if levelChange:
-		current_level = 1
-		player.getBelt()
+    levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],True)
+    
+    if levelChange:
+        current_level = 1
+        player.getBelt()
 
     player.update_position(rocks_by_level[current_level], playerGroup, enemies_by_level[current_level])
     playerGroup.draw(windowSurface)
