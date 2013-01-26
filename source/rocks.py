@@ -30,5 +30,15 @@ class Rock(pygame.sprite.Sprite):
     	if hit_rock:
     		self.rect.topleft = old_position[0], old_position[1]
     		self.position = old_position
-
+    		
+class Boulder(pygame.sprite.Sprite):
+    def __init__(self, position):
+        pygame.sprite.Sprite.__init__(self)
+    	self.image = pygame.image.load('../images/Boulder.png')
+    	self.rect = self.image.get_rect()
+    	self.position = position
+    	self.rect.topleft = position[0], position [1]
+    	
+    def getMoved(self, rocks, direction):
+		i = 1 #filler, im going to do something with this later. but i means nothing
 
