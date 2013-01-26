@@ -55,8 +55,8 @@ while True:
 
     player.update_position(rocks_by_level[current_level], playerGroup, enemies_by_level[current_level])
     playerGroup.draw(windowSurface)
-    enemies_by_level[current_level].draw(windowSurface)
     enemies_by_level[current_level].update(player, rocks_by_level[current_level])
+    enemies_by_level[current_level].draw(windowSurface)    
     doors_by_level[current_level].draw(windowSurface)
     rocks_by_level[current_level].draw(windowSurface)
     HUB.drawHealth(player, windowSurface)

@@ -1,4 +1,4 @@
-import os, pygame, sys
+import os, pygame, sys, helpers
 from pygame.locals import *
 from attack import Attack
 
@@ -11,6 +11,7 @@ class Player(pygame.sprite.Sprite):
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position[1]
+	self.alive = True
     	self.has_belt = False
     	self.attacking = False
     	self.attack = Attack()
@@ -24,32 +25,32 @@ class Player(pygame.sprite.Sprite):
 		x = self.rect.topleft[0]
 		y = self.rect.topleft[1]
 		old_position = self.rect.topleft
-		if keys[K_LEFT] and not self.attacking:
+		if keys[K_LEFT] and not self.attacking and self.alive:
 			x -= 5
 			self.direction = "left"
 			self.image = pygame.image.load('../images/hero_placeholder_left.png')
 			if x <= 0:
 				x = 0
-		if keys[K_RIGHT] and not self.attacking:
+		if keys[K_RIGHT] and not self.attacking and self.alive:
 			x += 5
 			self.direction = "right"
 			self.image = pygame.image.load('../images/hero_placeholder_right.png')
 			if x >= 643:
 				x = 643
-		if keys[K_DOWN] and not self.attacking:
+		if keys[K_DOWN] and not self.attacking and self.alive:
 			y += 5
 			self.direction = "down"
 			self.image = pygame.image.load('../images/hero_placeholder_down.png')
 			if y >= 468:
 				y = 468
 				
-		if keys[K_UP] and not self.attacking:
+		if keys[K_UP] and not self.attacking and self.alive:
 			y -= 5
 			self.direction = "up"
 			self.image = pygame.image.load('../images/hero_placeholder.png')
 			if y <= 0:
 				y = 0
-		if keys[K_SPACE] and not self.attacking:
+		if keys[K_SPACE] and not self.attacking and self.alive:
 			self.attacking = True
 			playerGroup.add(self.attack)
 		
@@ -102,4 +103,5 @@ class Player(pygame.sprite.Sprite):
     	 self.position = self.rect.topleft
     	 if self.health < 0:
 			self.kill()
+			self.alive = False;
         self.invul = 15
