@@ -54,8 +54,6 @@ while True:
     	for x in range(ncols):
     		background_rect.topleft = (x * background_rect.width, y* background_rect.height)
     		windowSurface.blit(level_background[y][x], background_rect)
-
-    
     levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],True)
     
     if levelChange:
