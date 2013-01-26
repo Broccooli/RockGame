@@ -1,6 +1,7 @@
 import os, pygame, sys
 from pygame.locals import *
 
+"These are the blocks that can be pushed around by giants belt and destroyed by knucks"
 class Rock(pygame.sprite.Sprite):
     def __init__(self, position):
         pygame.sprite.Sprite.__init__(self)
@@ -30,7 +31,10 @@ class Rock(pygame.sprite.Sprite):
     	if hit_rock:
     		self.rect.topleft = old_position[0], old_position[1]
     		self.position = old_position
-    		
+    	
+    	
+    	
+"These are immovable, indestructable objects to make puzzles hard"	
 class Boulder(pygame.sprite.Sprite):
     def __init__(self, position):
         pygame.sprite.Sprite.__init__(self)

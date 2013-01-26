@@ -3,6 +3,7 @@ from pygame.locals import *
 from math import *
 from attack import *
 
+"This is the melee enemy. They patrol and when the player is close they attack"
 class M_Enemy(pygame.sprite.Sprite):
 
 
@@ -101,7 +102,13 @@ class M_Enemy(pygame.sprite.Sprite):
               self.rect.topleft = x, y + 2
        
        
-       
+"This is the ranged enemy, they are stationary and just shoot"       
+
+
+
+
+
+
 
 class R_Enemy(pygame.sprite.Sprite):
 
