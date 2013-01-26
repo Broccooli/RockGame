@@ -28,7 +28,7 @@ class Rock(pygame.sprite.Sprite):
     	self.position = self.rect.topleft
     	hit_rock = pygame.sprite.spritecollide(self, other_rocks, False)
     	
-    	if hit_rock:
+    	if (hit_rock) or (self.position [0] < 25) or (self.position [0] > 620) or (self.position [1] < 25) or (self.position [1] > 460):
     		self.rect.topleft = old_position[0], old_position[1]
     		self.position = old_position
     	

@@ -50,6 +50,7 @@ class M_Enemy(pygame.sprite.Sprite):
                             self.follow_direction = "up"
                             my_y -= 2
                      self.rect.topleft = my_x, my_y
+                     self.position = self.rect.topleft
               else:
                      self.clock -= 1
        else:
@@ -100,6 +101,7 @@ class M_Enemy(pygame.sprite.Sprite):
               self.rect.topleft = x, y - 2
        elif direction == "down":
               self.rect.topleft = x, y + 2
+       self.position = self.rect.topleft
        
        
 "This is the ranged enemy, they are stationary and just shoot"       
