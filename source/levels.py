@@ -4,6 +4,7 @@ from pygame.locals import *
 from doors import Door
 from rocks import *
 from enemy import *
+from random import randint
 
 class Levels():
 	def createLevels_Rock(self):
@@ -40,3 +41,28 @@ class Levels():
 		enemies_r1 = pygame.sprite.RenderPlain(R_Enemy((400, 300), windowSurface))
 		enemies_by_level.append(enemies_r1)
 		return enemies_by_level
+		
+	def drawBackground(self, screen):
+		#rando = random.seed()
+		dirt4 = pygame.image.load('../images/dirttile4.png')
+		dirt3 = pygame.image.load('../images/dirttile3.png')
+		dirt2 = pygame.image.load('../images/dirttile2.png')
+		dirt1 = pygame.image.load('../images/dirttile.png')
+		dirts = []
+		dirts.append(dirt1)
+		dirts.append(dirt2)
+		dirts.append(dirt3)
+		dirts.append(dirt4)
+		img_rect = dirt4.get_rect()
+		nrows = int(screen.get_height() / img_rect.height) + 1
+		ncols = int(screen.get_width() / img_rect.width) + 1
+		
+		final_background = []
+		for y in range(nrows):
+			final_background.append([])
+			for x in range(ncols):
+				i = randint(0, 3)
+				#img_rect.topleft = (x * img_rect.width,y * img_rect.height)
+				final_background[y].append(dirts[i])
+				
+		return final_background
