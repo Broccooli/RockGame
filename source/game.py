@@ -18,7 +18,7 @@ pygame.init()
 
 WIDTH = 672
 HEIGHT = 512
-"Window 675 x 500"
+"Window 672 x 512"
 windowSurface = pygame.display.set_mode((WIDTH,HEIGHT))
 x = WIDTH / 2
 y = HEIGHT / 2
@@ -40,6 +40,8 @@ fpsClock = pygame.time.Clock()
 nrows = int(windowSurface.get_height() / 32) + 1
 ncols = int(windowSurface.get_width() / 32) + 1
 background_rect = level_background[0][0].get_rect()
+WHITE = pygame.image.load('../images/fade.png')
+WHITE_Rect = WHITE.get_rect()
 
 current_level =0
 pygame.key.set_repeat(1, 10)
@@ -57,6 +59,9 @@ while True:
     
     if levelChange:
         current_level = 1
+        while WHITE_Rect <= WIDTH:
+        	windowSurface.blit(WHITE, WHITE_Rect)
+        	WHITE_Rect *= 1.2
         level_background = level_maker.drawBackground(windowSurface)
         player.getBelt()
 

@@ -23,7 +23,7 @@ class M_Enemy(pygame.sprite.Sprite):
 
  def update(self, player, rocks):
        
-       distance = abs(helpers.distance(player, self))
+       distance = abs(helpers.distance(player.rect.topleft, self.rect.topleft))
        old_position = self.rect.topleft
        
        if distance < 15:
