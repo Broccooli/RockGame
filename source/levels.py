@@ -57,6 +57,10 @@ class Levels():
 		bottom = pygame.image.load('../images/cavewalltile4.png')
 		left = pygame.image.load('../images/cavewalltile3.png')
 		right = pygame.image.load('../images/cavewalltile1.png')
+		topleft = pygame.image.load('../images/topleft.png')
+		bottomleft = pygame.image.load('../images/bottomleft.png')
+		topright = pygame.image.load('../images/topright.png')
+		bottomright = pygame.image.load('../images/bottomright.png')
 		img_rect = dirt4.get_rect()
 		nrows = int(screen.get_height() / img_rect.height) + 1
 		ncols = int(screen.get_width() / img_rect.width) + 1
@@ -68,9 +72,19 @@ class Levels():
 				i = randint(0, 3)
 				#img_rect.topleft = (x * img_rect.width,y * img_rect.height)
 				if x == 0:
-					final_background[y].append(left)
+					if y == 0:
+						final_background[y].append(topleft)
+					elif y == nrows -1:
+						final_background[y].append(bottomleft)
+					else:
+						final_background[y].append(left)
 				elif x == 20:
-					final_background[y].append(right)
+					if y == 0:
+						final_background[y].append(topright)
+					elif y == nrows -1:
+						final_background[y].append(bottomright)
+					else:	
+						final_background[y].append(right)
 				elif y == 0:
 					final_background[y].append(top)
 				elif y == nrows - 1:

@@ -35,7 +35,6 @@ rocks_by_level = level_maker.createLevels_Rock()
 doors_by_level = level_maker.createLevels_Door()
 enemies_by_level = level_maker.createLevels_enemies(windowSurface)
 level_background = level_maker.drawBackground(windowSurface)
-WHITE = pygame.Color(255,255,255) #Temp background
 fpsClock = pygame.time.Clock()
 
 nrows = int(windowSurface.get_height() / 32) + 1
