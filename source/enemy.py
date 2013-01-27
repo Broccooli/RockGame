@@ -2,6 +2,7 @@ import os, pygame, sys, helpers, math
 from pygame.locals import *
 from math import *
 from attack import *
+from random import randint
 
 "This is the melee enemy. They patrol and when the player is close they attack"
 class M_Enemy(pygame.sprite.Sprite):
@@ -54,18 +55,9 @@ class M_Enemy(pygame.sprite.Sprite):
               else:
                      self.clock -= 1
        else:
-              self.patrol()
-       hit_rock = pygame.sprite.spritecollide(self, rocks, False)
-       if hit_rock:
-         
-         
-         
-         self.rect.topleft = old_position[0], old_position[1]
-         self.position = self.rect.topleft
-       hit_player = pygame.sprite.collide_rect(self, player)
-       if hit_player:
-              player.getHit(self.follow_direction)
-              self.clock = 15
+              self.__patrol()
+       
+       self.__check_collision(rocks, player, old_position)
 
  def get_hit(self, direction):
        self.health -= 1
@@ -81,20 +73,19 @@ class M_Enemy(pygame.sprite.Sprite):
        if self.health == 0:
                self.kill()
                
- def patrol(self):
+ def __patrol(self):
        x = self.rect.topleft[0]
        y = self.rect.topleft[1]
        
        self.pat_counter += 1
        
-       if self.pat_counter >= 9:
-              self.pat_index += 1
+       if self.pat_counter >= 41:
+              old = self.pat_index
+              while (self.pat_index == old):
+                     self.pat_index = randint(0,3)
               self.pat_counter = 0
-              if self.pat_index >= 4:
-                     self.pat_index = 0
        
        direction = self.pat_directions[self.pat_index]
-       
        
        if direction == "right":
               self.rect.topleft = x + 2, y
@@ -104,8 +95,17 @@ class M_Enemy(pygame.sprite.Sprite):
               self.rect.topleft = x, y - 2
        elif direction == "down":
               self.rect.topleft = x, y + 2
-       self.position = self.rect.topleft
        
+ def __check_collision(self, rocks, player, old_position):
+       
+       hit_rock = pygame.sprite.spritecollide(self, rocks, False)
+       if hit_rock:         
+              self.rect.topleft = old_position[0], old_position[1]
+              self.position = self.rect.topleft
+       hit_player = pygame.sprite.collide_rect(self, player)
+       if hit_player:
+              player.getHit(self.follow_direction)
+              self.clock = 15
        
 "This is the ranged enemy, they are stationary and just shoot"       
 
