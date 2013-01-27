@@ -57,6 +57,9 @@ class M_Enemy(pygame.sprite.Sprite):
               self.patrol()
        hit_rock = pygame.sprite.spritecollide(self, rocks, False)
        if hit_rock:
+         
+         
+         
          self.rect.topleft = old_position[0], old_position[1]
          self.position = self.rect.topleft
        hit_player = pygame.sprite.collide_rect(self, player)
@@ -166,3 +169,4 @@ class R_Enemy(pygame.sprite.Sprite):
                self.rect.topleft = self.position[0], self.position[1] -40
        if self.health == 0:
                self.kill()
+       self.position = self.rect.topleft

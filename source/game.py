@@ -16,8 +16,8 @@ pygame.init()
 
 
 
-WIDTH = 675
-HEIGHT = 500
+WIDTH = 672
+HEIGHT = 512
 "Window 675 x 500"
 windowSurface = pygame.display.set_mode((WIDTH,HEIGHT))
 x = WIDTH / 2

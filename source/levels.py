@@ -74,20 +74,20 @@ class Levels():
 				if x == 0:
 					if y == 0:
 						final_background[y].append(topleft)
-					elif y == nrows -1:
+					elif y == nrows -2:
 						final_background[y].append(bottomleft)
 					else:
 						final_background[y].append(left)
 				elif x == 20:
 					if y == 0:
 						final_background[y].append(topright)
-					elif y == nrows -1:
+					elif y == nrows -2:
 						final_background[y].append(bottomright)
 					else:	
 						final_background[y].append(right)
 				elif y == 0:
 					final_background[y].append(top)
-				elif y == nrows - 1:
+				elif y == nrows -2:
 					final_background[y].append(bottom)
 				else:
 					final_background[y].append(dirts[i])
