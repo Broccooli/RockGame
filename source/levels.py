@@ -28,7 +28,7 @@ class Levels():
 		doors_by_level.append(door_r0)
 		#room 0
 		
-		door_r1 = pygame.sprite.RenderPlain(Door((50, 25)))
+		door_r1 = pygame.sprite.RenderPlain(Door((300, 25)))
 		doors_by_level.append(door_r1)
 		
 		return doors_by_level

@@ -2,14 +2,14 @@
 
 #!/usr/bin/env python
 
-import os, pygame, sys
+import os, pygame, sys, time
 from pygame.locals import *
 from doors import Door
 from player import Player
 from rocks import Rock
 from levels import Levels
 from HUB import HUB
-
+from dimmer import Dimmer
 
 pygame.init()
 
@@ -23,7 +23,6 @@ windowSurface = pygame.display.set_mode((WIDTH,HEIGHT))
 x = WIDTH / 2
 y = HEIGHT / 2
 # new_position = (x,y)
-
 
 player = Player((x,y))
 playerGroup = pygame.sprite.RenderPlain(player)
@@ -43,6 +42,7 @@ background_rect = level_background[0][0].get_rect()
 WHITE = pygame.image.load('../images/fade.png')
 WHITE_Rect = WHITE.get_rect()
 
+
 current_level =0
 pygame.key.set_repeat(1, 10)
 while True:
@@ -59,9 +59,8 @@ while True:
     
     if levelChange:
         current_level = 1
-        while WHITE_Rect <= WIDTH:
-        	windowSurface.blit(WHITE, WHITE_Rect)
-        	WHITE_Rect *= 1.2
+        Dimmer().dim()
+        time.sleep(.1)
         level_background = level_maker.drawBackground(windowSurface)
         player.getBelt()
 

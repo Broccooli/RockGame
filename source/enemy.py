@@ -10,7 +10,7 @@ class M_Enemy(pygame.sprite.Sprite):
 
  def __init__(self, position):
        pygame.sprite.Sprite.__init__(self)
-       self.image = pygame.image.load('../images/mad.png')
+       self.image = pygame.image.load('../images/enemy1.png')
        self.rect = self.image.get_rect()
        self.position = position
        self.rect.topleft = position[0], position[1]
@@ -120,7 +120,7 @@ class R_Enemy(pygame.sprite.Sprite):
 
  def __init__(self, position, windowSurface):
     	pygame.sprite.Sprite.__init__(self)
-    	self.image = pygame.image.load('../images/mad.png')
+    	self.image = pygame.image.load('../images/legless.png')
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position[1]
@@ -133,6 +133,7 @@ class R_Enemy(pygame.sprite.Sprite):
     	
     	
  def update(self, player, rocks):
+       old_position = self.rect.topleft
        if self.clock == 0:
                if self.cool_down == 0:
                        attack = R_Attack(self.position, player.rect.topleft)
@@ -148,13 +149,7 @@ class R_Enemy(pygame.sprite.Sprite):
        if hit_player:
                player.getHit("none")
                hit_player[0].kill()
-       hit_rock = pygame.sprite.spritecollide(self, rocks, False)
-       if hit_rock:
-               self.rect.topleft = self.position[0], self.position[1]
-       hit_player = pygame.sprite.collide_rect(self, player)
-       if hit_player:
-               player.getHit(self.follow_direction)
-               self.clock = 15
+       self.__check_collision(rocks, player, old_position)
 
  def get_hit(self, direction):
        self.health -= 1
@@ -170,3 +165,14 @@ class R_Enemy(pygame.sprite.Sprite):
        if self.health == 0:
                self.kill()
        self.position = self.rect.topleft
+       
+ def __check_collision(self, rocks, player, old_position):
+       
+       hit_rock = pygame.sprite.spritecollide(self, rocks, False)
+       if hit_rock:         
+              self.rect.topleft = old_position[0], old_position[1]
+              self.position = self.rect.topleft
+       hit_player = pygame.sprite.collide_rect(self, player)
+       if hit_player:
+              player.getHit(self.follow_direction)
+              self.clock = 15
