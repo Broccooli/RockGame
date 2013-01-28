@@ -120,7 +120,11 @@ class R_Enemy(pygame.sprite.Sprite):
 
  def __init__(self, position, windowSurface):
     	pygame.sprite.Sprite.__init__(self)
-    	self.image = pygame.image.load('../images/legless.png')
+    	self.face_left = pygame.image.load('../images/left.png')
+    	self.face_up = pygame.image.load('../images/back.png')
+    	self.face_right = pygame.image.load('../images/right.png')
+    	self.face_down = pygame.image.load('../images/front.png')
+    	self.image = self.face_left
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position[1]
@@ -134,6 +138,8 @@ class R_Enemy(pygame.sprite.Sprite):
     	
  def update(self, player, rocks):
        old_position = self.rect.topleft
+       x = player.rect.topleft[0]
+       y = player.rect.topleft[1]
        if self.clock == 0:
                if self.cool_down == 0:
                        attack = R_Attack(self.position, player.rect.topleft)
@@ -145,6 +151,19 @@ class R_Enemy(pygame.sprite.Sprite):
                self.clock -= 1
        self.attack_group.update()
        self.attack_group.draw(self.windowSurface)
+       direction = helpers.checkOrient(player, self)
+       if direction == "down":
+            self.image = self.face_down
+       if direction == "up":
+			self.image = self.face_up       
+       
+       if direction == "right":
+            self.image = self.face_right
+       if direction == "left":
+        	self.image = self.face_left
+
+       
+       
        hit_player = pygame.sprite.spritecollide(player, self.attack_group, False)
        if hit_player:
                player.getHit("none")
