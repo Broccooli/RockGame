@@ -5,7 +5,7 @@ from attack import Attack
 class Player(pygame.sprite.Sprite):
 
     
-    def __init__(self, position):
+    def __init__(self, position, screen):
         pygame.sprite.Sprite.__init__(self)
     	self.image = pygame.image.load('../images/hero_placeholder.png')
     	self.rect = self.image.get_rect()
@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
     	self.direction = "up"
     	self.health = 5
     	self.invul = 0 #typical invulnerable period
+    	self.screen = screen
     	
     def update_position(self, rocks, playerGroup, enemyGroup):
 	keys = pygame.key.get_pressed()
@@ -91,6 +92,7 @@ class Player(pygame.sprite.Sprite):
     	
     def getHit(self, move_direction):
     	self.health -= 1
+    	helpers.shake(self.screen, 40)
     	if self.invul == 0:
     	 if move_direction == "right":
     		self.rect.topleft = self.position[0] + 40, self.position[1]

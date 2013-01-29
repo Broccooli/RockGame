@@ -2,7 +2,7 @@
 
 #!/usr/bin/env python
 
-import os, pygame, sys, time
+import os, pygame, sys, time, helpers
 from pygame.locals import *
 from doors import Door
 from player import Player
@@ -24,7 +24,7 @@ x = WIDTH / 2
 y = HEIGHT / 2
 # new_position = (x,y)
 
-player = Player((x,y))
+player = Player((x,y), windowSurface)
 playerGroup = pygame.sprite.RenderPlain(player)
 HUB = HUB()
 
@@ -59,8 +59,9 @@ while True:
     
     if levelChange:
         current_level = 1
-        Dimmer().dim()
-        time.sleep(.1)
+        #helpers.fadeOut(windowSurface, 50)
+        #Dimmer().dim()
+        #time.sleep(.1)
         level_background = level_maker.drawBackground(windowSurface)
         player.getBelt()
 
@@ -75,3 +76,5 @@ while True:
     pygame.display.update()
     fpsClock.tick(30)
     
+def getScreen():
+	return windowSurface

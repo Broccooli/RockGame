@@ -142,7 +142,7 @@ class R_Enemy(pygame.sprite.Sprite):
        y = player.rect.topleft[1]
        if self.clock == 0:
                if self.cool_down == 0:
-                       attack = R_Attack(self.position, player.rect.topleft)
+                       attack = R_Attack(self.position, player.rect.center)
                        self.attack_group.add(attack)
                        self.cool_down = 80
                else:
