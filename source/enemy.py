@@ -34,24 +34,7 @@ class M_Enemy(pygame.sprite.Sprite):
               
        if self.follow:
               if self.clock == 0:
-                     x = player.rect.topleft[0]
-                     y = player.rect.topleft[1]
-                     my_x = self.rect.topleft[0]
-                     my_y = self.rect.topleft[1]
-                     if x > self.rect.topleft[0]:
-                            self.follow_direction = "right"
-                            my_x += 2
-                     if x < self.rect.topleft[0]:
-                            self.follow_direction = "left"
-                            my_x -= 2
-                     if y > self.rect.topleft[1]:
-                            self.follow_direction = "down"
-                            my_y += 2
-                     if y < self.rect.topleft[1]:
-                            self.follow_direction = "up"
-                            my_y -= 2
-                     self.rect.topleft = my_x, my_y
-                     self.position = self.rect.topleft
+				 self.__chase(player)
               else:
                      self.clock -= 1
        else:
@@ -106,13 +89,34 @@ class M_Enemy(pygame.sprite.Sprite):
        if hit_player:
               player.getHit(self.follow_direction)
               self.clock = 15
-       
+              
+ def __chase(self, player):
+	x = player.rect.topleft[0]
+	y = player.rect.topleft[1]
+	my_x = self.rect.topleft[0]
+	my_y = self.rect.topleft[1]
+	if x > self.rect.topleft[0]:
+		self.follow_direction = "right"
+		my_x += 2
+	if x < self.rect.topleft[0]:
+		self.follow_direction = "left"
+		my_x -= 2
+	if y > self.rect.topleft[1]:
+		self.follow_direction = "down"
+		my_y += 2
+	if y < self.rect.topleft[1]:
+		self.follow_direction = "up"
+		my_y -= 2
+	self.rect.topleft = my_x, my_y
+	self.position = self.rect.topleft       
+
+
+
+
+
+
+
 "This is the ranged enemy, they are stationary and just shoot"       
-
-
-
-
-
 
 
 class R_Enemy(pygame.sprite.Sprite):
@@ -120,10 +124,10 @@ class R_Enemy(pygame.sprite.Sprite):
 
  def __init__(self, position, windowSurface):
     	pygame.sprite.Sprite.__init__(self)
-    	self.face_left = pygame.image.load('../images/left.png')
-    	self.face_up = pygame.image.load('../images/back.png')
-    	self.face_right = pygame.image.load('../images/right.png')
-    	self.face_down = pygame.image.load('../images/front.png')
+    	self.face_left = pygame.image.load('../images/legless_left.png')
+    	self.face_up = pygame.image.load('../images/legless_back.png')
+    	self.face_right = pygame.image.load('../images/legless_right.png')
+    	self.face_down = pygame.image.load('../images/legless_front.png')
     	self.image = self.face_left
     	self.rect = self.image.get_rect()
     	self.position = position
@@ -151,18 +155,8 @@ class R_Enemy(pygame.sprite.Sprite):
                self.clock -= 1
        self.attack_group.update()
        self.attack_group.draw(self.windowSurface)
-       direction = helpers.checkOrient(player, self)
-       if direction == "down":
-            self.image = self.face_down
-       if direction == "up":
-			self.image = self.face_up       
-       
-       if direction == "right":
-            self.image = self.face_right
-       if direction == "left":
-        	self.image = self.face_left
 
-       
+       self.__face(player)
        
        hit_player = pygame.sprite.spritecollide(player, self.attack_group, False)
        if hit_player:
@@ -195,3 +189,15 @@ class R_Enemy(pygame.sprite.Sprite):
        if hit_player:
               player.getHit(self.follow_direction)
               self.clock = 15
+              
+ def __face(self, player):
+       direction = helpers.checkOrient(player, self)
+       if direction == "down":
+            self.image = self.face_down
+       if direction == "up":
+			self.image = self.face_up       
+       
+       if direction == "right":
+            self.image = self.face_right
+       if direction == "left":
+        	self.image = self.face_left

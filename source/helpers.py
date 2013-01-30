@@ -49,3 +49,4 @@ def fadeOut(screen, amplitude):
     surf.set_alpha(amplitude*10)
     screen.blit(surf, (0, 0))
     return amplitude
+    
