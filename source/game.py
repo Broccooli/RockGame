@@ -8,7 +8,7 @@ from doors import Door
 from player import Player
 from rocks import Rock
 from levels import Levels
-from HUB import HUB
+from HUB import *
 from dimmer import Dimmer
 
 pygame.init()
@@ -27,6 +27,14 @@ y = HEIGHT / 2
 player = Player((x,y), windowSurface)
 playerGroup = pygame.sprite.RenderPlain(player)
 HUB = HUB()
+
+my_font = pygame.font.SysFont('impact', 15)
+dialogbox = DialogBox((240, 51), (255, 255, 204), 
+    (102, 0, 0), my_font)
+dialogbox.set_dialog([
+"This is a dialog box! Press the a button to go to the next page.", 
+"Press it again and this box will close."])
+
 
 level_maker = Levels()
 
@@ -50,6 +58,9 @@ while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             sys.exit(0) # Clicking the x now closes the game, not ESC
+        if event.type ==KEYUP:
+        	if event.key == K_RETURN:
+        		dialogbox.progress()
     
     for y in range(nrows):
     	for x in range(ncols):
@@ -57,10 +68,17 @@ while True:
     		windowSurface.blit(level_background[y][x], background_rect)
     levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],True)
     
+#     keys = pygame.key.get_pressed()
+#     if not dialogbox.over():
+#         if keys[K_RETURN]:
+#             dialogbox.progress()
+    
+    
+    
+    
     if levelChange:
         current_level = 1
         #helpers.fadeOut(windowSurface, 50)
-        #Dimmer().dim()
         #time.sleep(.1)
         level_background = level_maker.drawBackground(windowSurface)
         player.getBelt()
@@ -72,9 +90,7 @@ while True:
     doors_by_level[current_level].draw(windowSurface)
     rocks_by_level[current_level].draw(windowSurface)
     HUB.drawHealth(player, windowSurface)
-    
+    dialogbox.draw(windowSurface, (8, 8))
     pygame.display.update()
     fpsClock.tick(30)
     
-def getScreen():
-	return windowSurface

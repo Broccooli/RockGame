@@ -41,20 +41,25 @@ class M_Enemy(pygame.sprite.Sprite):
               self.__patrol()
        
        self.__check_collision(rocks, player, old_position)
+       
 
  def get_hit(self, direction):
        self.health -= 1
        self.clock = 15
+       knocked_position = (0,0)
        if direction == "right":
-               self.rect.topleft = self.position[0] + 40, self.position[1]
+               knocked_position = self.position[0] + 40, self.position[1]
        elif direction == "left":
-               self.rect.topleft = self.position[0] - 40, self.position[1]
+               knocked_position = self.position[0] - 40, self.position[1]
        elif direction == "down":
-               self.rect.topleft = self.position[0], self.position[1] +40
+               knocked_position = self.position[0], self.position[1] +40
        elif direction == "up":
-               self.rect.topleft = self.position[0], self.position[1] -40
+               knocked_position = self.position[0], self.position[1] -40
        if self.health == 0:
                self.kill()
+       self.rect.topleft = helpers.checkBoundry(knocked_position)
+       self.position = self.rect.topleft
+        
                
  def __patrol(self):
        x = self.rect.topleft[0]
@@ -70,14 +75,16 @@ class M_Enemy(pygame.sprite.Sprite):
        
        direction = self.pat_directions[self.pat_index]
        
+       patrol_position = (0,0)
        if direction == "right":
-              self.rect.topleft = x + 2, y
+              patrol_position = x + 2, y
        elif direction == "left":
-              self.rect.topleft = x - 2, y
+              patrol_position = x - 2, y
        elif direction == "up":
-              self.rect.topleft = x, y - 2
+              patrol_position = x, y - 2
        elif direction == "down":
-              self.rect.topleft = x, y + 2
+              patrol_position = x, y + 2
+       self.rect.topleft = helpers.checkBoundry(patrol_position)
        
  def __check_collision(self, rocks, player, old_position):
        
@@ -107,7 +114,7 @@ class M_Enemy(pygame.sprite.Sprite):
 	if y < self.rect.topleft[1]:
 		self.follow_direction = "up"
 		my_y -= 2
-	self.rect.topleft = my_x, my_y
+	self.rect.topleft = helpers.checkBoundry((my_x, my_y))
 	self.position = self.rect.topleft       
 
 
@@ -146,7 +153,7 @@ class R_Enemy(pygame.sprite.Sprite):
        y = player.rect.topleft[1]
        if self.clock == 0:
                if self.cool_down == 0:
-                       attack = R_Attack(self.position, player.rect.center)
+                       attack = R_Attack(self.rect.center, player.rect.center)
                        self.attack_group.add(attack)
                        self.cool_down = 80
                else:

@@ -50,3 +50,16 @@ def fadeOut(screen, amplitude):
     screen.blit(surf, (0, 0))
     return amplitude
     
+def checkBoundry(position):
+	new_x = position[0]
+	new_y = position[1]
+	if position[0] <= 15:
+		new_x = 15
+	if position [0] >= 620:
+		new_x = 620
+	if position [1] <= 15:
+		new_y = 15
+	if position[1] >= 460:
+		new_y = 460
+	return (new_x, new_y)
+    
