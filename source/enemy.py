@@ -10,7 +10,15 @@ class M_Enemy(pygame.sprite.Sprite):
 
  def __init__(self, position):
        pygame.sprite.Sprite.__init__(self)
-       self.image = pygame.image.load('../images/enemy1.png')
+       self.front_still = pygame.image.load('../images/arms_front_still.png')
+       self.image = self.front_still
+       self.front_walk = pygame.image.load('../images/arms_front_walk.png')
+       self.left_walk = pygame.image.load('../images/arms_left_walk.png')
+       self.left_still = pygame.image.load('../images/arms_left_still.png')
+       self.back_still = pygame.image.load('../images/arms_back_still.png')
+       self.back_walk = pygame.image.load('../images/arms_back_walk.png')
+       self.right_still = pygame.image.load('../images/arms_right_still.png')
+       self.right_walk = pygame.image.load('../images/arms_right_walk.png')
        self.rect = self.image.get_rect()
        self.position = position
        self.rect.topleft = position[0], position[1]
@@ -21,9 +29,11 @@ class M_Enemy(pygame.sprite.Sprite):
        self.pat_index = 0
        self.follow_direction = "right"
        self.pat_counter = 0;
+       self.walking = False
+       self.walking_timer = 0
 
  def update(self, player, rocks):
-       
+    	
        distance = abs(helpers.distance(player.rect.topleft, self.rect.topleft))
        old_position = self.rect.topleft
        
@@ -33,10 +43,15 @@ class M_Enemy(pygame.sprite.Sprite):
               self.follow = False
               
        if self.follow:
-              if self.clock == 0:
-				 self.__chase(player)
-              else:
-                     self.clock -= 1
+            if self.clock == 0:
+			  self.__chase(player)
+			  if self.walking_timer <=0:
+			     self.__walk(player)
+			     self.walking_timer = 10
+			  else:
+			     self.walking_timer -= 1
+            else:
+               self.clock -= 1
        else:
               self.__patrol()
        
@@ -68,22 +83,61 @@ class M_Enemy(pygame.sprite.Sprite):
        self.pat_counter += 1
        
        if self.pat_counter >= 41:
-              old = self.pat_index
-              while (self.pat_index == old):
-                     self.pat_index = randint(0,3)
+              self.pat_index = randint(0,3)
               self.pat_counter = 0
        
        direction = self.pat_directions[self.pat_index]
        
        patrol_position = (0,0)
        if direction == "right":
-              patrol_position = x + 2, y
+        patrol_position = x + 2, y
+        if self.walking_timer <=0:
+           self.walking_timer = 10
+           if self.walking == False:
+              self.image = self.right_walk
+              self.walking = True
+           else:
+              self.image = self.right_still
+              self.walking = False
+        else:
+           self.walking_timer -= 1
+              
        elif direction == "left":
-              patrol_position = x - 2, y
+        patrol_position = x - 2, y
+        if self.walking_timer <=0:
+           self.walking_timer = 10
+           if self.walking == False:
+              self.image = self.left_walk
+              self.walking = True
+           else:
+              self.image = self.left_still
+              self.walking = False
+        else:
+           self.walking_timer -= 1
        elif direction == "up":
-              patrol_position = x, y - 2
+          patrol_position = x, y - 2
+          if self.walking_timer <=0:
+             self.walking_timer = 10
+             if self.walking == False:
+                self.image = self.back_walk
+                self.walking = True
+             else:
+                self.image = self.back_still
+                self.walking = False
+          else:
+             self.walking_timer -= 1
        elif direction == "down":
-              patrol_position = x, y + 2
+          patrol_position = x, y + 2
+          if self.walking_timer <=0:
+             self.walking_timer = 10
+             if self.walking == False:
+                self.image = self.front_walk
+                self.walking = True
+             else:
+                self.image = self.front_still
+                self.walking= False
+          else:
+             self.walking_timer -= 1
        self.rect.topleft = helpers.checkBoundry(patrol_position)
        
  def __check_collision(self, rocks, player, old_position):
@@ -102,23 +156,50 @@ class M_Enemy(pygame.sprite.Sprite):
 	y = player.rect.topleft[1]
 	my_x = self.rect.topleft[0]
 	my_y = self.rect.topleft[1]
-	if x > self.rect.topleft[0]:
+	if x+2 > self.rect.topleft[0]:
 		self.follow_direction = "right"
 		my_x += 2
-	if x < self.rect.topleft[0]:
+	if x-2 < self.rect.topleft[0]:
 		self.follow_direction = "left"
 		my_x -= 2
-	if y > self.rect.topleft[1]:
+	if y+2 > self.rect.topleft[1]:
 		self.follow_direction = "down"
 		my_y += 2
-	if y < self.rect.topleft[1]:
+	if y-2 < self.rect.topleft[1]:
 		self.follow_direction = "up"
 		my_y -= 2
 	self.rect.topleft = helpers.checkBoundry((my_x, my_y))
 	self.position = self.rect.topleft       
 
 
-
+ def __face(self, player):
+       direction = helpers.checkOrient(player, self)
+       if direction == "down":
+            self.image = self.front_still
+       if direction == "up":
+			self.image = self.back_still              
+       if direction == "right":
+            self.image = self.right_still
+       if direction == "left":
+        	self.image = self.left_still
+        	
+ def __walk(self, player):
+	if self.walking == False:
+          if self.image == self.front_still:
+             self.image = self.front_walk
+             self.walking = True
+          if self.image == self.left_still:
+             self.image = self.left_walk
+             self.walking = True
+          if self.image == self.back_still:
+             self.image = self.back_walk
+             self.walking = True
+          if self.image == self.right_still:
+             self.image = self.right_walk
+             self.walking = True
+	else:
+		self.__face(player)
+		self.walking = False
 
 
 

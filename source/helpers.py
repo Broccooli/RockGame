@@ -59,7 +59,7 @@ def checkBoundry(position):
 		new_x = 620
 	if position [1] <= 15:
 		new_y = 15
-	if position[1] >= 460:
-		new_y = 460
+	if position[1] >= 450:
+		new_y = 450
 	return (new_x, new_y)
     

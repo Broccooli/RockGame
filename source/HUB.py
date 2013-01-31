@@ -23,6 +23,10 @@ def arrow_image(color):
     pygame.draw.polygon(img, color, ((0, 0), (3, 3), (6, 0)))
     return img
 		
+		
+		
+#modified from http://www.pygame.org/project-Retro+Game+Library-1065-.html
+#open source under 
 class DialogBox(object):
     
     def __init__(self, size, background_color, border_color, font):
