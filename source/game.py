@@ -10,10 +10,9 @@ from rocks import Rock
 from levels import Levels
 from HUB import *
 from dimmer import Dimmer
+from transition import Transition
 
 pygame.init()
-
-
 
 
 WIDTH = 672
@@ -22,11 +21,13 @@ HEIGHT = 512
 windowSurface = pygame.display.set_mode((WIDTH,HEIGHT))
 x = WIDTH / 2
 y = HEIGHT / 2
+transitioning = False
 # new_position = (x,y)
 
 player = Player((x,y), windowSurface)
 playerGroup = pygame.sprite.RenderPlain(player)
 HUB = HUB()
+transition = Transition(windowSurface)
 
 my_font = pygame.font.SysFont('Verdana', 15)
 dialogbox = DialogBox((440, 51), (255, 255, 204), 
@@ -78,15 +79,23 @@ while True:
         #time.sleep(.1)
         level_background = level_maker.drawBackground(windowSurface)
         player.getBelt()
+        transitioning = True
 
-    player.update_position(rocks_by_level[current_level], playerGroup, enemies_by_level[current_level])
-    playerGroup.draw(windowSurface)
-    enemies_by_level[current_level].update(player, rocks_by_level[current_level])
-    enemies_by_level[current_level].draw(windowSurface)    
-    doors_by_level[current_level].draw(windowSurface)
-    rocks_by_level[current_level].draw(windowSurface)
-    HUB.drawHealth(player, windowSurface)
-    dialogbox.draw(windowSurface, (50, 400))
+    if not transitioning or transition.is_black():
+        player.update_position(rocks_by_level[current_level], playerGroup, enemies_by_level[current_level])
+        playerGroup.draw(windowSurface)
+        enemies_by_level[current_level].update(player, rocks_by_level[current_level])
+        enemies_by_level[current_level].draw(windowSurface)    
+        doors_by_level[current_level].draw(windowSurface)
+        rocks_by_level[current_level].draw(windowSurface)
+        HUB.drawHealth(player, windowSurface)
+        dialogbox.draw(windowSurface, (50, 400))
+    else:
+        trans_surface = transition.do()
+        windowSurface.blit(trans_surface,(0,0))
+        if transition.is_done():
+            transitioning = False        
+    
     pygame.display.update()
     fpsClock.tick(30)
     
