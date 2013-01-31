@@ -10,7 +10,6 @@ class Transition():
         self.curr_alpha = 10
         self.done = False
         self.btw = 0
-        self.black = False
 
     def do(self):
         if self.state == 0:
@@ -21,7 +20,6 @@ class Transition():
 
             if self.curr_alpha >= 250:
                 self.state = 1
-                self.black = True
                 self.curr_alpha = 0
 
             return self.surface
@@ -52,8 +50,6 @@ class Transition():
     def is_done(self):
         return self.done
 
-    def is_black(self):
-        return self.black
     def __reset(self):
         self.curr_alpha = 10
         self.state = 0

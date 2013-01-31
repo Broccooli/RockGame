@@ -81,7 +81,7 @@ while True:
         player.getBelt()
         transitioning = True
 
-    if not transitioning or transition.is_black():
+    if not transitioning:
         player.update_position(rocks_by_level[current_level], playerGroup, enemies_by_level[current_level])
         playerGroup.draw(windowSurface)
         enemies_by_level[current_level].update(player, rocks_by_level[current_level])
