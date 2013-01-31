@@ -31,7 +31,6 @@ HUB = HUB()
 my_font = pygame.font.SysFont('Verdana', 15)
 dialogbox = DialogBox((440, 51), (255, 255, 204), 
     (102, 0, 0), my_font)
-dialogbox.set_dialog(speechConstants.INTRO_MESSAGE)
 
 
 level_maker = Levels()
@@ -40,6 +39,7 @@ rocks_by_level = level_maker.createLevels_Rock()
 doors_by_level = level_maker.createLevels_Door()
 enemies_by_level = level_maker.createLevels_enemies(windowSurface)
 level_background = level_maker.drawBackground(windowSurface)
+speech_by_level = level_maker.dialogSelect()
 fpsClock = pygame.time.Clock()
 
 nrows = int(windowSurface.get_height() / 32) + 1
@@ -66,7 +66,9 @@ while True:
     		windowSurface.blit(level_background[y][x], background_rect)
     levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],True)
     
-    
+    if not speech_by_level[current_level] == "0":
+    	dialogbox.set_dialog(speech_by_level[current_level])
+    	speech_by_level[current_level] = "0"
     
     
     

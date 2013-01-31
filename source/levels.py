@@ -1,4 +1,4 @@
-import os, pygame, sys
+import os, pygame, sys, speechConstants
 from pygame.locals import *
 
 from doors import Door
@@ -41,6 +41,13 @@ class Levels():
 		enemies_r1 = pygame.sprite.RenderPlain(R_Enemy((400, 300), windowSurface))
 		enemies_by_level.append(enemies_r1)
 		return enemies_by_level
+		
+	def dialogSelect(self):
+		speech_by_level = []
+		speech_by_level.append(speechConstants.INTRO_MESSAGE)
+		speech_by_level.append("0")
+		return speech_by_level
+		
 		
 	def drawBackground(self, screen):
 		#rando = random.seed()

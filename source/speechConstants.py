@@ -2,5 +2,5 @@ import os, pygame, sys, helpers
 from pygame.locals import *
 
 INTRO_MESSAGE = [
-"This is a dialog box! Press the a button to go to the next page. ", 
-"Press it again and this box will close. "]
+"Everything comes into focus slowly. You are in a rublled filled room. Not alone. ", 
+"The creature stupidly walking around the room, you have a burning urge to kill it. "]
