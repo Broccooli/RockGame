@@ -2,7 +2,7 @@
 
 #!/usr/bin/env python
 
-import os, pygame, sys, time, helpers
+import os, pygame, sys, time, helpers, speechConstants
 from pygame.locals import *
 from doors import Door
 from player import Player
@@ -28,12 +28,10 @@ player = Player((x,y), windowSurface)
 playerGroup = pygame.sprite.RenderPlain(player)
 HUB = HUB()
 
-my_font = pygame.font.SysFont('impact', 15)
-dialogbox = DialogBox((240, 51), (255, 255, 204), 
+my_font = pygame.font.SysFont('Verdana', 15)
+dialogbox = DialogBox((440, 51), (255, 255, 204), 
     (102, 0, 0), my_font)
-dialogbox.set_dialog([
-"This is a dialog box! Press the a button to go to the next page.", 
-"Press it again and this box will close."])
+dialogbox.set_dialog(speechConstants.INTRO_MESSAGE)
 
 
 level_maker = Levels()
@@ -68,10 +66,6 @@ while True:
     		windowSurface.blit(level_background[y][x], background_rect)
     levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],True)
     
-#     keys = pygame.key.get_pressed()
-#     if not dialogbox.over():
-#         if keys[K_RETURN]:
-#             dialogbox.progress()
     
     
     
@@ -90,7 +84,7 @@ while True:
     doors_by_level[current_level].draw(windowSurface)
     rocks_by_level[current_level].draw(windowSurface)
     HUB.drawHealth(player, windowSurface)
-    dialogbox.draw(windowSurface, (8, 8))
+    dialogbox.draw(windowSurface, (50, 400))
     pygame.display.update()
     fpsClock.tick(30)
     

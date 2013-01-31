@@ -67,7 +67,7 @@ class DialogBox(object):
     def draw(self, surface, pos):
         
         if self.shown and self.page < self.pages:
-            my_font = pygame.font.SysFont('impact', 15)
+            my_font = pygame.font.SysFont('verdana', 15)
             self.update_box()
             self.curr_dialog = self.dialog[self.page]
             xpos = 4
@@ -83,11 +83,12 @@ class DialogBox(object):
                     self.image.get_height()-8))
             dialog = self.curr_dialog[:self.text_pos]
             for word in dialog.split(" "):
-                ren = my_font.render(word + " ", True, BLACK)
+                ren = my_font.render("  "+ word, True, BLACK)
                 w = ren.get_width()
                 if xpos > self.image.get_width()-w:
                     ypos += ren.get_height()+3
                     xpos = 4
+                    ren = my_font.render("  " + word, True, BLACK)
                 self.image.blit(ren, (xpos, ypos))
                 xpos += w
             surface.blit(self.image, pos)
