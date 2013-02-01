@@ -45,7 +45,7 @@ class Levels():
 	def dialogSelect(self):
 		speech_by_level = []
 		speech_by_level.append(speechConstants.INTRO_MESSAGE)
-		speech_by_level.append("0")
+		speech_by_level.append(speechConstants.SECOND_ROOM)
 		return speech_by_level
 		
 		

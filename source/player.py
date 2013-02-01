@@ -84,7 +84,7 @@ class Player(pygame.sprite.Sprite):
 	if self.invul > 0:
 		self.invul -= 1
 
-    def getBelt(self):
+    def getBelt(self): #belt will be dropped by first boss, allows pushing rocks
     	self.has_belt = True
     	
     def getHealth(self):

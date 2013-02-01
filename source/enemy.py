@@ -36,12 +36,14 @@ class M_Enemy(pygame.sprite.Sprite):
     	
        distance = abs(helpers.distance(player.rect.topleft, self.rect.topleft))
        old_position = self.rect.topleft
-       
+       """
+		Above checks the distance from enemy to player, according to that,
+		the enemy either chases directly or patrols
+		"""      
        if distance < 15:
               self.follow = True
        else:
               self.follow = False
-              
        if self.follow:
             if self.clock == 0:
 			  self.__chase(player)
@@ -57,7 +59,9 @@ class M_Enemy(pygame.sprite.Sprite):
        
        self.__check_collision(rocks, player, old_position)
        
-
+ """
+    Knocks the enemy back after a hit, because that makes sense.
+ """
  def get_hit(self, direction):
        self.health -= 1
        self.clock = 15
@@ -75,7 +79,16 @@ class M_Enemy(pygame.sprite.Sprite):
        self.rect.topleft = helpers.checkBoundry(knocked_position)
        self.position = self.rect.topleft
         
-               
+ """
+    Patrol for this enemy is COMPLETELY RANDOM. That is because this enemy is
+    to look dumb. The large middle part changes the picture to be the correct direction
+    and also to walk.
+    Including all of that in here might not have been the smartest, but the other method
+    does its thing by checking the orientation in comparison to player
+    
+    TODO: Maybe clean this to use another method? Maybe its best to leave it.
+    Commit before trying anything
+ """              
  def __patrol(self):
        x = self.rect.topleft[0]
        y = self.rect.topleft[1]
@@ -139,6 +152,12 @@ class M_Enemy(pygame.sprite.Sprite):
           else:
              self.walking_timer -= 1
        self.rect.topleft = helpers.checkBoundry(patrol_position)
+
+ """
+    All collision with enemy is checked here.
+    
+    TODO: add a collision with two rocks, result in death
+ """
        
  def __check_collision(self, rocks, player, old_position):
        
@@ -171,7 +190,10 @@ class M_Enemy(pygame.sprite.Sprite):
 	self.rect.topleft = helpers.checkBoundry((my_x, my_y))
 	self.position = self.rect.topleft       
 
-
+ """
+    The following two methods handle keeping the sprite facing the player and walking
+    in accordance to its current image
+ """
  def __face(self, player):
        direction = helpers.checkOrient(player, self)
        if direction == "down":
@@ -266,6 +288,11 @@ class R_Enemy(pygame.sprite.Sprite):
        if self.health == 0:
                self.kill()
        self.position = self.rect.topleft
+ """
+    All collision with enemy is checked here.
+    
+    TODO: add a collision with two rocks, result in death
+ """
        
  def __check_collision(self, rocks, player, old_position):
        
@@ -277,7 +304,10 @@ class R_Enemy(pygame.sprite.Sprite):
        if hit_player:
               player.getHit(self.follow_direction)
               self.clock = 15
-              
+ """
+ This method makes the turret ranger follow the player around the room
+ by looking at him
+ """             
  def __face(self, player):
        direction = helpers.checkOrient(player, self)
        if direction == "down":

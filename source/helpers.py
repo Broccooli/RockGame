@@ -2,13 +2,18 @@ import os, pygame, sys, math, random
 from pygame.locals import *
 
 
-
+"""
+I LOVE THIS THEROM TOO MUCH TO NOT MAKE IT A METHOD
+""" 
 
 def distance(player, enemy):
     distance = math.sqrt( (abs(player[0] - enemy[0])) + (abs(player[1] - enemy[1])) )
     return distance
-    
 
+
+"""
+Used for enemies to face the player
+"""    
    
 def checkOrient(player, enemy):
 	pX = player.rect.topleft[0]
@@ -31,7 +36,9 @@ def checkOrient(player, enemy):
 			if pY > eY:
 				return "down"
 		return "right"
-		
+"""
+Shakes for damage or if a boss is big and stompy
+""" 		
 		
 def shake(screen, amplitude):
     amplitude = min(amplitude -1, 100)
@@ -50,16 +57,20 @@ def fadeOut(screen, amplitude):
     screen.blit(surf, (0, 0))
     return amplitude
     
+"""
+Makes sure no ones going through any walls
+"""     
+    
 def checkBoundry(position):
 	new_x = position[0]
 	new_y = position[1]
 	if position[0] <= 15:
 		new_x = 15
-	if position [0] >= 620:
-		new_x = 620
+	if position [0] >= 600:
+		new_x = 600
 	if position [1] <= 15:
 		new_y = 15
-	if position[1] >= 450:
-		new_y = 450
+	if position[1] >= 430:
+		new_y = 430
 	return (new_x, new_y)
     

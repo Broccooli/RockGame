@@ -26,6 +26,8 @@ transitioning = False
 
 player = Player((x,y), windowSurface)
 playerGroup = pygame.sprite.RenderPlain(player)
+
+
 HUB = HUB()
 transition = Transition(windowSurface)
 
@@ -35,6 +37,10 @@ dialogbox = DialogBox((440, 51), (255, 255, 204),
 
 
 level_maker = Levels()
+"""
+Level maker is used below to generate all the array of sprites of enemies, rocks, 
+doors, and dialog    
+"""
 
 rocks_by_level = level_maker.createLevels_Rock()
 doors_by_level = level_maker.createLevels_Door()
@@ -42,12 +48,12 @@ enemies_by_level = level_maker.createLevels_enemies(windowSurface)
 level_background = level_maker.drawBackground(windowSurface)
 speech_by_level = level_maker.dialogSelect()
 fpsClock = pygame.time.Clock()
-
+"""
+Sets up how big the background should be     
+"""
 nrows = int(windowSurface.get_height() / 32) + 1
 ncols = int(windowSurface.get_width() / 32) + 1
 background_rect = level_background[0][0].get_rect()
-WHITE = pygame.image.load('../images/fade.png')
-WHITE_Rect = WHITE.get_rect()
 
 
 current_level =0
@@ -59,7 +65,11 @@ while True:
             sys.exit(0) # Clicking the x now closes the game, not ESC
         if event.type ==KEYUP:
         	if event.key == K_RETURN:
-        		dialogbox.progress()
+        		dialogbox.progress() #Moves the dialog box along
+    
+    """
+    This is for background things, need it to keep it there
+    """
     
     for y in range(nrows):
     	for x in range(ncols):
@@ -67,19 +77,35 @@ while True:
     		windowSurface.blit(level_background[y][x], background_rect)
     levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],True)
     
+    """
+    This calls the dialog box, it has to reset back to 0 or it will keep calling the box, which is bad
+    The "1" is for special conditions, where there is dialog after the level
+    """
+    
     if not speech_by_level[current_level] == "0":
-    	dialogbox.set_dialog(speech_by_level[current_level])
-    	speech_by_level[current_level] = "0"
+    	if speech_by_level[current_level][0] == "1": #Using this for dialog that wont start till a condition is met
+    		if not enemies_by_level[current_level]:
+    			last = len(speech_by_level[current_level])
+    			dialogbox.set_dialog(speech_by_level[current_level][1:last])
+    			speech_by_level[current_level] = "0"
+    	else:	
+    		dialogbox.set_dialog(speech_by_level[current_level])
+    		speech_by_level[current_level] = "0"
     
-    
+    """
+    Called when the player hits the door, starts transition
+    """
     
     if levelChange:
         current_level = 1
-        #helpers.fadeOut(windowSurface, 50)
-        #time.sleep(.1)
         level_background = level_maker.drawBackground(windowSurface)
         player.getBelt()
         transitioning = True
+        
+    """
+    This is what, unless there is a transition, draws everything but the background to the
+    screen.
+    """
 
     if not transitioning:
         player.update_position(rocks_by_level[current_level], playerGroup, enemies_by_level[current_level])

@@ -4,6 +4,13 @@ from pygame.locals import *
 
 WHITE = pygame.Color(255,255,255)
 BLACK = pygame.Color(0,0,0)
+"""
+Makes the text at the top showing health. Want to make it better. Maybe even
+make it into having a small portrait of the character in the bottom left
+and the only way to tell damage is to see how damaged the picture looks
+THATS REMOVES NUMBERS, BITCHES HATE NUMBERS.
+""" 
+
 class HUB():
 	def drawHealth(self, player, windowSurface):
 		
@@ -14,7 +21,9 @@ class HUB():
 			health_message = my_font.render("DEAD", True, WHITE)
 		windowSurface.blit(health_message, (300, 10))
 
-
+"""
+Little method making the "Next" arrow
+""" 
 
 def arrow_image(color):
     img = pygame.Surface((7, 6))
