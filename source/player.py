@@ -108,3 +108,7 @@ class Player(pygame.sprite.Sprite):
 			self.kill()
 			self.alive = False;
         self.invul = 15
+        
+    def startRoom(self, spot):
+    	self.rect.topleft = spot[0], spot[1]
+    	self.position = self.rect.topleft

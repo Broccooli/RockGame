@@ -24,7 +24,7 @@ y = HEIGHT / 2
 transitioning = False
 # new_position = (x,y)
 
-player = Player((x,y), windowSurface)
+player = Player((560,250), windowSurface)
 playerGroup = pygame.sprite.RenderPlain(player)
 
 
@@ -47,6 +47,7 @@ doors_by_level = level_maker.createLevels_Door()
 enemies_by_level = level_maker.createLevels_enemies(windowSurface)
 level_background = level_maker.drawBackground(windowSurface)
 speech_by_level = level_maker.dialogSelect()
+player_entrance = level_maker.playerStartPositions()
 fpsClock = pygame.time.Clock()
 """
 Sets up how big the background should be     
@@ -66,6 +67,8 @@ while True:
         if event.type ==KEYUP:
         	if event.key == K_RETURN:
         		dialogbox.progress() #Moves the dialog box along
+        	if event.key == K_k:
+        		current_level = len(doors_by_level)-1#to jump to last room
     
     """
     This is for background things, need it to keep it there
@@ -74,9 +77,7 @@ while True:
     for y in range(nrows):
     	for x in range(ncols):
     		background_rect.topleft = (x * background_rect.width, y* background_rect.height)
-    		windowSurface.blit(level_background[y][x], background_rect)
-    levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],True)
-    
+    		windowSurface.blit(level_background[y][x], background_rect)    
     """
     This calls the dialog box, it has to reset back to 0 or it will keep calling the box, which is bad
     The "1" is for special conditions, where there is dialog after the level
@@ -95,12 +96,17 @@ while True:
     """
     Called when the player hits the door, starts transition
     """
+    levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],False)
     
-    if levelChange:
-        current_level = 1
-        level_background = level_maker.drawBackground(windowSurface)
-        player.getBelt()
-        transitioning = True
+    if levelChange:#PROBLEM, standing on the door keeps calling set_dialog. Stuck on first letter unles you back off
+    	if enemies_by_level[current_level]: #makes sure all enemies are dead before proceeding
+    		dialogbox.set_dialog(speechConstants.ENEMY_ALIVE)
+    		#Might make this an array and call a random KILL_ENEMY dialog. For style.
+    	else:	
+        	player.startRoom(player_entrance[current_level])
+        	current_level += 1 	
+        	level_background = level_maker.drawBackground(windowSurface)
+        	transitioning = True
         
     """
     This is what, unless there is a transition, draws everything but the background to the

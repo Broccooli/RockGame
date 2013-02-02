@@ -7,6 +7,7 @@ from enemy import *
 from random import randint
 
 class Levels():
+	"X< 672, Y < 512"
 	def createLevels_Rock(self):
 		rocks_by_level = []
 		#setting up rocks for this room. This is how it will be done for puzzles. 
@@ -20,18 +21,38 @@ class Levels():
 		s1r1_rocks = [Rock((500, 25)), Boulder((300, 300)), Rock((110, 100))]
 		s1r1_rocks_group = pygame.sprite.RenderPlain(s1r1_rocks)
 		rocks_by_level.append(s1r1_rocks_group) #1
+		
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((300, 400)),
+			Boulder((150, 50)), Boulder((50, 50))))
+			
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((100, 100)),
+			Rock((550, 100)), Rock((550, 390,)), Rock((100, 390)),
+			Boulder((40, 250)), Boulder((600, 250)),
+			Rock((200, 245)), Rock((440,245))))	
+			
+		
 		return rocks_by_level
 		
 	def createLevels_Door(self):
 		doors_by_level = []
-		door_r0 = pygame.sprite.RenderPlain(Door((5, 20)))
+		door_r0 = pygame.sprite.RenderPlain(Door((5, 255)))
 		doors_by_level.append(door_r0)
 		#room 0
 		
-		door_r1 = pygame.sprite.RenderPlain(Door((300, 25)))
+		door_r1 = pygame.sprite.RenderPlain(Door((5, 255)))
 		doors_by_level.append(door_r1)
 		
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((100, 10))))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 50))))
+		
 		return doors_by_level
+		
+	def playerStartPositions(self): #going to be one behind doors, opposite of previous exit
+		player_entrance = []
+		player_entrance.append((600, 255))
+		player_entrance.append((600, 255))
+		player_entrance.append((100, 430))
+		return player_entrance
 		
 	def createLevels_enemies(self, windowSurface):
 		enemies_by_level = []
@@ -40,12 +61,21 @@ class Levels():
 		
 		enemies_r1 = pygame.sprite.RenderPlain(R_Enemy((400, 300), windowSurface))
 		enemies_by_level.append(enemies_r1)
+		
+		
+		enemies_r2 = [R_Enemy((50, 450), windowSurface), M_Enemy((500, 50))]
+		enemies_r2_group = pygame.sprite.RenderPlain(enemies_r2)
+		enemies_by_level.append(enemies_r2_group)
+		
+		enemies_by_level.append(pygame.sprite.RenderPlain())
 		return enemies_by_level
 		
 	def dialogSelect(self):
 		speech_by_level = []
 		speech_by_level.append(speechConstants.INTRO_MESSAGE)
 		speech_by_level.append(speechConstants.SECOND_ROOM)
+		speech_by_level.append(speechConstants.THIRD_ROOM)
+		speech_by_level.append("0")#no dialog 
 		return speech_by_level
 		
 		

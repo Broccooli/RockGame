@@ -22,7 +22,7 @@ class M_Enemy(pygame.sprite.Sprite):
        self.rect = self.image.get_rect()
        self.position = position
        self.rect.topleft = position[0], position[1]
-       self.health = 4
+       self.health = 1 #FOR TESTING
        self.clock = 0
        self.follow = False
        self.pat_directions = ["right", "down", "left", "up"]
@@ -242,7 +242,7 @@ class R_Enemy(pygame.sprite.Sprite):
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position[1]
-    	self.health = 2 #for 1 shot testing
+    	self.health = 1 #for 1 shot testing
     	self.clock = 0
     	self.follow_direction = "right"
     	self.attack_group = pygame.sprite.RenderPlain()
