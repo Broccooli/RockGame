@@ -7,7 +7,11 @@ class Player(pygame.sprite.Sprite):
     
     def __init__(self, position, screen):
         pygame.sprite.Sprite.__init__(self)
-    	self.image = pygame.image.load('../images/hero_placeholder.png')
+    	self.left = pygame.image.load('../images/hero_placeholder_left.png')
+    	self.right = pygame.image.load('../images/hero_placeholder_right.png')
+    	self.down = pygame.image.load('../images/hero_placeholder_down.png')
+    	self.up = pygame.image.load('../images/hero_placeholder.png')
+    	self.image = self.up
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position[1]
@@ -29,26 +33,26 @@ class Player(pygame.sprite.Sprite):
 	if keys[K_LEFT] and not self.attacking and self.alive:
 		x -= 5
 		self.direction = "left"
-		self.image = pygame.image.load('../images/hero_placeholder_left.png')
+		self.image = self.left
 		if x <= 15:
 			x = 15
 	if keys[K_RIGHT] and not self.attacking:
 		x += 5
 		self.direction = "right"
-		self.image = pygame.image.load('../images/hero_placeholder_right.png')
+		self.image = self.right
 		if x >= 620:
 			x = 620
 	if keys[K_DOWN] and not self.attacking:
 		y += 5
 		self.direction = "down"
-		self.image = pygame.image.load('../images/hero_placeholder_down.png')
+		self.image = self.down
 		if y >= 460:
 			y = 460
 			
 	if keys[K_UP] and not self.attacking and self.alive:
 		y -= 5
 		self.direction = "up"
-		self.image = pygame.image.load('../images/hero_placeholder.png')
+		self.image = self.up
 		if y <= 15:
 			y = 15
 	if keys[K_SPACE] and not self.attacking:

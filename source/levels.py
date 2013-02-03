@@ -4,6 +4,7 @@ from pygame.locals import *
 from doors import Door
 from rocks import *
 from enemy import *
+from grunk import Grunk
 from random import randint
 
 class Levels():
@@ -67,7 +68,7 @@ class Levels():
 		enemies_r2_group = pygame.sprite.RenderPlain(enemies_r2)
 		enemies_by_level.append(enemies_r2_group)
 		
-		enemies_by_level.append(pygame.sprite.RenderPlain())
+		enemies_by_level.append(pygame.sprite.RenderPlain(Grunk()))
 		return enemies_by_level
 		
 	def dialogSelect(self):
