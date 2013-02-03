@@ -48,6 +48,7 @@ enemies_by_level = level_maker.createLevels_enemies(windowSurface)
 level_background = level_maker.drawBackground(windowSurface)
 speech_by_level = level_maker.dialogSelect()
 player_entrance = level_maker.playerStartPositions()
+plates_by_level = level_maker.placePlate()
 fpsClock = pygame.time.Clock()
 """
 Sets up how big the background should be     
@@ -69,6 +70,7 @@ while True:
         		dialogbox.progress() #Moves the dialog box along
         	if event.key == K_k:
         		current_level = len(doors_by_level)-1#to jump to last room
+        		player.getBelt()
     
     """
     This is for background things, need it to keep it there
@@ -102,9 +104,17 @@ while True:
     	if enemies_by_level[current_level]: #makes sure all enemies are dead before proceeding
     		dialogbox.set_dialog(speechConstants.ENEMY_ALIVE)
     		#Might make this an array and call a random KILL_ENEMY dialog. For style.
+    	elif not plates_by_level[current_level] =="1":
+    	   plate_list = plates_by_level[current_level].sprites()
+    	   if not plate_list[0].locked(rocks_by_level[current_level]):
+    	      dialogbox.set_dialog(speechConstants.DOOR_LOCKED)
+           else:
+              plates_by_level[current_level] = "1"
     	else:	
         	player.startRoom(player_entrance[current_level])
-        	current_level += 1 	
+        	current_level += 1
+        	if current_level >= 4:
+        	   player.getBelt() 	
         	level_background = level_maker.drawBackground(windowSurface)
         	transitioning = True
         
@@ -114,6 +124,8 @@ while True:
     """
 
     if not transitioning:
+        if not plates_by_level[current_level] == "1":
+        	plates_by_level[current_level].draw(windowSurface)
         player.update_position(rocks_by_level[current_level], playerGroup, enemies_by_level[current_level])
         playerGroup.draw(windowSurface)
         enemies_by_level[current_level].update(player, rocks_by_level[current_level])

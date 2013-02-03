@@ -5,6 +5,7 @@ from doors import Door
 from rocks import *
 from enemy import *
 from grunk import Grunk
+from plates import PressurePlate
 from random import randint
 
 class Levels():
@@ -30,7 +31,10 @@ class Levels():
 			Rock((550, 100)), Rock((550, 390,)), Rock((100, 390)),
 			Boulder((40, 250)), Boulder((600, 250)),
 			Rock((200, 245)), Rock((440,245))))	
-			
+		
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((150, 100)),
+			Boulder((300, 400)),
+			Rock((90, 375)), Rock((400,290))))		
 		
 		return rocks_by_level
 		
@@ -45,6 +49,7 @@ class Levels():
 		
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((100, 10))))
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 50))))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255))))
 		
 		return doors_by_level
 		
@@ -53,6 +58,7 @@ class Levels():
 		player_entrance.append((600, 255))
 		player_entrance.append((600, 255))
 		player_entrance.append((100, 430))
+		player_entrance.append((50, 10))
 		return player_entrance
 		
 	def createLevels_enemies(self, windowSurface):
@@ -69,6 +75,8 @@ class Levels():
 		enemies_by_level.append(enemies_r2_group)
 		
 		enemies_by_level.append(pygame.sprite.RenderPlain(Grunk()))
+		
+		enemies_by_level.append(pygame.sprite.RenderPlain())
 		return enemies_by_level
 		
 	def dialogSelect(self):
@@ -76,8 +84,14 @@ class Levels():
 		speech_by_level.append(speechConstants.INTRO_MESSAGE)
 		speech_by_level.append(speechConstants.SECOND_ROOM)
 		speech_by_level.append(speechConstants.THIRD_ROOM)
-		speech_by_level.append("0")#no dialog 
+		speech_by_level.append(speechConstants.KILL_GRUNK)
+		speech_by_level.append(speechConstants.FOURTH_ROOM)
 		return speech_by_level
+		
+	def placePlate(self):
+		plates_by_level = ["1", "1", "1", "1"]
+		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((300, 300))))
+		return plates_by_level
 		
 		
 	def drawBackground(self, screen):
