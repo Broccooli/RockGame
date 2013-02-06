@@ -33,7 +33,7 @@ class Levels():
 			Rock((200, 245)), Rock((440,245))))	
 		
 		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((150, 100)),
-			Boulder((300, 400)),
+			Boulder((300, 400)), Rock((210, 100)), 
 			Rock((90, 375)), Rock((400,290))))		
 		
 		return rocks_by_level
@@ -58,7 +58,7 @@ class Levels():
 		player_entrance.append((600, 255))
 		player_entrance.append((600, 255))
 		player_entrance.append((100, 430))
-		player_entrance.append((50, 10))
+		player_entrance.append((50, 25))
 		return player_entrance
 		
 	def createLevels_enemies(self, windowSurface):
@@ -76,7 +76,7 @@ class Levels():
 		
 		enemies_by_level.append(pygame.sprite.RenderPlain(Grunk()))
 		
-		enemies_by_level.append(pygame.sprite.RenderPlain())
+		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((175, 100), windowSurface)))
 		return enemies_by_level
 		
 	def dialogSelect(self):

@@ -11,7 +11,7 @@ class Rock(pygame.sprite.Sprite):
     	self.rect.topleft = position[0], position [1]
     
     
-    def getMoved(self, rocks, direction):
+    def getMoved(self, rocks, direction, player, enemyGroup):
     	old_position = self.rect.topleft
     	other_rocks = pygame.sprite.RenderPlain(rocks)
     	other_rocks.remove(self)
@@ -27,11 +27,21 @@ class Rock(pygame.sprite.Sprite):
     		
     	self.position = self.rect.topleft
     	hit_rock = pygame.sprite.spritecollide(self, other_rocks, False)
-    	
+    	"""Checks to make sure there is no rock in the way/its in bounds"""
     	if (hit_rock) or (self.position [0] < 25) or (self.position [0] > 620) or (self.position [1] < 25) or (self.position [1] > 460):
     		self.rect.topleft = old_position[0], old_position[1]
     		self.position = old_position
-    	
+    	"""Checks to see if Grunk smashed a player witha  rock. It will probably kill player"""
+    	if pygame.sprite.collide_rect(self, player):
+    	    player.getHit(direction)
+    	    
+    	"""Check to see if an enemy is between two rocks. if so, DEAD"""    
+    	hit_enemy = pygame.sprite.spritecollide(self, enemyGroup, False)
+    	if hit_enemy:
+    	    squash_enemy = pygame.sprite.spritecollide(hit_enemy[0], other_rocks, False)
+    	    if squash_enemy:
+    	       hit_enemy[0].health - 10
+    	       hit_enemy[0].get_hit(direction)
     	
     	
 "These are immovable, indestructable objects to make puzzles hard"	

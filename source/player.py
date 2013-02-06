@@ -83,7 +83,7 @@ class Player(pygame.sprite.Sprite):
 		self.rect.topleft = old_position[0], old_position[1]
 		if self.has_belt:
 			if keys[K_LSHIFT]:
-				hit_rock[0].getMoved(rocks, self.direction)
+				hit_rock[0].getMoved(rocks, self.direction, self, enemyGroup)
 				
 	if self.invul > 0:
 		self.invul -= 1
