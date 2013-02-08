@@ -42,6 +42,7 @@ class Rock(pygame.sprite.Sprite):
     	old_position = self.rect.topleft
     	other_rocks = pygame.sprite.RenderPlain(rocks)
     	other_rocks.remove(self)
+    	"I did this while very sick, this might be too much to make sure its straight"
     	if (player.rect.topleft[0] < self.position[0]) and direction =="right":
     		self.rect.topleft = self.position[0] + 10, self.position[1]
     	elif (player.rect.topleft[0] > self.position[0]) and direction =="left":
@@ -60,10 +61,12 @@ class Rock(pygame.sprite.Sprite):
     	"""Check to see if an enemy is between two rocks. if so, DEAD"""    
     	hit_enemy = pygame.sprite.spritecollide(self, enemyGroup, False)
     	if hit_enemy:
-    	    squash_enemy = pygame.sprite.spritecollide(hit_enemy[0], other_rocks, False)
-    	    if squash_enemy:
-    	       hit_enemy[0].health - 10
-    	       hit_enemy[0].get_hit(direction)
+    	    "Checks to make sure the rock is moving at the enemy, not just rolling a foot"
+    	    if (hit_enemy[0].position[0] > self.position[0] and direction == "right") or (hit_enemy[0].position[0] < self.position[0] and direction == "left") or (hit_enemy[0].position[1] > self.position[1] and direction == "down") or (hit_enemy[0].position[1] < self.position[1] and direction == "up"):
+    	       squash_enemy = pygame.sprite.spritecollide(hit_enemy[0], other_rocks, False)
+    	       if (squash_enemy) or (hit_enemy[0].position[0] <= 20) or (hit_enemy[0].position[0] >= 590) or (hit_enemy[0].position[1] <= 20) or (hit_enemy[0].position[0] >= 420):
+    	          hit_enemy[0].health - 10
+    	          hit_enemy[0].get_hit(direction)
     	
     	
 "These are immovable, indestructable objects to make puzzles hard"	
@@ -77,7 +80,7 @@ class Boulder(pygame.sprite.Sprite):
     	
     def getMoved(self, rocks, direction):
 		i = 1 #filler, im going to do something with this later. but i means nothing
-    def getMovedP(self, rocks, direction):
+    def getMovedP(self, rocks, direction, player, enemyGroup):
 		i = 1
 		
 "so puzzles arent so boring with what is going on"

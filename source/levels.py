@@ -23,18 +23,23 @@ class Levels():
 		s1r1_rocks = [Rock((500, 25)), Boulder((300, 300)), Rock((110, 100))]
 		s1r1_rocks_group = pygame.sprite.RenderPlain(s1r1_rocks)
 		rocks_by_level.append(s1r1_rocks_group) #1
-		
+		#2
 		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((300, 400)),
 			Boulder((150, 50)), Boulder((50, 50))))
-			
+		#Grunk Rocks	
 		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((100, 100)),
 			Rock((550, 100)), Rock((550, 390,)), Rock((100, 390)),
 			Boulder((40, 250)), Boulder((600, 250)),
 			Rock((200, 245)), Rock((440,245))))	
-		
+		#4
 		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((150, 100)),
 			Boulder((300, 400)), Rock((210, 100)), 
-			Rock((90, 375)), Rock((400,290))))		
+			Rock((90, 375)), Rock((400,290))))
+		#5, my first attempt at something to be solved, can become unsolvable	
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((200, 25)),
+			Boulder((260,20)), Boulder((335, 20)), #top
+			Boulder((345, 460)), Boulder((415, 460)), #bottom
+			Rock((379,425)), Boulder((255, 255)), Boulder((500, 190))))			
 		
 		return rocks_by_level
 		
@@ -46,10 +51,14 @@ class Levels():
 		
 		door_r1 = pygame.sprite.RenderPlain(Door((5, 255)))
 		doors_by_level.append(door_r1)
-		
+		#2
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((100, 10))))
+		#3
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 50))))
+		#4
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255))))
+		#5
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((550, 25))))
 		
 		return doors_by_level
 		
@@ -59,6 +68,7 @@ class Levels():
 		player_entrance.append((600, 255))
 		player_entrance.append((100, 430))
 		player_entrance.append((50, 25))
+		player_entrance.append((50, 255))
 		return player_entrance
 		
 	def createLevels_enemies(self, windowSurface):
@@ -77,6 +87,7 @@ class Levels():
 		enemies_by_level.append(pygame.sprite.RenderPlain(Grunk()))
 		
 		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((175, 100), windowSurface)))
+		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440)), R_Enemy((230, 25), windowSurface)))
 		return enemies_by_level
 		
 	def dialogSelect(self):
@@ -86,11 +97,14 @@ class Levels():
 		speech_by_level.append(speechConstants.THIRD_ROOM)
 		speech_by_level.append(speechConstants.KILL_GRUNK)
 		speech_by_level.append(speechConstants.FOURTH_ROOM)
+		speech_by_level.append(speechConstants.FIFTH_ROOM)
 		return speech_by_level
 		
 	def placePlate(self):
 		plates_by_level = ["1", "1", "1", "1"]
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((300, 300))))
+		#5th
+		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((310, 40))))
 		return plates_by_level
 		
 		

@@ -30,3 +30,6 @@ KILL_GRUNK =[
 FOURTH_ROOM = [
 "Where are they? Proceed without thinking.",
 "Why does the door look locked?"]
+
+FIFTH_ROOM = [
+"These enemies can be easily crushed."]
