@@ -24,6 +24,8 @@ class Player(pygame.sprite.Sprite):
     	self.health = 5
     	self.invul = 0 #typical invulnerable period
     	self.screen = screen
+    	self.push_timer = 0 #slows rocks down
+    	self.momentum = "up" #makes sure rocks only move in a singular direction
     	
     def update_position(self, rocks, playerGroup, enemyGroup):
 	keys = pygame.key.get_pressed()
@@ -33,18 +35,24 @@ class Player(pygame.sprite.Sprite):
 	if keys[K_LEFT] and not self.attacking and self.alive:
 		x -= 5
 		self.direction = "left"
+		if self.push_timer == 0:
+			self.momentum = self.direction
 		self.image = self.left
 		if x <= 15:
 			x = 15
 	if keys[K_RIGHT] and not self.attacking:
 		x += 5
 		self.direction = "right"
+		if self.push_timer == 0:
+			self.momentum = self.direction
 		self.image = self.right
 		if x >= 620:
 			x = 620
 	if keys[K_DOWN] and not self.attacking:
 		y += 5
 		self.direction = "down"
+		if self.push_timer == 0:
+			self.momentum = self.direction
 		self.image = self.down
 		if y >= 460:
 			y = 460
@@ -52,6 +60,8 @@ class Player(pygame.sprite.Sprite):
 	if keys[K_UP] and not self.attacking and self.alive:
 		y -= 5
 		self.direction = "up"
+		if self.push_timer == 0:
+			self.momentum = self.direction
 		self.image = self.up
 		if y <= 15:
 			y = 15
@@ -77,13 +87,17 @@ class Player(pygame.sprite.Sprite):
 	else:
 		if self.clock > 0:
 			self.clock -= 1
+	if self.push_timer > 0:
+		self.push_timer -=1
+	
 		
 	hit_rock = pygame.sprite.spritecollide(self, rocks, False)
 	if hit_rock:
 		self.rect.topleft = old_position[0], old_position[1]
-		if self.has_belt:
+		if self.has_belt and self.push_timer <= 0:
 			if keys[K_LSHIFT]:
-				hit_rock[0].getMoved(rocks, self.direction, self, enemyGroup)
+				hit_rock[0].getMovedP(rocks, self.momentum, self, enemyGroup)
+				self.push_timer = 8 #to make rocks move slower
 				
 	if self.invul > 0:
 		self.invul -= 1
