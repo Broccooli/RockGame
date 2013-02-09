@@ -1,6 +1,8 @@
 import os, pygame, sys, math, random
 from pygame.locals import *
+from dimmer import Dimmer
 
+dimmer = Dimmer()
 
 """
 I LOVE THIS THEROM TOO MUCH TO NOT MAKE IT A METHOD
@@ -73,4 +75,15 @@ def checkBoundry(position):
 	if position[1] >= 430:
 		new_y = 430
 	return (new_x, new_y)
-    
+	
+def pauseBalls(windowSurface): #by going up stairs, pauseballs, by going down stairs
+    paused = True
+    dimmer.dim()
+    while (paused == True):
+       for event in pygame.event.get():
+        if event.type == QUIT:
+            sys.exit(0) # Clicking the x now closes the game, not ESC
+        if event.type ==KEYUP:
+        	if event.key == K_TAB:
+        	   paused = False
+    dimmer.undim()    

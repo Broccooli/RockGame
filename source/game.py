@@ -71,6 +71,8 @@ while True:
         	if event.key == K_k:
         		current_level = len(doors_by_level)-1#to jump to last room
         		player.getBelt()
+        	if event.key == K_TAB:
+        		helpers.pauseBalls(windowSurface)
     
     """
     This is for background things, need it to keep it there

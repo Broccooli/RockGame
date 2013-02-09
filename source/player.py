@@ -69,6 +69,8 @@ class Player(pygame.sprite.Sprite):
 
 		self.attacking = True
 		playerGroup.add(self.attack)
+	if keys[K_p]:
+		print self.rect.center
 	
 	
 	self.rect.topleft = x, y
