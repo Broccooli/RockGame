@@ -11,7 +11,7 @@ class Rock(pygame.sprite.Sprite):
     	self.rect.topleft = position[0], position [1]
     
     "This one is only for Grunk."
-    def getMoved(self, rocks, direction, player, enemyGroup):
+    def getMoved(self, rocks, direction, player):
     	old_position = self.rect.topleft
     	other_rocks = pygame.sprite.RenderPlain(rocks)
     	other_rocks.remove(self)
@@ -78,7 +78,7 @@ class Boulder(pygame.sprite.Sprite):
     	self.position = position
     	self.rect.topleft = position[0], position [1]
     	
-    def getMoved(self, rocks, direction):
+    def getMoved(self, rocks, direction, player):
 		i = 1 #filler, im going to do something with this later. but i means nothing
     def getMovedP(self, rocks, direction, player, enemyGroup):
 		i = 1

@@ -32,7 +32,7 @@ class Grunk(pygame.sprite.Sprite):
       else:
          self.stun_timer -= 1
          if self.hit_distance >0 and not self.to_be_moved_rock == 0:
-            self.to_be_moved_rock.getMoved(rocks, self.follow_direction, player, pygame.sprite.RenderPlain())
+            self.to_be_moved_rock.getMoved(rocks, self.follow_direction, player)
             self.hit_distance -=1
       
    
