@@ -32,15 +32,24 @@ class Levels():
 			Boulder((40, 250)), Boulder((600, 250)),
 			Rock((200, 245)), Rock((440,245))))	
 		#4
-		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((150, 100)),
-			Boulder((300, 400)), Rock((210, 100)), 
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((140, 100)),
+			Boulder((300, 400)), Rock((220, 100)), 
 			Rock((90, 375)), Rock((400,290))))
 		#5, my first attempt at something to be solved, can become unsolvable	
-		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((200, 25)),
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((155, 25)),
 			Boulder((260,20)), Boulder((335, 20)), #top
 			Boulder((345, 460)), Boulder((415, 460)), #bottom
-			Rock((379,425)), Boulder((255, 255)), Boulder((500, 190))))			
-		
+			Rock((379,425)), Boulder((255, 255)), Boulder((500, 190))))	
+			
+		#6th, this ones gonna be long
+		#65 seems to be just the right spacing
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((350, 375)),
+			Boulder((530, 375)), Boulder((465, 375)), Boulder((400, 375)), Boulder((175, 375)),		
+			Boulder((110, 375)), Boulder((595, 375)), Boulder((45, 375)), Boulder((240, 375)),
+			Boulder((300, 375)), #All that, thats just the first row. Hot damn
+			Boulder((400, 300)), Boulder((300,300)), Boulder((255, 335)), Boulder((445, 335)),
+			Boulder((400, 225)), Boulder((300, 225)), Boulder((255, 265)), Boulder((445, 265)),
+			Boulder((400, 150)), Boulder((300, 150)), Boulder((255, 190)), Boulder((445, 190))))
 		return rocks_by_level
 		
 	def createLevels_Door(self):
@@ -59,6 +68,8 @@ class Levels():
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255))))
 		#5
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((550, 25))))
+		#6
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((200, 25))))
 		
 		return doors_by_level
 		
@@ -69,6 +80,7 @@ class Levels():
 		player_entrance.append((100, 430))
 		player_entrance.append((50, 25))
 		player_entrance.append((50, 255))
+		player_entrance.append((545, 420))
 		return player_entrance
 		
 	def createLevels_enemies(self, windowSurface):
@@ -87,7 +99,8 @@ class Levels():
 		enemies_by_level.append(pygame.sprite.RenderPlain(Grunk()))
 		
 		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((175, 100), windowSurface)))
-		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440)), R_Enemy((230, 25), windowSurface)))
+		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440)), R_Enemy((190, 25), windowSurface)))
+		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((345, 90), windowSurface)))
 		return enemies_by_level
 		
 	def dialogSelect(self):
@@ -98,6 +111,7 @@ class Levels():
 		speech_by_level.append(speechConstants.KILL_GRUNK)
 		speech_by_level.append(speechConstants.FOURTH_ROOM)
 		speech_by_level.append(speechConstants.FIFTH_ROOM)
+		speech_by_level.append(speechConstants.SIXTH_ROOM)
 		return speech_by_level
 		
 	def placePlate(self):
@@ -105,6 +119,7 @@ class Levels():
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((300, 300))))
 		#5th
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((310, 40))))
+		plates_by_level.append("1")
 		return plates_by_level
 		
 		

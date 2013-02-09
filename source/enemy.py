@@ -242,7 +242,7 @@ class R_Enemy(pygame.sprite.Sprite):
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position[1]
-    	self.health = 1 #for 1 shot testing
+    	self.health = 5 #for 1 shot testing
     	self.clock = 0
     	self.follow_direction = "right"
     	self.attack_group = pygame.sprite.RenderPlain()
@@ -298,8 +298,7 @@ class R_Enemy(pygame.sprite.Sprite):
        
        hit_rock = pygame.sprite.spritecollide(self, rocks, False)
        if hit_rock:         
-              self.rect.topleft = old_position[0], old_position[1]
-              self.position = self.rect.topleft
+              self.get_hit(player.direction)
        hit_player = pygame.sprite.collide_rect(self, player)
        if hit_player:
               player.getHit(self.follow_direction)

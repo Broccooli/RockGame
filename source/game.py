@@ -41,7 +41,6 @@ level_maker = Levels()
 Level maker is used below to generate all the array of sprites of enemies, rocks, 
 doors, and dialog    
 """
-
 rocks_by_level = level_maker.createLevels_Rock()
 doors_by_level = level_maker.createLevels_Door()
 enemies_by_level = level_maker.createLevels_enemies(windowSurface)

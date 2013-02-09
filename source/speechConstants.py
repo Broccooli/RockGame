@@ -33,3 +33,8 @@ FOURTH_ROOM = [
 
 FIFTH_ROOM = [
 "These enemies can be easily crushed."]
+
+SIXTH_ROOM = [
+"This must have been made by someone.",
+"I made it.",
+"I made it?"]
