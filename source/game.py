@@ -11,6 +11,7 @@ from levels import Levels
 from HUB import *
 from dimmer import Dimmer
 from transition import Transition
+from dialogHandle import *
 
 pygame.init()
 
@@ -55,7 +56,7 @@ Sets up how big the background should be
 nrows = int(windowSurface.get_height() / 32) + 1
 ncols = int(windowSurface.get_width() / 32) + 1
 background_rect = level_background[0][0].get_rect()
-
+dialog_handle = HandleDialog(windowSurface, dialogbox)
 
 current_level =0
 pygame.key.set_repeat(1, 10)
@@ -90,7 +91,7 @@ while True:
     	if speech_by_level[current_level][0] == "1": #Using this for dialog that wont start till a condition is met
     		if not enemies_by_level[current_level]:
     			last = len(speech_by_level[current_level])
-    			dialogbox.set_dialog(speech_by_level[current_level][1:last])
+    			dialogbox.set_dialog(speech_by_level[current_level][2:last])
     			speech_by_level[current_level] = "0"
     	else:	
     		dialogbox.set_dialog(speech_by_level[current_level])
@@ -118,6 +119,7 @@ while True:
         	   player.getBelt() 	
         	level_background = level_maker.drawBackground(windowSurface)
         	transitioning = True
+        	dialog_handle.levelChange()
         
     """
     This is what, unless there is a transition, draws everything but the background to the
@@ -135,6 +137,7 @@ while True:
         doors_by_level[current_level].draw(windowSurface)
         HUB.drawHealth(player, windowSurface)
         dialogbox.draw(windowSurface, (50, 400))
+        dialog_handle.update(current_level, enemies_by_level[current_level], windowSurface)
     else:
         trans_surface = transition.do()
         windowSurface.blit(trans_surface,(0,0))
