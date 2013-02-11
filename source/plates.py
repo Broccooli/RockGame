@@ -10,7 +10,7 @@ class PressurePlate(pygame.sprite.Sprite):
        self.rect = self.image.get_rect()
        self.rect.center = position[0], position[1]
        
- def locked(self, rocks):
+ def isLocked(self, rocks):
        collide = pygame.sprite.spritecollide(self, rocks, False) 
        if collide:
           return True

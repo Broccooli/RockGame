@@ -69,10 +69,12 @@ while True:
         	if event.key == K_RETURN:
         		dialogbox.progress() #Moves the dialog box along
         	if event.key == K_k:
-        		current_level = len(doors_by_level)-1#to jump to last room
+        		current_level = len(doors_by_level)-3#to jump to last room
         		player.getBelt()
         	if event.key == K_TAB:
         		helpers.pauseBalls(windowSurface)
+        	if event.key == K_o:
+        		enemies_by_level[current_level].empty()
     
     """
     This is for background things, need it to keep it there
@@ -96,30 +98,8 @@ while True:
     	else:	
     		dialogbox.set_dialog(speech_by_level[current_level])
     		speech_by_level[current_level] = "0"
+
     
-    """
-    Called when the player hits the door, starts transition
-    """
-    levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],False)
-    
-    if levelChange:#PROBLEM, standing on the door keeps calling set_dialog. Stuck on first letter unles you back off
-    	if enemies_by_level[current_level]: #makes sure all enemies are dead before proceeding
-    		dialogbox.set_dialog(speechConstants.ENEMY_ALIVE)
-    		#Might make this an array and call a random KILL_ENEMY dialog. For style.
-    	elif not plates_by_level[current_level] =="1":
-    	   plate_list = plates_by_level[current_level].sprites()
-    	   if not plate_list[0].locked(rocks_by_level[current_level]):
-    	      dialogbox.set_dialog(speechConstants.DOOR_LOCKED)
-           else:
-              plates_by_level[current_level] = "1"
-    	else:	
-        	player.startRoom(player_entrance[current_level])
-        	current_level += 1
-        	if current_level >= 4:
-        	   player.getBelt() 	
-        	level_background = level_maker.drawBackground(windowSurface)
-        	transitioning = True
-        	dialog_handle.levelChange()
         
     """
     This is what, unless there is a transition, draws everything but the background to the
@@ -143,7 +123,41 @@ while True:
         windowSurface.blit(trans_surface,(0,0))
         if transition.is_done():
             transitioning = False        
+
+    if not plates_by_level[current_level] =="1":
+    	plate_list = plates_by_level[current_level].sprites()
+    	if plate_list[0].isLocked(rocks_by_level[current_level]):
+    		current_door = doors_by_level[current_level].sprites()
+    		current_door[0].unlock()
+
+
+    """
+    Called when the player hits the door, starts transition.
+    Below everything so if the door is locked the screen is drawn
+    fully before going into dialog loop
+    """
+    levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],False)
+        
     
+    if levelChange:
+    	if enemies_by_level[current_level]: #makes sure all enemies are dead before proceeding
+    		dialog_handle.enemyAlive(windowSurface)
+    		player.backUp()
+    		#Might make this an array and call a random KILL_ENEMY dialog. For style.
+    	elif not plates_by_level[current_level] =="1":
+    	   if not plate_list[0].isLocked(rocks_by_level[current_level]):
+    	      dialog_handle.doorLocked(windowSurface)
+    	      player.backUp()
+           else:
+              plates_by_level[current_level] = "1"
+    	else:	
+        	player.startRoom(player_entrance[current_level])
+        	current_level += 1
+        	if current_level >= 4:
+        	   player.getBelt() 	
+        	level_background = level_maker.drawBackground(windowSurface)
+        	transitioning = True
+        	dialog_handle.levelChange()
     pygame.display.update()
     fpsClock.tick(30)
     

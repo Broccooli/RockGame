@@ -54,22 +54,22 @@ class Levels():
 		
 	def createLevels_Door(self):
 		doors_by_level = []
-		door_r0 = pygame.sprite.RenderPlain(Door((5, 255)))
+		door_r0 = pygame.sprite.RenderPlain(Door((0, 255), False))
 		doors_by_level.append(door_r0)
 		#room 0
 		
-		door_r1 = pygame.sprite.RenderPlain(Door((5, 255)))
+		door_r1 = pygame.sprite.RenderPlain(Door((0, 255), False))
 		doors_by_level.append(door_r1)
 		#2
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((100, 10))))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((100, 0), False)))
 		#3
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 50))))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 50), False)))
 		#4
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255))))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
 		#5
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((550, 25))))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((550, 0), True)))
 		#6
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((200, 25))))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((200, 0), False)))
 		
 		return doors_by_level
 		
@@ -155,7 +155,7 @@ class Levels():
 				if x == 0:
 					if y == 0:
 						final_background[y].append(topleft)
-					elif y == nrows -2:
+					elif y == nrows -2: 
 						final_background[y].append(bottomleft)
 					else:
 						final_background[y].append(left)

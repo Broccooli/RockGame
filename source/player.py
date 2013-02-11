@@ -132,3 +132,12 @@ class Player(pygame.sprite.Sprite):
     def startRoom(self, spot):
     	self.rect.topleft = spot[0], spot[1]
     	self.position = self.rect.topleft
+    def backUp(self):
+    	if self.direction == "left":
+    	    self.rect.topleft = self.rect.topleft[0] +5, self.rect.topleft[1]
+    	if self.direction == "right":
+    	    self.rect.topleft = self.rect.topleft[0] -5, self.rect.topleft[1]
+    	if self.direction == "up":
+    	    self.rect.topleft = self.rect.topleft[0] , self.rect.topleft[1] +5
+    	if self.direction == "down":
+    	    self.rect.topleft = self.rect.topleft[0], self.rect.topleft[1] -5

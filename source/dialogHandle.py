@@ -1,4 +1,4 @@
-import os, pygame, sys
+import os, pygame, sys, speechConstants
 from pygame.locals import *
 from levels import Levels
 
@@ -41,7 +41,28 @@ class HandleDialog(object):
     
     def levelChange(self):
         self.handeled = False
-
+        
+    def doorLocked(self, windowSurface):
+	    self.dialogBox.set_dialog(speechConstants.DOOR_LOCKED)
+	    while not self.dialogBox.over():
+	        for event in pygame.event.get():
+	            if event.type ==KEYUP:
+	                if event.key == K_RETURN:
+	                    self.dialogBox.progress()
+	        self.dialogBox.draw(windowSurface, (50, 400))
+	        pygame.display.update()
+	        fpsClock.tick(30)
+	        
+    def enemyAlive(self, windowSurface):
+	    self.dialogBox.set_dialog(speechConstants.ENEMY_ALIVE)
+	    while not self.dialogBox.over():
+	        for event in pygame.event.get():
+	            if event.type ==KEYUP:
+	                if event.key == K_RETURN:
+	                    self.dialogBox.progress()
+	        self.dialogBox.draw(windowSurface, (50, 400))
+	        pygame.display.update()
+	        fpsClock.tick(30)
 """
 Little method making the "Next" arrow
 """ 
