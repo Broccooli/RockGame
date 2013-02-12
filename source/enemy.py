@@ -241,27 +241,31 @@ class M_Enemy(pygame.sprite.Sprite):
           if self.image == self.front_still:
              self.image = self.front_walk
              self.walking = 1
-          if self.image == self.left_still:
+          elif self.image == self.left_still:
              self.image = self.left_walk
              self.walking = 1
-          if self.image == self.back_still:
+          elif self.image == self.back_still:
              self.image = self.back_walk
              self.walking = 1
-          if self.image == self.right_still:
+          elif self.image == self.right_still:
              self.image = self.right_walk
+             self.walking = 1
+          else:
              self.walking = 1
 	elif self.walking == 2:
     	  if self.image == self.front_still:
              self.image = self.front_walk2
              self.walking = -1
-          if self.image == self.left_still:
+          elif self.image == self.left_still:
              self.image = self.left_walk2
              self.walking = -1
-          if self.image == self.back_still:
+          elif self.image == self.back_still:
              self.image = self.back_walk2
              self.walking = -1
-          if self.image == self.right_still:
+          elif self.image == self.right_still:
              self.image = self.right_walk2
+             self.walking = -1
+          else:
              self.walking = -1
 	else:
 		self.__face(player)
