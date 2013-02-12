@@ -69,7 +69,7 @@ while True:
         	if event.key == K_RETURN:
         		dialogbox.progress() #Moves the dialog box along
         	if event.key == K_k:
-        		current_level = len(doors_by_level)-3#to jump to last room
+        		current_level = len(doors_by_level)-1#to jump to last room
         		player.getBelt()
         	if event.key == K_TAB:
         		helpers.pauseBalls(windowSurface)

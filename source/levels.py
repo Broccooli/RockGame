@@ -47,9 +47,9 @@ class Levels():
 			Boulder((530, 375)), Boulder((465, 375)), Boulder((400, 375)), Boulder((175, 375)),		
 			Boulder((110, 375)), Boulder((595, 375)), Boulder((45, 375)), Boulder((240, 375)),
 			Boulder((300, 375)), #All that, thats just the first row. Hot damn
-			Boulder((400, 300)), Boulder((300,300)), Boulder((255, 335)), Boulder((445, 335)),
-			Boulder((400, 225)), Boulder((300, 225)), Boulder((255, 265)), Boulder((445, 265)),
-			Boulder((400, 150)), Boulder((300, 150)), Boulder((255, 190)), Boulder((445, 190))))
+			Boulder((400, 275)), Boulder((300,275)), Boulder((255, 320)), Boulder((445, 320)),
+			Boulder((400, 175)), Boulder((300, 175)), Boulder((255, 220)), Boulder((445, 220)),
+			Boulder((400, 75)), Boulder((300, 75)), Boulder((255, 120)), Boulder((445, 120))))
 		return rocks_by_level
 		
 	def createLevels_Door(self):
@@ -85,21 +85,21 @@ class Levels():
 		
 	def createLevels_enemies(self, windowSurface):
 		enemies_by_level = []
-		enemies_r0 = pygame.sprite.RenderPlain(M_Enemy((100, 350)))
+		enemies_r0 = pygame.sprite.RenderPlain(M_Enemy((100, 350), 2))
 		enemies_by_level.append(enemies_r0)
 		
 		enemies_r1 = pygame.sprite.RenderPlain(R_Enemy((400, 300), windowSurface))
 		enemies_by_level.append(enemies_r1)
 		
 		
-		enemies_r2 = [R_Enemy((50, 450), windowSurface), M_Enemy((500, 50))]
+		enemies_r2 = [R_Enemy((50, 450), windowSurface), M_Enemy((500, 50), 1)]
 		enemies_r2_group = pygame.sprite.RenderPlain(enemies_r2)
 		enemies_by_level.append(enemies_r2_group)
 		
 		enemies_by_level.append(pygame.sprite.RenderPlain(Grunk()))
 		
 		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((175, 100), windowSurface)))
-		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440)), R_Enemy((190, 25), windowSurface)))
+		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440), 1), R_Enemy((190, 25), windowSurface)))
 		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((345, 90), windowSurface)))
 		return enemies_by_level
 		

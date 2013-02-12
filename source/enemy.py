@@ -8,17 +8,36 @@ from random import randint
 class M_Enemy(pygame.sprite.Sprite):
 
 
- def __init__(self, position):
+ def __init__(self, position, id):
        pygame.sprite.Sprite.__init__(self)
-       self.front_still = pygame.image.load('../images/arms_front_still.png')
-       self.image = self.front_still
-       self.front_walk = pygame.image.load('../images/arms_front_walk.png')
-       self.left_walk = pygame.image.load('../images/arms_left_walk.png')
-       self.left_still = pygame.image.load('../images/arms_left_still.png')
-       self.back_still = pygame.image.load('../images/arms_back_still.png')
-       self.back_walk = pygame.image.load('../images/arms_back_walk.png')
-       self.right_still = pygame.image.load('../images/arms_right_still.png')
-       self.right_walk = pygame.image.load('../images/arms_right_walk.png')
+       if id == 1:
+         self.front_still = pygame.image.load('../images/arms_front_still.png')
+         self.image = self.front_still
+         self.front_walk = pygame.image.load('../images/arms_front_walk.png')
+         self.front_walk2 = pygame.image.load('../images/arms_front_walk2.png')
+         self.left_walk = pygame.image.load('../images/arms_left_walk.png')
+         self.left_still = pygame.image.load('../images/arms_left_still.png')
+         self.left_walk2 = self.left_walk
+         self.back_still = pygame.image.load('../images/arms_back_still.png')
+         self.back_walk = pygame.image.load('../images/arms_back_walk.png')
+         self.back_walk2 = pygame.image.load('../images/arms_back_walk2.png')
+         self.right_still = pygame.image.load('../images/arms_right_still.png')
+         self.right_walk = pygame.image.load('../images/arms_right_walk.png')
+         self.right_walk2 = self.right_walk
+       else:
+         self.front_still = pygame.image.load('../images/headless_front_still.png')
+         self.image = self.front_still
+         self.front_walk = pygame.image.load('../images/headless_front_walk.png')
+         self.front_walk2 = pygame.image.load('../images/headless_front_walk2.png')
+         self.left_walk = pygame.image.load('../images/headless_left_walk.png')
+         self.left_walk2 = pygame.image.load('../images/headless_left_walk2.png')
+         self.left_still = pygame.image.load('../images/headless_left_still.png')
+         self.back_still = pygame.image.load('../images/headless_back_still.png')
+         self.back_walk = pygame.image.load('../images/headless_back_walk.png')
+         self.back_walk2 = pygame.image.load('../images/headless_back_walk2.png')
+         self.right_still = pygame.image.load('../images/headless_right_still.png')
+         self.right_walk = pygame.image.load('../images/headless_right_walk.png')
+         self.right_walk2 = pygame.image.load('../images/headless_right_walk2.png')   
        self.rect = self.image.get_rect()
        self.position = position
        self.rect.topleft = position[0], position[1]
@@ -29,7 +48,7 @@ class M_Enemy(pygame.sprite.Sprite):
        self.pat_index = 0
        self.follow_direction = "right"
        self.pat_counter = 0;
-       self.walking = False
+       self.walking = 0
        self.walking_timer = 0
 
  def update(self, player, rocks):
@@ -49,7 +68,7 @@ class M_Enemy(pygame.sprite.Sprite):
 			  self.__chase(player)
 			  if self.walking_timer <=0:
 			     self.__walk(player)
-			     self.walking_timer = 10
+			     self.walking_timer = 5
 			  else:
 			     self.walking_timer -= 1
             else:
@@ -58,7 +77,7 @@ class M_Enemy(pygame.sprite.Sprite):
               self.__patrol()
        
        self.__check_collision(rocks, player, old_position)
-       
+       print self.walking
  """
     Knocks the enemy back after a hit, because that makes sense.
  """
@@ -106,12 +125,15 @@ class M_Enemy(pygame.sprite.Sprite):
         patrol_position = x + 2, y
         if self.walking_timer <=0:
            self.walking_timer = 10
-           if self.walking == False:
+           if self.walking == 0:
               self.image = self.right_walk
-              self.walking = True
+              self.walking = 1
+           elif self.walking == 2:
+              self.image = self.right_walk2
+              self.walking = -1
            else:
               self.image = self.right_still
-              self.walking = False
+              self.walking +=1
         else:
            self.walking_timer -= 1
               
@@ -119,36 +141,45 @@ class M_Enemy(pygame.sprite.Sprite):
         patrol_position = x - 2, y
         if self.walking_timer <=0:
            self.walking_timer = 10
-           if self.walking == False:
+           if self.walking == 0:
               self.image = self.left_walk
-              self.walking = True
+              self.walking = 1
+           elif self.walking == 2:
+              self.image = self.left_walk2
+              self.walking = -1
            else:
               self.image = self.left_still
-              self.walking = False
+              self.walking +=1
         else:
            self.walking_timer -= 1
        elif direction == "up":
           patrol_position = x, y - 2
           if self.walking_timer <=0:
              self.walking_timer = 10
-             if self.walking == False:
+             if self.walking == 0:
                 self.image = self.back_walk
-                self.walking = True
+                self.walking = 1
+             elif self.walking == 2:
+              self.image = self.back_walk2
+              self.walking = -1
              else:
                 self.image = self.back_still
-                self.walking = False
+                self.walking += 1
           else:
              self.walking_timer -= 1
        elif direction == "down":
           patrol_position = x, y + 2
           if self.walking_timer <=0:
              self.walking_timer = 10
-             if self.walking == False:
+             if self.walking == 0:
                 self.image = self.front_walk
-                self.walking = True
+                self.walking = 1
+             elif self.walking == 2:
+              self.image = self.front_walk2
+              self.walking = -1
              else:
                 self.image = self.front_still
-                self.walking= False
+                self.walking +=1
           else:
              self.walking_timer -= 1
        self.rect.topleft = helpers.checkBoundry(patrol_position)
@@ -206,22 +237,35 @@ class M_Enemy(pygame.sprite.Sprite):
         	self.image = self.left_still
         	
  def __walk(self, player):
-	if self.walking == False:
+	if self.walking == 0:
           if self.image == self.front_still:
              self.image = self.front_walk
-             self.walking = True
+             self.walking = 1
           if self.image == self.left_still:
              self.image = self.left_walk
-             self.walking = True
+             self.walking = 1
           if self.image == self.back_still:
              self.image = self.back_walk
-             self.walking = True
+             self.walking = 1
           if self.image == self.right_still:
              self.image = self.right_walk
-             self.walking = True
+             self.walking = 1
+	elif self.walking == 2:
+    	  if self.image == self.front_still:
+             self.image = self.front_walk2
+             self.walking = -1
+          if self.image == self.left_still:
+             self.image = self.left_walk2
+             self.walking = -1
+          if self.image == self.back_still:
+             self.image = self.back_walk2
+             self.walking = -1
+          if self.image == self.right_still:
+             self.image = self.right_walk2
+             self.walking = -1
 	else:
 		self.__face(player)
-		self.walking = False
+		self.walking += 1
 
 
 
