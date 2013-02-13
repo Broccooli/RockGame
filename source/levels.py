@@ -5,50 +5,52 @@ from doors import Door
 from rocks import *
 from enemy import *
 from grunk import Grunk
+from squik import Squik
 from plates import PressurePlate
 from random import randint
 
 class Levels():
 	"X< 672, Y < 512"
-	rocks_by_level = []
-	enemies_by_level = []
+	
 	def createLevels_Rock(self):
-
+		rocks_by_level = []
 		#setting up rocks for this room. This is how it will be done for puzzles. 
 		#Long yes, but it matters where we put it
-		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((100, 25)), Boulder((200, 205)), Rock((400, 300)))) #0
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((100, 25)), Boulder((200, 205)), Rock((400, 300)))) #0
 		#this is how to make a group to represent the level, then add it to the level array
 		
 		#First room, rocks
-		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((500, 25)), Boulder((300, 300)), Rock((110, 100)))) #1
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((500, 25)), Boulder((300, 300)), Rock((110, 100)))) #1
 		#2
-		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((300, 400)),
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((300, 400)),
 			Boulder((150, 50)), Boulder((50, 50))))
 		#Grunk Rocks	
-		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((100, 100)),
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((100, 100)),
 			Rock((550, 100)), Rock((550, 390,)), Rock((100, 390)),
 			Boulder((40, 250)), Boulder((600, 250)),
 			Rock((200, 245)), Rock((440,245))))	
 		#4
-		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((140, 100)),
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((140, 100)),
 			Boulder((300, 400)), Rock((220, 100)), 
 			Rock((90, 375)), Rock((400,290))))
 		#5, my first attempt at something to be solved, can become unsolvable	
-		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((155, 25)),
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((155, 25)),
 			Boulder((260,20)), Boulder((335, 20)), #top
 			Boulder((345, 460)), Boulder((415, 460)), #bottom
 			Rock((379,425)), Boulder((255, 255)), Boulder((500, 190))))	
 			
 		#6th, this ones gonna be long
 		#65 seems to be just the right spacing
-		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((350, 375)),
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((350, 375)),
 			Boulder((530, 375)), Boulder((465, 375)), Boulder((400, 375)), Boulder((175, 375)),		
 			Boulder((110, 375)), Boulder((595, 375)), Boulder((45, 375)), Boulder((240, 375)),
 			Boulder((300, 375)), #All that, thats just the first row. Hot damn
 			Boulder((400, 275)), Boulder((300,275)), Boulder((255, 320)), Boulder((445, 320)),
 			Boulder((400, 175)), Boulder((300, 175)), Boulder((255, 220)), Boulder((445, 220)),
 			Rock((400, 75)), Rock((300, 75)), Boulder((255, 120)), Boulder((445, 120))))
-		return Levels.rocks_by_level
+			
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((350, 375))))
+		return rocks_by_level
 		
 	def createLevels_Door(self):
 		doors_by_level = []
@@ -66,6 +68,8 @@ class Levels():
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((550, 0), True)))
 		#6
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((200, 0), False)))
+		#Squick
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((600, 0), False)))
 		
 		return doors_by_level
 		
@@ -76,22 +80,25 @@ class Levels():
 		player_entrance.append((100, 430))
 		player_entrance.append((50, 25))
 		player_entrance.append((50, 255))
-		player_entrance.append((545, 420))
+		player_entrance.append((545, 435))
+		player_entrance.append((200, 435))
 		return player_entrance
 		
 	def createLevels_enemies(self, windowSurface):
-		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((100, 350), 2)))
+		enemies_by_level = []
+		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((100, 350), 2)))
 
-		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((400, 300), windowSurface)))
+		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((400, 300), windowSurface)))
 		
-		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((50, 450), windowSurface), M_Enemy((500, 50), 1)))
+		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((50, 450), windowSurface), M_Enemy((500, 50), 1)))
 		
-		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(Grunk()))
+		enemies_by_level.append(pygame.sprite.RenderPlain(Grunk()))
 		
-		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((175, 100), windowSurface)))
-		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440), 1), R_Enemy((190, 25), windowSurface)))
-		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((345, 90), windowSurface)))
-		return Levels.enemies_by_level
+		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((175, 100), windowSurface)))
+		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440), 1), R_Enemy((190, 25), windowSurface)))
+		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((345, 90), windowSurface)))
+		enemies_by_level.append(pygame.sprite.RenderPlain(Squik()))
+		return enemies_by_level
 		
 	def dialogSelect(self):
 		speech_by_level = []
@@ -102,6 +109,7 @@ class Levels():
 		speech_by_level.append(speechConstants.FOURTH_ROOM)
 		speech_by_level.append(speechConstants.FIFTH_ROOM)
 		speech_by_level.append(speechConstants.SIXTH_ROOM)
+		speech_by_level.append(speechConstants.KILL_SQUIK)
 		return speech_by_level
 		
 	def placePlate(self):
@@ -109,6 +117,7 @@ class Levels():
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((300, 300))))
 		#5th
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((310, 40))))
+		plates_by_level.append("1")
 		plates_by_level.append("1")
 		return plates_by_level
 		

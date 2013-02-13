@@ -38,3 +38,7 @@ SIXTH_ROOM = [
 "This must have been made by someone.",
 "I made it.",
 "I made it?"]
+
+KILL_SQUIK = [
+"1",
+"The gel protecting him is gone, but this gauntlet looks perfect for breaking rocks"]

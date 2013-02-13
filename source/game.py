@@ -76,7 +76,11 @@ while True:
         		helpers.pauseBalls(windowSurface)
         	if event.key == K_o:
         		enemies_by_level[current_level].empty()
-    		
+        	if event.key == K_q:
+        		returns = helpers.reset(current_level, windowSurface)
+        		enemies_by_level[current_level] = returns[0]
+        		rocks_by_level[current_level] = returns[1]
+    			player.startRoom(player_entrance[current_level-1])
     """
     This is for background things, need it to keep it there
     """
