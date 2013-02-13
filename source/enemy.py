@@ -81,8 +81,8 @@ class M_Enemy(pygame.sprite.Sprite):
  """
     Knocks the enemy back after a hit, because that makes sense.
  """
- def get_hit(self, direction):
-       self.health -= 1
+ def get_hit(self, direction, damage):
+       self.health -= damage
        self.clock = 15
        knocked_position = (0,0)
        if direction == "right":
@@ -93,7 +93,7 @@ class M_Enemy(pygame.sprite.Sprite):
                knocked_position = self.position[0], self.position[1] +40
        elif direction == "up":
                knocked_position = self.position[0], self.position[1] -40
-       if self.health == 0:
+       if self.health <= 0:
                self.kill()
        self.rect.topleft = helpers.checkBoundry(knocked_position)
        self.position = self.rect.topleft
@@ -198,7 +198,7 @@ class M_Enemy(pygame.sprite.Sprite):
               self.position = self.rect.topleft
        hit_player = pygame.sprite.collide_rect(self, player)
        if hit_player:
-              player.getHit(self.follow_direction)
+              player.getHit(self.follow_direction, 2)
               self.clock = 15
               
  def __chase(self, player):
@@ -318,12 +318,12 @@ class R_Enemy(pygame.sprite.Sprite):
        
        hit_player = pygame.sprite.spritecollide(player, self.attack_group, False)
        if hit_player:
-               player.getHit("none")
+               player.getHit("none", 1)
                hit_player[0].kill()
        self.__check_collision(rocks, player, old_position)
 
- def get_hit(self, direction):
-       self.health -= 1
+ def get_hit(self, direction, damage):
+       self.health -= damage
        self.clock = 15
        if direction == "right":
                self.rect.topleft = self.position[0] + 40, self.position[1]
@@ -333,7 +333,7 @@ class R_Enemy(pygame.sprite.Sprite):
                self.rect.topleft = self.position[0], self.position[1] +40
        elif direction == "up":
                self.rect.topleft = self.position[0], self.position[1] -40
-       if self.health == 0:
+       if self.health <= 0:
                self.kill()
        self.position = self.rect.topleft
  """
@@ -346,10 +346,10 @@ class R_Enemy(pygame.sprite.Sprite):
        
        hit_rock = pygame.sprite.spritecollide(self, rocks, False)
        if hit_rock:         
-              self.get_hit(player.direction)
+              self.get_hit(player.direction, 10)
        hit_player = pygame.sprite.collide_rect(self, player)
        if hit_player:
-              player.getHit(self.follow_direction)
+              #player.getHit(self.follow_direction)
               self.clock = 15
  """
  This method makes the turret ranger follow the player around the room

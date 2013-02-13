@@ -47,7 +47,7 @@ class Levels():
 			Boulder((300, 375)), #All that, thats just the first row. Hot damn
 			Boulder((400, 275)), Boulder((300,275)), Boulder((255, 320)), Boulder((445, 320)),
 			Boulder((400, 175)), Boulder((300, 175)), Boulder((255, 220)), Boulder((445, 220)),
-			Boulder((400, 75)), Boulder((300, 75)), Boulder((255, 120)), Boulder((445, 120))))
+			Rock((400, 75)), Rock((300, 75)), Boulder((255, 120)), Boulder((445, 120))))
 		return Levels.rocks_by_level
 		
 	def createLevels_Door(self):

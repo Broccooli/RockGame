@@ -33,7 +33,7 @@ class Rock(pygame.sprite.Sprite):
     		self.position = old_position
     	"""Checks to see if Grunk smashed a player witha  rock. It will probably kill player"""
     	if pygame.sprite.collide_rect(self, player):
-    	    player.getHit(direction)
+    	    player.getHit(direction, 1)
 
     
     
@@ -65,8 +65,7 @@ class Rock(pygame.sprite.Sprite):
     	    if (hit_enemy[0].position[0] > self.position[0] and direction == "right") or (hit_enemy[0].position[0] < self.position[0] and direction == "left") or (hit_enemy[0].position[1] > self.position[1] and direction == "down") or (hit_enemy[0].position[1] < self.position[1] and direction == "up"):
     	       squash_enemy = pygame.sprite.spritecollide(hit_enemy[0], other_rocks, False)
     	       if (squash_enemy) or (hit_enemy[0].position[0] <= 20) or (hit_enemy[0].position[0] >= 590) or (hit_enemy[0].position[1] <= 20) or (hit_enemy[0].position[0] >= 420):
-    	          hit_enemy[0].health - 10
-    	          hit_enemy[0].get_hit(direction)
+    	          hit_enemy[0].get_hit(direction, 10)
     	
     	
 "These are immovable, indestructable objects to make puzzles hard"	

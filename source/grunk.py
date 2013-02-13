@@ -59,7 +59,7 @@ class Grunk(pygame.sprite.Sprite):
          self.hit_distance = 15
       hit_player = pygame.sprite.collide_rect(self, player)
       if hit_player:
-         player.getHit(self.follow_direction)
+         player.getHit(self.follow_direction, 2)
          self.stun_timer = 15
    
    
@@ -86,9 +86,9 @@ class Grunk(pygame.sprite.Sprite):
       self.position = self.rect.topleft 
       
       
-   def get_hit(self, direction):
+   def get_hit(self, direction, damage):
       if self.stun_timer > 0:
-         self.health -= 1
+         self.health -= damage
          if direction == "right":
             self.rect.topleft = self.position[0] + 40, self.position[1]
          elif direction == "left":
@@ -97,6 +97,6 @@ class Grunk(pygame.sprite.Sprite):
             self.rect.topleft = self.position[0], self.position[1] +40
          elif direction == "up":
             self.rect.topleft = self.position[0], self.position[1] -40
-         if self.health == 0:
+         if self.health <= 0:
             self.kill()
          self.position = self.rect.topleft

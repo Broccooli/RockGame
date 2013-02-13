@@ -72,7 +72,9 @@ class Player(pygame.sprite.Sprite):
 	if keys[K_p]:
 		print self.rect.center
 	
-	
+	if self.health < 0:
+		self.kill()
+		self.alive = False
 	self.rect.topleft = x, y
 	self.position = self.rect.topleft	
 	if self.attacking:
@@ -84,7 +86,7 @@ class Player(pygame.sprite.Sprite):
 	hit_enemy = pygame.sprite.spritecollide(self.attack, enemyGroup, False)
 	if hit_enemy:
 		if self.clock == 0:
-			hit_enemy[0].get_hit(self.direction)
+			hit_enemy[0].get_hit(self.direction, 2)
 			self.clock = 30
 	else:
 		if self.clock > 0:
@@ -110,8 +112,8 @@ class Player(pygame.sprite.Sprite):
     def getHealth(self):
     	return str(self.health)
     	
-    def getHit(self, move_direction):
-    	self.health -= 1
+    def getHit(self, move_direction, damage):
+    	self.health -= damage
     	helpers.shake(self.screen, 40)
     	if self.invul == 0:
     	 if move_direction == "right":
@@ -126,7 +128,7 @@ class Player(pygame.sprite.Sprite):
     	 self.position = self.rect.topleft
     	 if self.health < 0:
 			self.kill()
-			self.alive = False;
+			self.alive = False
         self.invul = 15
         
     def startRoom(self, spot):
