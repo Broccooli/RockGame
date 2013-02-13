@@ -59,6 +59,7 @@ background_rect = level_background[0][0].get_rect()
 dialog_handle = HandleDialog(windowSurface, dialogbox)
 
 current_level =0
+#helpers.set(current_level, (560, 250))
 pygame.key.set_repeat(1, 10)
 while True:
 
@@ -75,7 +76,7 @@ while True:
         		helpers.pauseBalls(windowSurface)
         	if event.key == K_o:
         		enemies_by_level[current_level].empty()
-    
+    		
     """
     This is for background things, need it to keep it there
     """
@@ -155,6 +156,7 @@ while True:
         	current_level += 1
         	if current_level >= 4:
         	   player.getBelt() 	
+        	#helpers.set(current_level, player_entrance[current_level-1])
         	level_background = level_maker.drawBackground(windowSurface)
         	transitioning = True
         	dialog_handle.levelChange()

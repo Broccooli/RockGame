@@ -1,8 +1,14 @@
 import os, pygame, sys, math, random
 from pygame.locals import *
+from enemy import M_Enemy
 from dimmer import Dimmer
+from levels import Levels
 
 dimmer = Dimmer()
+set_enemy = pygame.sprite.RenderPlain()
+set_rock = pygame.sprite.RenderPlain()
+set_position = (0,0)
+enemy_sprites = M_Enemy((500, 50), 1)
 
 """
 I LOVE THIS THEROM TOO MUCH TO NOT MAKE IT A METHOD
@@ -75,7 +81,27 @@ def checkBoundry(position):
 	if position[1] >= 430:
 		new_y = 430
 	return (new_x, new_y)
-	
+
+
+def set(level, position):
+	global set_enemy
+	print level
+	set_enemy = Levels().getSingleEnemy(level)
+	global set_rock 
+	set_rock = Levels().getSingleRocks(level)
+	global set_position 
+	set_position= position #referring to player position
+def reset(level, windowSurface):
+	set_rocks = Levels().createLevels_Rock()
+	level_rocks = set_rocks[level]
+	set_enemy = Levels().createLevels_enemies(windowSurface)
+	level_enemy = set_enemy[level]
+	print set_enemy
+	return [level_enemy, level_rocks, set_position]
+
+"""
+Pause screen loop is here
+"""	
 def pauseBalls(windowSurface): #by going up stairs, pauseballs, by going down stairs
     paused = True
     dimmer.dim()

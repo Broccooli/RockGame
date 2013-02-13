@@ -10,56 +10,52 @@ from random import randint
 
 class Levels():
 	"X< 672, Y < 512"
+	rocks_by_level = []
+	enemies_by_level = []
 	def createLevels_Rock(self):
-		rocks_by_level = []
+
 		#setting up rocks for this room. This is how it will be done for puzzles. 
 		#Long yes, but it matters where we put it
-		test_room_rocks = [Rock((100, 25)), Boulder((200, 205)), Rock((400, 300))]
-		test_room_rocks_group = pygame.sprite.RenderPlain(test_room_rocks)
-		rocks_by_level.append(test_room_rocks_group) #0
+		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((100, 25)), Boulder((200, 205)), Rock((400, 300)))) #0
 		#this is how to make a group to represent the level, then add it to the level array
 		
 		#First room, rocks
-		s1r1_rocks = [Rock((500, 25)), Boulder((300, 300)), Rock((110, 100))]
-		s1r1_rocks_group = pygame.sprite.RenderPlain(s1r1_rocks)
-		rocks_by_level.append(s1r1_rocks_group) #1
+		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((500, 25)), Boulder((300, 300)), Rock((110, 100)))) #1
 		#2
-		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((300, 400)),
+		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((300, 400)),
 			Boulder((150, 50)), Boulder((50, 50))))
 		#Grunk Rocks	
-		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((100, 100)),
+		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((100, 100)),
 			Rock((550, 100)), Rock((550, 390,)), Rock((100, 390)),
 			Boulder((40, 250)), Boulder((600, 250)),
 			Rock((200, 245)), Rock((440,245))))	
 		#4
-		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((140, 100)),
+		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((140, 100)),
 			Boulder((300, 400)), Rock((220, 100)), 
 			Rock((90, 375)), Rock((400,290))))
 		#5, my first attempt at something to be solved, can become unsolvable	
-		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((155, 25)),
+		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((155, 25)),
 			Boulder((260,20)), Boulder((335, 20)), #top
 			Boulder((345, 460)), Boulder((415, 460)), #bottom
 			Rock((379,425)), Boulder((255, 255)), Boulder((500, 190))))	
 			
 		#6th, this ones gonna be long
 		#65 seems to be just the right spacing
-		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((350, 375)),
+		Levels.rocks_by_level.append(pygame.sprite.RenderPlain(Rock((350, 375)),
 			Boulder((530, 375)), Boulder((465, 375)), Boulder((400, 375)), Boulder((175, 375)),		
 			Boulder((110, 375)), Boulder((595, 375)), Boulder((45, 375)), Boulder((240, 375)),
 			Boulder((300, 375)), #All that, thats just the first row. Hot damn
 			Boulder((400, 275)), Boulder((300,275)), Boulder((255, 320)), Boulder((445, 320)),
 			Boulder((400, 175)), Boulder((300, 175)), Boulder((255, 220)), Boulder((445, 220)),
 			Boulder((400, 75)), Boulder((300, 75)), Boulder((255, 120)), Boulder((445, 120))))
-		return rocks_by_level
+		return Levels.rocks_by_level
 		
 	def createLevels_Door(self):
 		doors_by_level = []
-		door_r0 = pygame.sprite.RenderPlain(Door((0, 255), False))
-		doors_by_level.append(door_r0)
-		#room 0
-		
-		door_r1 = pygame.sprite.RenderPlain(Door((0, 255), False))
-		doors_by_level.append(door_r1)
+		#0
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((0, 255), False)))
+		#1
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((0, 255), False)))
 		#2
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((100, 0), False)))
 		#3
@@ -84,24 +80,18 @@ class Levels():
 		return player_entrance
 		
 	def createLevels_enemies(self, windowSurface):
-		enemies_by_level = []
-		enemies_r0 = pygame.sprite.RenderPlain(M_Enemy((100, 350), 2))
-		enemies_by_level.append(enemies_r0)
+		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((100, 350), 2)))
+
+		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((400, 300), windowSurface)))
 		
-		enemies_r1 = pygame.sprite.RenderPlain(R_Enemy((400, 300), windowSurface))
-		enemies_by_level.append(enemies_r1)
+		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((50, 450), windowSurface), M_Enemy((500, 50), 1)))
 		
+		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(Grunk()))
 		
-		enemies_r2 = [R_Enemy((50, 450), windowSurface), M_Enemy((500, 50), 1)]
-		enemies_r2_group = pygame.sprite.RenderPlain(enemies_r2)
-		enemies_by_level.append(enemies_r2_group)
-		
-		enemies_by_level.append(pygame.sprite.RenderPlain(Grunk()))
-		
-		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((175, 100), windowSurface)))
-		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440), 1), R_Enemy((190, 25), windowSurface)))
-		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((345, 90), windowSurface)))
-		return enemies_by_level
+		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((175, 100), windowSurface)))
+		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440), 1), R_Enemy((190, 25), windowSurface)))
+		Levels.enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((345, 90), windowSurface)))
+		return Levels.enemies_by_level
 		
 	def dialogSelect(self):
 		speech_by_level = []
@@ -174,4 +164,9 @@ class Levels():
 					final_background[y].append(dirts[i])
 				
 		return final_background
-		
+	
+	
+	def getSingleEnemy(object, level):
+		return Levels.enemies_by_level[level]
+	def getSingleRocks(object, level):
+		return Levels.rocks_by_level[level]	

@@ -77,7 +77,7 @@ class M_Enemy(pygame.sprite.Sprite):
               self.__patrol()
        
        self.__check_collision(rocks, player, old_position)
-       print self.walking
+       
  """
     Knocks the enemy back after a hit, because that makes sense.
  """
