@@ -48,8 +48,21 @@ class Levels():
 			Boulder((400, 275)), Boulder((300,275)), Boulder((255, 320)), Boulder((445, 320)),
 			Boulder((400, 175)), Boulder((300, 175)), Boulder((255, 220)), Boulder((445, 220)),
 			Rock((400, 75)), Rock((300, 75)), Boulder((255, 120)), Boulder((445, 120))))
-			
-		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((350, 375))))
+		#Squik traps	
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((530, 375)), Rock((430, 375)), 
+		    Rock((70, 375)), Rock((170, 375)), Rock((70, 70)), Rock((170, 70)), 
+		    Rock((430, 70)), Rock((530, 70)), Rock((430, 225)), Rock((530, 225)), 
+			Rock((70, 225)), Rock((170, 225)), Rock((300, 320)), Rock((300, 200)), 
+		))
+		
+		#Flower
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((525, 375)), Rock((430, 375)),
+		Rock((475, 415)), Rock((475, 335)), Rock((525, 335)), Rock((430, 335)),
+		Rock((565, 375)), Rock((390, 375)), Rock((475, 300)), Rock((475, 450)),
+		Rock((525, 415)), Rock((435, 415)),
+		Boulder((525, 450)), Boulder((430, 450)), Boulder((430, 300)), Boulder((525, 300)),
+		Boulder((570, 415)), Boulder((570, 340)), Boulder((395, 415)), Boulder((395, 340))
+		))
 		return rocks_by_level
 		
 	def createLevels_Door(self):
@@ -70,6 +83,8 @@ class Levels():
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((200, 0), False)))
 		#Squick
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((600, 0), False)))
+		#Flowers
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
 		
 		return doors_by_level
 		
@@ -82,6 +97,7 @@ class Levels():
 		player_entrance.append((50, 255))
 		player_entrance.append((545, 435))
 		player_entrance.append((200, 435))
+		player_entrance.append((600, 435))
 		return player_entrance
 		
 	def createLevels_enemies(self, windowSurface):
@@ -98,6 +114,7 @@ class Levels():
 		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440), 1), R_Enemy((190, 25), windowSurface)))
 		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((345, 90), windowSurface)))
 		enemies_by_level.append(pygame.sprite.RenderPlain(Squik()))
+		enemies_by_level.append(pygame.sprite.RenderPlain())
 		return enemies_by_level
 		
 	def dialogSelect(self):
@@ -110,6 +127,7 @@ class Levels():
 		speech_by_level.append(speechConstants.FIFTH_ROOM)
 		speech_by_level.append(speechConstants.SIXTH_ROOM)
 		speech_by_level.append(speechConstants.KILL_SQUIK)
+		speech_by_level.append(speechConstants.FLOWERS)
 		return speech_by_level
 		
 	def placePlate(self):
@@ -119,6 +137,7 @@ class Levels():
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((310, 40))))
 		plates_by_level.append("1")
 		plates_by_level.append("1")
+		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((485, 400))))
 		return plates_by_level
 		
 		

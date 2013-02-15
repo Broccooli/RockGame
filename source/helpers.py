@@ -109,6 +109,6 @@ def pauseBalls(windowSurface): #by going up stairs, pauseballs, by going down st
         if event.type == QUIT:
             sys.exit(0) # Clicking the x now closes the game, not ESC
         if event.type ==KEYUP:
-        	if event.key == K_TAB:
+        	if event.key == K_ESCAPE:
         	   paused = False
     dimmer.undim()    

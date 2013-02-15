@@ -66,7 +66,8 @@ class Rock(pygame.sprite.Sprite):
     	       squash_enemy = pygame.sprite.spritecollide(hit_enemy[0], other_rocks, False)
     	       if (squash_enemy) or (hit_enemy[0].position[0] <= 20) or (hit_enemy[0].position[0] >= 590) or (hit_enemy[0].position[1] <= 20) or (hit_enemy[0].position[0] >= 420):
     	          hit_enemy[0].get_hit(direction, 10)
-    	
+    	       else:
+    	       	  hit_enemy[0].get_hit(direction, 0)
     	
 "These are immovable, indestructable objects to make puzzles hard"	
 class Boulder(pygame.sprite.Sprite):

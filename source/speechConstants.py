@@ -28,7 +28,7 @@ KILL_GRUNK =[
 "This belt maybe? Best to take it"]
 
 FOURTH_ROOM = [
-"Where are they? Proceed without thinking.",
+"What a terrible position to be in.",
 "Why does the door look locked?"]
 
 FIFTH_ROOM = [
@@ -42,3 +42,6 @@ SIXTH_ROOM = [
 KILL_SQUIK = [
 "1",
 "The gel protecting him is gone, but this gauntlet looks perfect for breaking rocks"]
+
+FLOWERS = [
+"What is that design? That switch..."]

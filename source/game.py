@@ -72,7 +72,8 @@ while True:
         	if event.key == K_k:
         		current_level = len(doors_by_level)-1#to jump to last room
         		player.getBelt()
-        	if event.key == K_TAB:
+        		player.getGaunt()
+        	if event.key == K_ESCAPE:
         		helpers.pauseBalls(windowSurface)
         	if event.key == K_o:
         		enemies_by_level[current_level].empty()
@@ -159,7 +160,9 @@ while True:
         	player.startRoom(player_entrance[current_level])
         	current_level += 1
         	if current_level >= 4:
-        	   player.getBelt() 	
+        	   player.getBelt() 
+        	if current_level >= 8:
+        	   player.getGuant()	
         	#helpers.set(current_level, player_entrance[current_level-1])
         	level_background = level_maker.drawBackground(windowSurface)
         	transitioning = True

@@ -17,6 +17,7 @@ class Player(pygame.sprite.Sprite):
     	self.rect.topleft = position[0], position[1]
     	self.alive = True
     	self.has_belt = False
+    	self.has_gaunt = False
     	self.attacking = False
     	self.attack = Attack()
     	self.clock = 0
@@ -26,6 +27,7 @@ class Player(pygame.sprite.Sprite):
     	self.screen = screen
     	self.push_timer = 0 #slows rocks down
     	self.momentum = "up" #makes sure rocks only move in a singular direction
+    	self.old_position = position
     	
     def update_position(self, rocks, playerGroup, enemyGroup):
 	keys = pygame.key.get_pressed()
@@ -70,7 +72,7 @@ class Player(pygame.sprite.Sprite):
 		self.attacking = True
 		playerGroup.add(self.attack)
 	if keys[K_p]:
-		print self.rect.center
+		print self.rect.topleft
 	
 	if self.health < 0:
 		self.kill()
@@ -102,7 +104,9 @@ class Player(pygame.sprite.Sprite):
 			if keys[K_LSHIFT]:
 				hit_rock[0].getMovedP(rocks, self.momentum, self, enemyGroup)
 				self.push_timer = 8 #to make rocks move slower
-				
+			if keys[K_TAB]:
+			    hit_rock[0].kill()
+			    self.push_timer = 8	
 	if self.invul > 0:
 		self.invul -= 1
 
@@ -111,25 +115,28 @@ class Player(pygame.sprite.Sprite):
     	
     def getHealth(self):
     	return str(self.health)
-    	
-    def getHit(self, move_direction, damage):
-    	self.health -= damage
+    def getGaunt(self): #for breaking rocks, dropped by squik
+        self.has_gaunt = True	
+    def getHit(self, direction, damage):
     	helpers.shake(self.screen, 40)
     	if self.invul == 0:
-    	 if move_direction == "right":
-    		self.rect.topleft = self.position[0] + 40, self.position[1]
-    	 elif move_direction == "left":
-    		self.rect.topleft = self.position[0] - 40, self.position[1]
-    	 elif move_direction == "down":
-    		self.rect.topleft = self.position[0], self.position[1] +40
-    	 elif move_direction == "up":
-    		self.rect.topleft = self.position[0], self.position[1] -40
-    	 
-    	 self.position = self.rect.topleft
-    	 if self.health < 0:
+           if direction == "right":
+              self.old_position = self.position[0] + 40, self.position[1]
+           elif direction == "left":
+              self.old_position = self.position[0] - 40, self.position[1]
+           elif direction == "down":
+              self.old_position = self.position[0], self.position[1] +40
+           elif direction == "up":
+              self.old_position = self.position[0], self.position[1] -40
+           if self.health <= 0:
+              self.kill()
+           self.rect.topleft = helpers.checkBoundry(self.old_position)
+           self.health -= damage
+           self.invul = 80
+        self.position = self.rect.topleft
+    	if self.health < 0:
 			self.kill()
 			self.alive = False
-        self.invul = 15
         
     def startRoom(self, spot):
     	self.rect.topleft = spot[0], spot[1]
