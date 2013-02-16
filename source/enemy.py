@@ -50,6 +50,7 @@ class M_Enemy(pygame.sprite.Sprite):
        self.pat_counter = 0;
        self.walking = 0
        self.walking_timer = 0
+       self.blocked_direction = "nope"
 
  def update(self, player, rocks):
     	
@@ -65,7 +66,7 @@ class M_Enemy(pygame.sprite.Sprite):
               self.follow = False
        if self.follow:
             if self.clock == 0:
-			  self.__chase(player)
+			  self.__chase(player.rect.topleft)
 			  if self.walking_timer <=0:
 			     self.__walk(player)
 			     self.walking_timer = 5
@@ -76,7 +77,8 @@ class M_Enemy(pygame.sprite.Sprite):
        else:
               self.__patrol()
        
-       self.__check_collision(rocks, player, old_position)
+       if not self.__check_collision(rocks, player, old_position):
+          self.blocked_direction = "nope" 
        
  """
     Knocks the enemy back after a hit, because that makes sense.
@@ -196,30 +198,55 @@ class M_Enemy(pygame.sprite.Sprite):
        if hit_rock:         
               self.rect.topleft = old_position[0], old_position[1]
               self.position = self.rect.topleft
+              self.blocked_direction = self.follow_direction
+              return True
        hit_player = pygame.sprite.collide_rect(self, player)
        if hit_player:
               player.getHit(self.follow_direction, 2)
               self.clock = 15
               
- def __chase(self, player):
-	x = player.rect.topleft[0]
-	y = player.rect.topleft[1]
+ def __chase(self, spot):
+	x = spot[0]
+	y = spot[1]
 	my_x = self.rect.topleft[0]
 	my_y = self.rect.topleft[1]
-	if x+2 > self.rect.topleft[0]:
+	"""
+	working right here to make the enemy move out of the straight chase line of chasing player
+	"""
+	
+	if (y < self.rect.topleft[1] +50 and y > self.rect.topleft[1] - 50) and ((self.blocked_direction == "left") or (self.blocked_direction == "right")):
+		print "here"
+		self.__chase((spot[0], spot[1]+ 20))
+	if x == self.rect.topleft[0] and ((self.blocked_direction == "up") or (self.blocked_direction == "down")):
+		self.__patrol()
+	
+	
+	if x+10 > self.rect.topleft[0] and not self.blocked_direction == "right":
 		self.follow_direction = "right"
 		my_x += 2
-	if x-2 < self.rect.topleft[0]:
+		if not self.blocked_direction == "nope":
+		   my_x += 2
+	if x-10 < self.rect.topleft[0]and not self.blocked_direction == "left":
 		self.follow_direction = "left"
 		my_x -= 2
-	if y+2 > self.rect.topleft[1]:
+		if not self.blocked_direction == "nope":
+		   my_x -= 2
+	if y+10 > self.rect.topleft[1]and not self.blocked_direction == "down":
 		self.follow_direction = "down"
 		my_y += 2
-	if y-2 < self.rect.topleft[1]:
+		if not self.blocked_direction == "nope":
+		   my_y += 2
+	if y-10 < self.rect.topleft[1]and not self.blocked_direction == "up":
 		self.follow_direction = "up"
 		my_y -= 2
+		if not self.blocked_direction == "nope":
+		   my_y -= 2
+	"""
+	also working right here to make the enemy move out of the straight chase line of chasing player
+	"""
+
 	self.rect.topleft = helpers.checkBoundry((my_x, my_y))
-	self.position = self.rect.topleft       
+	self.position = self.rect.topleft      
 
  """
     The following two methods handle keeping the sprite facing the player and walking
