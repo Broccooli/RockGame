@@ -68,7 +68,9 @@ class Rock(pygame.sprite.Sprite):
     	          hit_enemy[0].get_hit(direction, 10)
     	       else:
     	       	  hit_enemy[0].get_hit(direction, 0)
-    	
+    def getHit(self):
+    	helpers.shake(pygame.display.get_surface(), 50)
+    	self.kill()	
 "These are immovable, indestructable objects to make puzzles hard"	
 class Boulder(pygame.sprite.Sprite):
     def __init__(self, position):
@@ -82,6 +84,8 @@ class Boulder(pygame.sprite.Sprite):
 		i = 1 #filler, im going to do something with this later. but i means nothing
     def getMovedP(self, rocks, direction, player, enemyGroup):
 		i = 1
+    def getHit(self):
+	    helpers.shake(pygame.display.get_surface(), 50)
 		
 "so puzzles arent so boring with what is going on"
 

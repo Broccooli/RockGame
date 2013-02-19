@@ -53,6 +53,7 @@ class Squik(pygame.sprite.Sprite):
        else:
           hit_rock = pygame.sprite.spritecollide(self, rocks, False)
           if hit_rock:
+             helpers.shake(pygame.display.get_surface(), 100)
              hit_rock[0].kill()
           self.stuck = False
       	  self.hit_rock_timer = 100

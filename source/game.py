@@ -70,7 +70,8 @@ while True:
         	if event.key == K_RETURN:
         		dialogbox.progress() #Moves the dialog box along
         	if event.key == K_k:
-        		current_level = len(doors_by_level)-2#to jump to last room
+        		current_level = len(doors_by_level)-2
+        		#to jump to last room
         		player.getBelt()
         		player.getGaunt()
         	if event.key == K_ESCAPE:
@@ -162,7 +163,7 @@ while True:
         	if current_level >= 4:
         	   player.getBelt() 
         	if current_level >= 8:
-        	   player.getGuant()	
+        	   player.getGaunt()	
         	#helpers.set(current_level, player_entrance[current_level-1])
         	level_background = level_maker.drawBackground(windowSurface)
         	transitioning = True

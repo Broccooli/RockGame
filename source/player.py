@@ -7,11 +7,19 @@ class Player(pygame.sprite.Sprite):
     
     def __init__(self, position, screen):
         pygame.sprite.Sprite.__init__(self)
-    	self.left = pygame.image.load('../images/hero_placeholder_left.png')
-    	self.right = pygame.image.load('../images/hero_placeholder_right.png')
-    	self.down = pygame.image.load('../images/hero_placeholder_down.png')
-    	self.up = pygame.image.load('../images/hero_placeholder.png')
-    	self.image = self.up
+    	self.left_still = pygame.image.load('../images/hero_left_still.png')
+    	self.left_walk1 = pygame.image.load('../images/hero_left_walk1.png')
+    	self.left_walk2 = pygame.image.load('../images/hero_left_walk2.png')
+    	self.right_still = pygame.image.load('../images/hero_right_still.png')
+    	self.right_walk1 = pygame.image.load('../images/hero_right_walk1.png')
+    	self.right_walk2 = pygame.image.load('../images/hero_right_walk2.png')
+    	self.down_still = pygame.image.load('../images/hero_front_still.png')
+    	self.down_walk1 = pygame.image.load('../images/hero_front_walk1.png')
+    	self.down_walk2 = pygame.image.load('../images/hero_front_walk2.png')
+    	self.up_still = pygame.image.load('../images/hero_back_still.png')
+    	self.up_walk1 = pygame.image.load('../images/hero_back_walk1.png')
+    	self.up_walk2 = pygame.image.load('../images/hero_back_walk2.png')
+    	self.image = self.left_still
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position[1]
@@ -21,13 +29,15 @@ class Player(pygame.sprite.Sprite):
     	self.attacking = False
     	self.attack = Attack()
     	self.clock = 0
-    	self.direction = "up"
+    	self.direction = "left"
     	self.health = 5
     	self.invul = 0 #typical invulnerable period
     	self.screen = screen
     	self.push_timer = 0 #slows rocks down
     	self.momentum = "up" #makes sure rocks only move in a singular direction
     	self.old_position = position
+    	self.walking = 1
+    	self.walking_timer = 0
     	
     def update_position(self, rocks, playerGroup, enemyGroup):
 	keys = pygame.key.get_pressed()
@@ -39,7 +49,11 @@ class Player(pygame.sprite.Sprite):
 		self.direction = "left"
 		if self.push_timer == 0:
 			self.momentum = self.direction
-		self.image = self.left
+		if self.walking_timer <=0:
+			self.__walk()
+			self.walking_timer = 5
+		else:
+			self.walking_timer -= 1
 		if x <= 15:
 			x = 15
 	if keys[K_RIGHT] and not self.attacking:
@@ -47,7 +61,11 @@ class Player(pygame.sprite.Sprite):
 		self.direction = "right"
 		if self.push_timer == 0:
 			self.momentum = self.direction
-		self.image = self.right
+		if self.walking_timer <=0:
+			self.__walk()
+			self.walking_timer = 5
+		else:
+			self.walking_timer -= 1
 		if x >= 620:
 			x = 620
 	if keys[K_DOWN] and not self.attacking:
@@ -55,7 +73,11 @@ class Player(pygame.sprite.Sprite):
 		self.direction = "down"
 		if self.push_timer == 0:
 			self.momentum = self.direction
-		self.image = self.down
+		if self.walking_timer <=0:
+			self.__walk()
+			self.walking_timer = 5
+		else:
+			self.walking_timer -= 1
 		if y >= 460:
 			y = 460
 			
@@ -64,7 +86,11 @@ class Player(pygame.sprite.Sprite):
 		self.direction = "up"
 		if self.push_timer == 0:
 			self.momentum = self.direction
-		self.image = self.up
+		if self.walking_timer <=0:
+			self.__walk()
+			self.walking_timer = 5
+		else:
+			self.walking_timer -= 1
 		if y <= 15:
 			y = 15
 	if keys[K_SPACE] and not self.attacking:
@@ -105,7 +131,7 @@ class Player(pygame.sprite.Sprite):
 				hit_rock[0].getMovedP(rocks, self.momentum, self, enemyGroup)
 				self.push_timer = 8 #to make rocks move slower
 			if keys[K_TAB]:
-			    hit_rock[0].kill()
+			    hit_rock[0].getHit()
 			    self.push_timer = 8	
 	if self.invul > 0:
 		self.invul -= 1
@@ -150,3 +176,45 @@ class Player(pygame.sprite.Sprite):
     	    self.rect.topleft = self.rect.topleft[0] , self.rect.topleft[1] +5
     	if self.direction == "down":
     	    self.rect.topleft = self.rect.topleft[0], self.rect.topleft[1] -5
+    	    
+    def __walk(self):
+       if self.walking == 0:
+          if self.image == self.down_still:
+             self.image = self.down_walk1
+             self.walking = 1
+          elif self.image == self.left_still:
+             self.image = self.left_walk1
+             self.walking = 1
+          elif self.image == self.up_still:
+             self.image = self.up_walk1
+             self.walking = 1
+          elif self.image == self.right_still:
+             self.image = self.right_walk1
+             self.walking = 1
+          else:
+             self.walking = 1
+       elif self.walking == 2:
+    	  if self.image == self.down_still:
+             self.image = self.down_walk2
+             self.walking = -1
+          elif self.image == self.left_still:
+             self.image = self.left_walk2
+             self.walking = -1
+          elif self.image == self.up_still:
+             self.image = self.up_walk2
+             self.walking = -1
+          elif self.image == self.right_still:
+             self.image = self.right_walk2
+             self.walking = -1
+          else:
+             self.walking = -1
+       else:
+		  if self.direction == "left":
+		     self.image = self.left_still
+		  if self.direction == "right":
+		     self.image = self.right_still
+		  if self.direction == "up":
+		     self.image = self.up_still
+		  if self.direction == "down":
+		     self.image = self.down_still
+		  self.walking += 1
