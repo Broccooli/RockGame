@@ -145,6 +145,7 @@ class Player(pygame.sprite.Sprite):
         self.has_gaunt = True	
     def getHit(self, direction, damage):
     	helpers.shake(self.screen, 40)
+    	self.old_position = self.rect.topleft
     	if self.invul == 0:
            if direction == "right":
               self.old_position = self.position[0] + 40, self.position[1]

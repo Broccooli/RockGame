@@ -63,6 +63,11 @@ class Levels():
 		Boulder((525, 450)), Boulder((430, 450)), Boulder((430, 300)), Boulder((525, 300)),
 		Boulder((570, 415)), Boulder((570, 340)), Boulder((395, 415)), Boulder((395, 340))
 		))
+		
+		#Ninth
+		rocks_by_level.append(pygame.sprite.RenderPlain(Boulder((20, 180)), Boulder((85, 180)), Boulder((150, 180)), Rock((215, 180)),Boulder((280, 180)), Boulder((345, 180)), Boulder((410, 180)),
+			Boulder((20, 275)), Boulder((85, 275)), Boulder((150, 275)), Boulder((215, 275)),Boulder((280, 275)), Boulder((345, 275)), Boulder((410, 275)), #the two ross
+			Boulder((500, 100)), Boulder((450, 140)), Boulder((500, 360)), Boulder((450, 310))))
 		return rocks_by_level
 		
 	def createLevels_Door(self):
@@ -85,6 +90,8 @@ class Levels():
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((600, 0), False)))
 		#Flowers
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
+		#Ninth
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
 		
 		return doors_by_level
 		
@@ -97,6 +104,7 @@ class Levels():
 		player_entrance.append((50, 255))
 		player_entrance.append((545, 435))
 		player_entrance.append((200, 435))
+		player_entrance.append((600, 435))
 		player_entrance.append((600, 435))
 		return player_entrance
 		
@@ -115,6 +123,7 @@ class Levels():
 		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((345, 90), windowSurface)))
 		enemies_by_level.append(pygame.sprite.RenderPlain(Squik()))
 		enemies_by_level.append(pygame.sprite.RenderPlain())
+		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((550,230), 2), R_Enemy((115, 75), windowSurface), R_Enemy((115, 385), windowSurface)))
 		return enemies_by_level
 		
 	def dialogSelect(self):
@@ -128,6 +137,7 @@ class Levels():
 		speech_by_level.append(speechConstants.SIXTH_ROOM)
 		speech_by_level.append(speechConstants.KILL_SQUIK)
 		speech_by_level.append(speechConstants.FLOWERS)
+		speech_by_level.append(speechConstants.NINTH_ROOM)
 		return speech_by_level
 		
 	def placePlate(self):
@@ -138,6 +148,7 @@ class Levels():
 		plates_by_level.append("1")
 		plates_by_level.append("1")
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((485, 400))))
+		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((580, 450))))
 		return plates_by_level
 		
 		

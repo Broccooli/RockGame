@@ -55,6 +55,7 @@ class Grunk(pygame.sprite.Sprite):
          self.rect.topleft = old_position[0], old_position[1]
          self.position = self.rect.topleft
          self.stun_timer = 60
+         helpers.shake(pygame.display.get_surface(), 50)
          self.to_be_moved_rock = hit_rock[0]
          self.hit_distance = 15
       hit_player = pygame.sprite.collide_rect(self, player)

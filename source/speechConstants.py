@@ -45,3 +45,7 @@ KILL_SQUIK = [
 
 FLOWERS = [
 "What is that design? That switch..."]
+
+NINTH_ROOM = [
+"Must be careful of the trap I placed here.",
+"Wait, trap?"]
