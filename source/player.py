@@ -133,6 +133,8 @@ class Player(pygame.sprite.Sprite):
 			if keys[K_TAB]:
 			    hit_rock[0].getHit()
 			    self.push_timer = 8	
+			if keys[K_p]:
+				print "Oi, dis rock at ", hit_rock[0].rect.topleft
 	if self.invul > 0:
 		self.invul -= 1
 

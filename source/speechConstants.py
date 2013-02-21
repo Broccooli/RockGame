@@ -49,3 +49,7 @@ FLOWERS = [
 NINTH_ROOM = [
 "Must be careful of the trap I placed here.",
 "Wait, trap?"]
+
+FIGHT_TAHZI = [
+"What is...? That weapon looks inter-",
+"Move!"]

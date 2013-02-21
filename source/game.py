@@ -71,6 +71,7 @@ while True:
         		dialogbox.progress() #Moves the dialog box along
         	if event.key == K_k:
         		current_level = len(doors_by_level)-1
+        		player.startRoom(player_entrance[current_level -1])
         		#to jump to last room
         		player.getBelt()
         		player.getGaunt()
@@ -78,6 +79,8 @@ while True:
         		helpers.pauseBalls(windowSurface)
         	if event.key == K_o:
         		enemies_by_level[current_level].empty()
+        	if event.key == K_a:
+        		rocks_by_level[current_level].add(pygame.sprite.RenderPlain(Rock((player.rect.topleft[0] + 40, player.rect.topleft[1]))))
         	if event.key == K_q:
         		returns = helpers.reset(current_level, windowSurface)
         		enemies_by_level[current_level] = returns[0]

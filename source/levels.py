@@ -68,6 +68,17 @@ class Levels():
 		rocks_by_level.append(pygame.sprite.RenderPlain(Boulder((20, 180)), Boulder((85, 180)), Boulder((150, 180)), Rock((215, 180)),Boulder((280, 180)), Boulder((345, 180)), Boulder((410, 180)),
 			Boulder((20, 275)), Boulder((85, 275)), Boulder((150, 275)), Boulder((215, 275)),Boulder((280, 275)), Boulder((345, 275)), Boulder((410, 275)), #the two ross
 			Boulder((500, 100)), Boulder((450, 140)), Boulder((500, 360)), Boulder((450, 310))))
+		
+		
+		#Tahzi, these ones need to line up perfectly as he merely jumps to where he needs to be
+		#and is invulnerable when touching a rock
+		rocks_by_level.append(pygame.sprite.RenderPlain(Boulder((320, 240)), Boulder((55, 240)), Boulder((400, 310)), 
+		Boulder((240, 170)), Boulder((120, 240)), Boulder((205, 240)), Boulder((250, 170)), Boulder((510, 240)),
+		Boulder((320, 140)), Boulder((320, 55)), Boulder((400, 170)), Boulder((425, 240)), Boulder((575, 240)), 
+		Boulder((245, 310)), Boulder((320, 360)),Boulder((320, 445)) ))
+		
+		
+		
 		return rocks_by_level
 		
 	def createLevels_Door(self):
@@ -92,6 +103,8 @@ class Levels():
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
 		#Ninth
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
+		#No door here
+		doors_by_level.append(pygame.sprite.RenderPlain())
 		
 		return doors_by_level
 		
@@ -104,6 +117,7 @@ class Levels():
 		player_entrance.append((50, 255))
 		player_entrance.append((545, 435))
 		player_entrance.append((200, 435))
+		player_entrance.append((600, 435))
 		player_entrance.append((600, 435))
 		player_entrance.append((600, 435))
 		return player_entrance
@@ -124,6 +138,7 @@ class Levels():
 		enemies_by_level.append(pygame.sprite.RenderPlain(Squik()))
 		enemies_by_level.append(pygame.sprite.RenderPlain())
 		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((550,230), 2), R_Enemy((115, 75), windowSurface), R_Enemy((115, 385), windowSurface)))
+		enemies_by_level.append(pygame.sprite.RenderPlain())
 		return enemies_by_level
 		
 	def dialogSelect(self):
@@ -138,6 +153,7 @@ class Levels():
 		speech_by_level.append(speechConstants.KILL_SQUIK)
 		speech_by_level.append(speechConstants.FLOWERS)
 		speech_by_level.append(speechConstants.NINTH_ROOM)
+		speech_by_level.append(speechConstants.FIGHT_TAHZI)
 		return speech_by_level
 		
 	def placePlate(self):
@@ -149,6 +165,7 @@ class Levels():
 		plates_by_level.append("1")
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((485, 400))))
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((580, 450))))
+		plates_by_level.append("1")
 		return plates_by_level
 		
 		
