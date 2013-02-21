@@ -8,6 +8,7 @@ from grunk import Grunk
 from squik import Squik
 from plates import PressurePlate
 from random import randint
+from tahzi import TahZi
 
 class Levels():
 	"X< 672, Y < 512"
@@ -138,7 +139,7 @@ class Levels():
 		enemies_by_level.append(pygame.sprite.RenderPlain(Squik()))
 		enemies_by_level.append(pygame.sprite.RenderPlain())
 		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((550,230), 2), R_Enemy((115, 75), windowSurface), R_Enemy((115, 385), windowSurface)))
-		enemies_by_level.append(pygame.sprite.RenderPlain())
+		enemies_by_level.append(pygame.sprite.RenderPlain(TahZi()))
 		return enemies_by_level
 		
 	def dialogSelect(self):
