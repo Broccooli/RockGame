@@ -33,7 +33,7 @@ class TahZi(pygame.sprite.Sprite):
       if self.stun_timer > 0:
          self.stun_timer -=1  
          
-      if self.move_period < 50:
+      if self.move_period < 150:
          self.move_period += 1
       else:
          self.move_period = 0
@@ -49,11 +49,11 @@ class TahZi(pygame.sprite.Sprite):
          self.stranded = 0
       else:
          if x+10 > self.rect.topleft[0]:
-		    my_x += 2
+		    my_x += 6
          if x-10 < self.rect.topleft[0]:
-		    my_x -= 2
+		    my_x -= 6
          if y+10 > self.rect.topleft[1]:
-		    my_y += 2
+		    my_y += 6
          if y-10 < self.rect.topleft[1]:
-		    my_y -= 2
+		    my_y -= 6
          self.rect.topleft = (my_x, my_y)
