@@ -74,7 +74,7 @@ class Levels():
 		#Tahzi, these ones need to line up perfectly as he merely jumps to where he needs to be
 		#and is invulnerable when touching a rock
 		rocks_by_level.append(pygame.sprite.RenderPlain(Boulder((320, 240)), Boulder((55, 240)), Boulder((400, 310)), 
-		Boulder((240, 170)), Boulder((120, 240)), Boulder((205, 240)), Boulder((250, 170)), Boulder((510, 240)),
+		Boulder((120, 240)), Boulder((205, 240)), Boulder((250, 170)), Boulder((510, 240)),
 		Boulder((320, 140)), Boulder((320, 55)), Boulder((400, 170)), Boulder((425, 240)), Boulder((575, 240)), 
 		Boulder((245, 310)), Boulder((320, 360)),Boulder((320, 445)) ))
 		

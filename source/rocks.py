@@ -79,6 +79,8 @@ class Boulder(pygame.sprite.Sprite):
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position [1]
+    	self.shaken = False
+    	self.on_it = False
     	
     def getMoved(self, rocks, direction, player):
 		i = 1 #filler, im going to do something with this later. but i means nothing
@@ -86,6 +88,16 @@ class Boulder(pygame.sprite.Sprite):
 		i = 1
     def getHit(self):
 	    helpers.shake(pygame.display.get_surface(), 50)
+	    if self.on_it: 
+	       self.shaken = True
+    def stable(self):
+		self.shaken = False
+    def getOn(self):
+	    self.on_it = True
+    def getOff(self):
+		self.on_it = False
+    def isShaken(self):
+		return self.shaken
 		
 "so puzzles arent so boring with what is going on"
 
