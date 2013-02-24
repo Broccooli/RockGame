@@ -105,7 +105,7 @@ class Levels():
 		#Ninth
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
 		#No door here
-		doors_by_level.append(pygame.sprite.RenderPlain())
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 50), False)))
 		
 		return doors_by_level
 		

@@ -25,12 +25,17 @@ class TahZi(pygame.sprite.Sprite):
       self.move_period = 0
       self.screen = pygame.display.get_surface()
       self.attack_group = pygame.sprite.RenderPlain()
+      self.crack_group = pygame.sprite.RenderPlain(WallCrack())
       self.current_rock = None
       self.health = 5
       self.position = self.rect.topleft
+      
 	  
 	  
    def update(self, player, rocks):
+      #cover that door up with our crack
+      self.crack_group.draw(self.screen)
+      
       #if stunned, take care of it
       if self.stun_timer > 0:
          self.stun_timer -=1  
@@ -118,3 +123,15 @@ class TahZi(pygame.sprite.Sprite):
        if self.health <= 0:
                self.kill()
        self.position = self.rect.topleft
+
+
+"""
+This is to cover a door up. Shaking the room so much causes it to break and then bam, new room
+"""       
+class WallCrack(pygame.sprite.Sprite):
+
+   def __init__(self):
+      pygame.sprite.Sprite.__init__(self)
+      self.image = pygame.image.load('../images/hero_placeholder_left.png')
+      self.rect = self.image.get_rect()
+      self.rect.topleft = ((640, 50))
