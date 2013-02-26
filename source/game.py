@@ -57,12 +57,12 @@ nrows = int(windowSurface.get_height() / 32) + 1
 ncols = int(windowSurface.get_width() / 32) + 1
 background_rect = level_background[0][0].get_rect()
 dialog_handle = HandleDialog(windowSurface, dialogbox)
+reset = 0
 
 current_level =0
 #helpers.set(current_level, (560, 250))
 pygame.key.set_repeat(1, 10)
 while True:
-
     for event in pygame.event.get():
         if event.type == QUIT:
             sys.exit(0) # Clicking the x now closes the game, not ESC
@@ -76,7 +76,7 @@ while True:
         		player.getBelt()
         		player.getGaunt()
         	if event.key == K_ESCAPE:
-        		helpers.pauseBalls(windowSurface, my_font)
+        		reset = helpers.pauseBalls(windowSurface, my_font)
         	if event.key == K_o:
         		enemies_by_level[current_level].empty()
         	if event.key == K_a:
@@ -86,6 +86,14 @@ while True:
         		enemies_by_level[current_level] = returns[0]
         		rocks_by_level[current_level] = returns[1]
     			player.startRoom(player_entrance[current_level-1])
+    
+    if reset == 1:
+       returns = helpers.reset(current_level, windowSurface)
+       enemies_by_level[current_level] = returns[0]
+       rocks_by_level[current_level] = returns[1]
+       player.startRoom(player_entrance[current_level-1])
+       reset = 0
+    
     """
     This is for background things, need it to keep it there
     """

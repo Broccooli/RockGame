@@ -104,6 +104,8 @@ Pause screen loop is here
 """	
 
 def pauseBalls(windowSurface, my_font): #by going up stairs, pauseballs, by going down stairs
+    option = 0
+    reset = 0
     paused = True
     dimmer.dim()
     menu = Menu((440, 51), (255, 255, 204), 
@@ -121,5 +123,15 @@ def pauseBalls(windowSurface, my_font): #by going up stairs, pauseballs, by goin
         	   menu.next_down()
         	if event.key == K_UP:
         	   menu.next_up()
+        	if event.key == K_RETURN:
+        	   option = menu.get_position()
+        	   if option == 0:
+        	      paused = False
+        	   if option == 1:
+        	      reset = 1
+        	      paused = False
+        	   if option == 2:
+        	      sys.exit(0)
     dimmer.undim()
+    return reset
     

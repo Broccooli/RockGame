@@ -133,6 +133,7 @@ class Menu():
     def update_box(self):
         self.image.fill(self.background_color)
         spot = 150
+        self.screen.fill(self.border_color, pygame.Rect(200, 120, 185, 210))
         self.screen.fill(self.background_color, pygame.Rect(205, 125, 175, 200))
         self.screen.blit(self.cursor, (205, self.cursor_position))
         for i in range(self.options):
@@ -153,4 +154,6 @@ class Menu():
     	if self.cursor_option >= 1:
     		self.cursor_position -= 50
     		self.cursor_option -= 1
+    def get_position(self):
+    	return self.cursor_option
     
