@@ -3,6 +3,7 @@ from pygame.locals import *
 from enemy import M_Enemy
 from dimmer import Dimmer
 from levels import Levels
+from HUB import Menu
 
 dimmer = Dimmer()
 set_enemy = pygame.sprite.RenderPlain()
@@ -101,14 +102,24 @@ def reset(level, windowSurface):
 """
 Pause screen loop is here
 """	
-def pauseBalls(windowSurface): #by going up stairs, pauseballs, by going down stairs
+
+def pauseBalls(windowSurface, my_font): #by going up stairs, pauseballs, by going down stairs
     paused = True
     dimmer.dim()
+    menu = Menu((440, 51), (255, 255, 204), 
+       (102, 0, 0), my_font, ["Resume", "Restart", "Exit"])
     while (paused == True):
+       menu.update_box()
+       pygame.display.update()
        for event in pygame.event.get():
         if event.type == QUIT:
             sys.exit(0) # Clicking the x now closes the game, not ESC
         if event.type ==KEYUP:
         	if event.key == K_ESCAPE:
         	   paused = False
-    dimmer.undim()    
+        	if event.key == K_DOWN:
+        	   menu.next_down()
+        	if event.key == K_UP:
+        	   menu.next_up()
+    dimmer.undim()
+    

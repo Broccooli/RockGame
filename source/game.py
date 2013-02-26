@@ -76,7 +76,7 @@ while True:
         		player.getBelt()
         		player.getGaunt()
         	if event.key == K_ESCAPE:
-        		helpers.pauseBalls(windowSurface)
+        		helpers.pauseBalls(windowSurface, my_font)
         	if event.key == K_o:
         		enemies_by_level[current_level].empty()
         	if event.key == K_a:

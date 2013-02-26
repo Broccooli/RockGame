@@ -112,3 +112,45 @@ class DialogBox(object):
     def close(self):
         self.shown = False
         self.page = self.pages
+
+class Menu():
+
+    def __init__(self, size, background_color, border_color, font, options):
+        self.screen = pygame.display.get_surface()
+        self.cursor = pygame.image.load('../images/slash.png')
+        self.image = pygame.Surface(size)
+        self.size = size
+        self.font = font
+        self.background_color = background_color
+        self.border_color = border_color
+        self.cursor_position = 150
+        self.cursor_option = 0
+        self.shown = False
+        self.options = len(options)
+        self.option_choices = options
+        self.update_box()
+        
+    def update_box(self):
+        self.image.fill(self.background_color)
+        spot = 150
+        self.screen.fill(self.background_color, pygame.Rect(205, 125, 175, 200))
+        self.screen.blit(self.cursor, (205, self.cursor_position))
+        for i in range(self.options):
+        	self.screen.blit(self.font.render(self.option_choices[i], True, BLACK), (255, spot))
+        	spot += 50
+        
+#         pygame.draw.rect(self.image, self.border_color, 
+#             (0, 0, self.size[0], self.size[1]), 1)
+            
+    def close(self):
+        self.shown = False
+        self.page = self.pages
+    def next_down(self):
+    	if self.cursor_option < 2:
+    	    self.cursor_position += 50
+    	    self.cursor_option += 1
+    def next_up(self): 
+    	if self.cursor_option >= 1:
+    		self.cursor_position -= 50
+    		self.cursor_option -= 1
+    
