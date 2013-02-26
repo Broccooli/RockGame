@@ -9,6 +9,7 @@ class Attack(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.position = None
         self.ready = False
+        self.test = False
         
         self.pcx = None
         self.pcy = None
