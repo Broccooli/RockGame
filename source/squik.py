@@ -9,12 +9,18 @@ class Squik(pygame.sprite.Sprite):
 
    def __init__(self):
       pygame.sprite.Sprite.__init__(self)
-      self.position = (300, 270)
-      self.left = pygame.image.load('../images/hero_placeholder_left.png')
-      self.right = pygame.image.load('../images/hero_placeholder_right.png')
-      self.down = pygame.image.load('../images/hero_placeholder_down.png')
-      self.up = pygame.image.load('../images/hero_placeholder.png')
-      self.image = self.up
+      self.position = (290, 250)
+      self.front_still = pygame.image.load('../images/squik_front_still.png')
+      self.image = self.front_still
+      self.front_walk = pygame.image.load('../images/squik_front_walk.png')
+      self.front_walk2 = pygame.image.load('../images/squik_front_walk2.png')
+      self.left_walk = pygame.image.load('../images/squik_left_walk.png')
+      self.left_still = pygame.image.load('../images/squik_left_still.png')
+      self.left_walk2 = self.left_walk
+      self.right_still = pygame.image.load('../images/squik_right_still.png')
+      self.right_walk = pygame.image.load('../images/squik_right_walk.png')
+      self.right_walk2 = self.right_walk
+      self.image = self.front_still
       self.rect = self.image.get_rect()
       self.player = pygame.sprite.RenderPlain()
       self.gel = 50
@@ -26,8 +32,10 @@ class Squik(pygame.sprite.Sprite):
       self.knocked_position = self.position
       self.rocks = pygame.sprite.RenderPlain()
       self.wake = False
+      self.walking = 0
    
    def update(self, player, rocks):
+      
       self.rocks = rocks
       self.old_position = self.rect.topleft
       self.__check_collision(rocks, player, self.old_position)
@@ -61,6 +69,7 @@ class Squik(pygame.sprite.Sprite):
    
    
    def __chase(self, player):
+	self.__walk(player)
 	x = player.rect.topleft[0]
 	y = player.rect.topleft[1]
 	my_x = self.rect.topleft[0]
@@ -77,33 +86,25 @@ class Squik(pygame.sprite.Sprite):
 	if y-2 < self.rect.topleft[1]:
 		self.follow_direction = "up"
 		my_y -= 2
+	
 	self.rect.topleft = helpers.checkBoundry((my_x, my_y))
 	self.position = self.rect.topleft 
    
    
    def __check_collision(self, rocks, player, old_position):
        
-      hit_rock = pygame.sprite.spritecollide(self, rocks, False)
+      hit_rock = pygame.sprite.spritecollide(self, rocks, False, pygame.sprite.collide_rect_ratio(.6))
       if hit_rock:
          self.rect.topleft = old_position[0], old_position[1]
          self.position = self.rect.topleft
          self.stuck = True
          self.touched_rocks.add(hit_rock)
-      hit_player = pygame.sprite.collide_rect(self, player)
+      playerGroup = player.groups()
+      hit_player = pygame.sprite.spritecollide(self, playerGroup[0], False, pygame.sprite.collide_rect_ratio(.6))
       if hit_player:
          player.getHit(helpers.checkOrient(player,self), 2)
    
-   def __face(self, player):
-       direction = helpers.checkOrient(player, self)
-       if direction == "down":
-            self.image = self.face_down
-       if direction == "up":
-			self.image = self.face_up              
-       if direction == "right":
-            self.image = self.face_right
-       if direction == "left":
-        	self.image = self.face_left
-   
+
    
    def get_hit(self, direction, damage):
       if self.vulnerable == True:
@@ -125,3 +126,44 @@ class Squik(pygame.sprite.Sprite):
       self.rect.topleft = helpers.checkBoundry(self.knocked_position)
       self.position = self.rect.topleft
          #might do a screen shake or some animation here
+         
+   def __face(self, player):
+       direction = helpers.checkOrient(player, self)
+       if direction == "down":
+            self.image = self.front_still
+       if direction == "up":
+			self.image = self.front_still              
+       if direction == "right":
+            self.image = self.right_still
+       if direction == "left":
+        	self.image = self.left_still
+        	
+   def __walk(self, player):
+	if self.walking == 0:
+          if self.image == self.front_still:
+             self.image = self.front_walk
+             self.walking = 1
+          elif self.image == self.left_still:
+             self.image = self.left_walk
+             self.walking = 1
+          elif self.image == self.right_still:
+             self.image = self.right_walk
+             self.walking = 1
+          else:
+             self.walking = 1
+	elif self.walking == 2:
+    	  if self.image == self.front_still:
+             self.image = self.front_walk2
+             self.walking = -1
+          elif self.image == self.left_still:
+             self.image = self.left_walk2
+             self.walking = -1
+          elif self.image == self.right_still:
+             self.image = self.right_walk2
+             self.walking = -1
+          else:
+             self.walking = -1
+	else:
+		self.__face(player)
+		self.walking += 1
+

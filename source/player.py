@@ -1,6 +1,7 @@
 import os, pygame, sys, helpers
 from pygame.locals import *
 from attack import Attack
+from companion import Companion
 
 class Player(pygame.sprite.Sprite):
 
@@ -38,6 +39,8 @@ class Player(pygame.sprite.Sprite):
     	self.old_position = position
     	self.walking = 1
     	self.walking_timer = 0
+    	self.hasFriend = False
+    	self.companion_group = pygame.sprite.RenderPlain()
     	
     def update_position(self, rocks, playerGroup, enemyGroup):
 	keys = pygame.key.get_pressed()
@@ -99,6 +102,19 @@ class Player(pygame.sprite.Sprite):
 		playerGroup.add(self.attack)
 	if keys[K_p]:
 		print self.rect.topleft
+	if keys[K_v]:
+		if self.hasFriend == False:
+		   self.hasFriend = True
+		   friend = Companion((self.position[0] +10, self.position[1]))
+		   friend.startUp(0, True)
+		   self.companion_group.add(friend)
+		
+	
+	
+	if self.hasFriend == True:
+	    self.companion_group.update(self, rocks, enemyGroup)
+	    self.companion_group.draw(self.screen)
+	
 	
 	if self.health < 0:
 		self.kill()

@@ -70,7 +70,7 @@ while True:
         	if event.key == K_RETURN:
         		dialogbox.progress() #Moves the dialog box along
         	if event.key == K_k:
-        		current_level = len(doors_by_level)-1
+        		current_level = len(doors_by_level)-4
         		player.startRoom(player_entrance[current_level -1])
         		#to jump to last room
         		player.getBelt()
