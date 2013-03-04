@@ -23,6 +23,7 @@ class Companion(pygame.sprite.Sprite):
     	self.stun_timer = 0
     	self.old_position = position
     	self.attack_group = pygame.sprite.RenderPlain()
+    	self.lazor_group = pygame.sprite.RenderPlain()
     	self.weapon = 1 #one is for sword, 0 is for bow
     	self.defensive = False #is he running up to attack whoever or trying to defend player.
     	self.cool_down = 0
@@ -51,6 +52,7 @@ class Companion(pygame.sprite.Sprite):
            # print helpers.distance(self.rect.topleft, player.rect.topleft)
             if helpers.distance(self.rect.topleft, player.rect.topleft) > 6:
 			    self.__chase(player.rect.topleft)		
+    	self.rect.topleft = helpers.checkBoundry(self.rect.topleft)
     	if not self.__check_collision(rocks, player, old_position):
           self.blocked_direction = "nope" 
     
@@ -61,9 +63,18 @@ class Companion(pygame.sprite.Sprite):
     
     def bowFightA(self, player, rocks, enemyGroup): 
         enemy = enemyGroup.sprites()
-        if player.rect.center == enemy[0].rect.center and player.rect.center== self.rect.center:
-            i = 1
-        
+        lazor_sight = Lazor(self.rect.center, enemy[0].rect.center)
+        self.lazor_group.add(lazor_sight)
+        self.lazor_group.update()
+        lazor_player = pygame.sprite.spritecollide(player, self.lazor_group, False)
+        if lazor_player: #STRAFE
+            if self.clock > 0:
+                self.clock -= 1
+            if self.cool_down >0:
+                self.cool_down -=1 
+            position = self.rect.topleft[1]
+            position += 2
+            self.rect.topleft = self.rect.topleft[0], position
         if self.clock == 0:
             if self.cool_down == 0:
                 attack = R_Attack(self.rect.center, enemy[0].rect.center)
@@ -73,6 +84,18 @@ class Companion(pygame.sprite.Sprite):
                 self.cool_down -= 1
         else:
             self.clock -= 1
+            
+            
+        hit_player = pygame.sprite.spritecollide(player, self.attack_group, False)
+        if hit_player:
+               player.getHit("none", 1)
+               hit_player[0].kill()
+        
+        hit_enemy = pygame.sprite.spritecollide(enemy[0], self.attack_group, False)
+        if hit_enemy:
+               enemy[0].get_hit("none", 1)
+               hit_enemy[0].kill()
+        
         self.attack_group.update()
         self.attack_group.draw(self.windowSurface)
      
@@ -83,11 +106,16 @@ class Companion(pygame.sprite.Sprite):
     """
     def bowFightD(self, player, rocks, enemyGroup):
         enemy = enemyGroup.sprites()
-        if player.rect.center == enemy[0].rect.center and player.rect.center== self.rect.center:
+        lazor_sight = Lazor(self.rect.center, enemy[0].rect.center)
+        self.lazor_group.add(lazor_sight)
+        self.lazor_group.update()
+        lazor_player = pygame.sprite.spritecollide(player, self.lazor_group, False)
+        if lazor_player:
             if self.clock > 0:
                 self.clock -= 1
             if self.cool_down >0:
-                self.cooldown -=1 
+                self.cool_down -=1 
+            
         else:
          if self.clock == 0:
             if self.cool_down == 0:
