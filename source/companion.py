@@ -146,8 +146,26 @@ class Companion(pygame.sprite.Sprite):
     """
     
     def swordFightD(self, player, rocks, enemyGroup):
-		i = 1
-
+		enemy = enemyGroup.sprites()
+		if helpers.distance(self.rect.topleft, player.rect.topleft) < 10:
+			    self.__chase(enemy[0].rect.topleft)
+		elif helpers.distance(self.rect.topleft,player.rect.topleft) > 9 and helpers.distance(self.rect.topleft,player.rect.topleft) < 11:
+				i = 1
+		else:
+		        self.__chase(player.rect.topleft)
+		if helpers.distance(self.rect.topleft, enemy[0].rect.topleft) < 10:		
+		    self.attacking = True
+		    self.attack_group.add(self.attack)
+		if self.attacking:
+		    self.attack.use(self, self.direction)
+		if self.attack.is_done():
+		    self.attacking = False
+		    self.attack.kill()
+		hit_enemy = pygame.sprite.spritecollide(enemy[0], self.attack_group, False)
+		if hit_enemy:
+		    enemy[0].get_hit("none", 1)
+		self.attack_group.update()
+		self.attack_group.draw(self.windowSurface)   
 
     
     """
