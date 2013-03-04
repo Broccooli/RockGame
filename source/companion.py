@@ -18,6 +18,7 @@ class Companion(pygame.sprite.Sprite):
     	self.clock = 0
     	self.direction = "left"
     	self.follow_direction = "right"
+    	self.blocked_direction = "nope"
     	self.health = 5
     	self.invul = 0 #typical invulnerable period
     	self.stun_timer = 0
@@ -155,18 +156,24 @@ class Companion(pygame.sprite.Sprite):
     MIGHT make it so that he attacks the ones farther from the player
     """    
     def swordFightA(self, player, rocks, enemyGroup):
-        enemy = enemyGroup.Sprites
+        enemy = enemyGroup.sprites()
         if self.clock == 0:
-            self.__chase(player.rect.topleft)
-        if helpers.distance(self, enemy[0]) < 10:
+            self.__chase(enemy[0].rect.topleft)
+        if helpers.distance(self.rect.topleft, enemy[0].rect.topleft) < 10:
             self.attacking = True
-            playerGroup.add(self.attack)
+            self.attack_group.add(self.attack)
         if self.attacking:
 		    self.attack.use(self, self.direction)
     	if self.attack.is_done():
 	    	self.attacking = False
 	    	self.attack.kill()
-    
+        hit_enemy = pygame.sprite.spritecollide(enemy[0], self.attack_group, False)
+        if hit_enemy:
+               enemy[0].get_hit("none", 1)
+        self.attack_group.update()
+        self.attack_group.draw(self.windowSurface)    
+        
+        
     def getHit(self, direction, damage):
     	helpers.shake(self.screen, 40)
     	self.old_position = self.rect.topleft
