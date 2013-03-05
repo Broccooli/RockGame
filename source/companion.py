@@ -78,7 +78,7 @@ class Companion(pygame.sprite.Sprite):
             self.rect.topleft = self.rect.topleft[0], position
         if self.clock == 0:
             if self.cool_down == 0:
-                attack = R_Attack(self.rect.center, enemy[0].rect.center)
+                attack = R_Attack(self.rect.center, enemy[0].rect.center, self.direction)
                 self.attack_group.add(attack)
                 self.cool_down = 80
             else:
@@ -120,7 +120,7 @@ class Companion(pygame.sprite.Sprite):
         else:
          if self.clock == 0:
             if self.cool_down == 0:
-                attack = R_Attack(self.rect.center, enemy[0].rect.center)
+                attack = R_Attack(self.rect.center, enemy[0].rect.center, self.direction)
                 self.attack_group.add(attack)
                 self.cool_down = 80
             else:

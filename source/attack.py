@@ -100,9 +100,16 @@ class Attack(pygame.sprite.Sprite):
 class R_Attack(pygame.sprite.Sprite):
 
 
-	def __init__(self, position, target):
+	def __init__(self, position, target, direction):
 		pygame.sprite.Sprite.__init__(self)
-		self.image = pygame.image.load('../images/attack.png')
+		if direction == "left":
+		    self.image = pygame.image.load('../images/arrow_left.png')
+		if direction == "right":
+		    self.image = pygame.image.load('../images/arrow_right.png')
+		if direction == "up":
+		    self.image = pygame.image.load('../images/arrow_up.png')
+		if direction == "down":
+		    self.image = pygame.image.load('../images/arrow_down.png')
 		self.rect = self.image.get_rect()
 		self.position = position
 		
@@ -110,6 +117,7 @@ class R_Attack(pygame.sprite.Sprite):
 		self.target = target
 		if not (position[1] - target[1]) == 0:
 			self.slope = (position[0] - target[0])/(position[1] - target[1])
+			self.image = pygame.transform.rotate(self.image, -(self.slope))
 		self.distance = math.sqrt(abs((position[0] - target[0])**2) + abs((position[1] - target[1])**2))
 	
 	def update(self):

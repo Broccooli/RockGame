@@ -15,6 +15,7 @@ class TahZi(pygame.sprite.Sprite):
 		
       self.image = pygame.image.load('../images/hero_placeholder_left.png')
       self.rect = self.image.get_rect()
+      self.direction = "down"
       self.rect.topleft = ((320, 240))
       self.stranded = 0 
       """Stranded, if 0 then hes on a rock. If 1 he is transitioning, if 2 then he is on the floor   """
@@ -65,8 +66,9 @@ class TahZi(pygame.sprite.Sprite):
       	    self.current_rock = None
       #If perched on a rock, shoot
       if self.stranded == 0:
+         self.__face(player)
          if self.cool_down == 0:
-            attack = R_Attack(self.rect.center, player.rect.center)
+            attack = R_Attack(self.rect.center, player.rect.center, self.direction)
             self.attack_group.add(attack)
             self.cool_down = 80
          else:
@@ -74,18 +76,19 @@ class TahZi(pygame.sprite.Sprite):
       self.attack_group.update()
       self.attack_group.draw(self.screen)
       
+      
       hit_player = pygame.sprite.spritecollide(player, self.attack_group, False)
       if hit_player:
         player.getHit("none", 1)
         hit_player[0].kill()
-      """   
+   """   
       if self.move_period < 150:
          self.move_period += 1
       else:
          self.move_period = 0
          self.stranded = 2
          self.stun_timer = 10
-      """   
+   """   
    def __runAway(self, rocks):
       x = self.next_rock[0]
       y = self.next_rock[1]
@@ -123,7 +126,21 @@ class TahZi(pygame.sprite.Sprite):
        if self.health <= 0:
                self.kill()
        self.position = self.rect.topleft
-
+   """
+    This method makes the turret ranger follow the player around the room
+     by looking at him
+   """             
+   def __face(self, player):
+       self.direction = helpers.checkOrient(player, self)
+       if self.direction == "down":
+            self.image = self.face_down
+       if self.direction == "up":
+			self.image = self.face_up       
+       
+       if self.direction == "right":
+            self.image = self.face_right
+       if self.direction == "left":
+        	self.image = self.face_left
 
 """
 This is to cover a door up. Shaking the room so much causes it to break and then bam, new room
