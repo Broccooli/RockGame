@@ -12,8 +12,23 @@ class TahZi(pygame.sprite.Sprite):
 		((240, 170)), ((120, 240)), ((205, 240)), ((250, 170)), ((510, 240)),
 		((320, 140)), ((320, 55)), ((400, 170)), ((425, 240)), ((575, 240)), 
 		((245, 310)), ((320, 360)),((320, 445))]
-		
-      self.image = pygame.image.load('../images/hero_placeholder_left.png')
+      self.front_still = pygame.image.load('../images/tahzi_front_stillNG.png')
+      self.front_walk = pygame.image.load('../images/tahzi_front_walk.png')
+      self.front_walk2 = pygame.image.load('../images/tahzi_front_walk2.png')
+      self.left_walk = pygame.image.load('../images/tahzi_left_walk.png')
+      self.left_walk2 = pygame.image.load('../images/tahzi_left_walk2.png')
+      self.left_still = pygame.image.load('../images/tahzi_left_stillNG.png')
+      self.back_still = pygame.image.load('../images/tahzi_back_stillNG.png')
+      self.back_walk = pygame.image.load('../images/tahzi_back_walk.png')
+      self.back_walk2 = pygame.image.load('../images/tahzi_back_walk2.png')
+      self.right_still = pygame.image.load('../images/tahzi_right_stillNG.png')
+      self.right_walk = pygame.image.load('../images/tahzi_right_walk.png')
+      self.right_walk2 = pygame.image.load('../images/tahzi_right_walk2.png')
+      self.right_still_gun = pygame.image.load('../images/tahzi_right_still.png')
+      self.left_still_gun = pygame.image.load('../images/tahzi_left_still.png')
+      self.front_still_gun = pygame.image.load('../images/tahzi_front_still.png')
+      self.back_still_gun = pygame.image.load('../images/tahzi_back_still.png')  
+      self.image = self.front_still_gun
       self.rect = self.image.get_rect()
       self.direction = "down"
       self.rect.topleft = ((320, 240))
@@ -30,6 +45,7 @@ class TahZi(pygame.sprite.Sprite):
       self.current_rock = None
       self.health = 5
       self.position = self.rect.topleft
+      self.walking = 0
       
 	  
 	  
@@ -47,7 +63,7 @@ class TahZi(pygame.sprite.Sprite):
          self.stranded = 1
       #just found a target rock, run to it
       if self.stranded== 1:
-         self.__runAway(rocks)
+         self.__runAway(rocks, player)
 
 	  #what rocks are we on
       hit_rock = pygame.sprite.spritecollide(self, rocks, False)
@@ -68,7 +84,7 @@ class TahZi(pygame.sprite.Sprite):
       if self.stranded == 0:
          self.__face(player)
          if self.cool_down == 0:
-            attack = R_Attack(self.rect.center, player.rect.center, self.direction)
+            attack = R_Attack(self.rect.center, player.rect.center, helpers.checkOrient(player, self))
             self.attack_group.add(attack)
             self.cool_down = 80
          else:
@@ -89,7 +105,7 @@ class TahZi(pygame.sprite.Sprite):
          self.stranded = 2
          self.stun_timer = 10
    """   
-   def __runAway(self, rocks):
+   def __runAway(self, rocks, player):
       x = self.next_rock[0]
       y = self.next_rock[1]
       my_y = self.rect.topleft[1]
@@ -98,7 +114,17 @@ class TahZi(pygame.sprite.Sprite):
          self.stranded = 0
          hit_rock = pygame.sprite.spritecollide(self, rocks, False)
          hit_rock[0].getOn()
+         self.__face(player)
+         if self.direction == "up":
+             self.image = self.back_still_gun
+         if self.direction == "down":
+             self.image = self.front_still_gun
+         if self.direction == "left":
+             self.image = self.left_still_gun
+         if self.direction == "right":
+             self.image = self.right_still_gun
       else:
+         self.__walk(player)
          if x+5 > self.rect.topleft[0]:
 		    my_x += 6
          if x-5 < self.rect.topleft[0]:
@@ -133,14 +159,69 @@ class TahZi(pygame.sprite.Sprite):
    def __face(self, player):
        self.direction = helpers.checkOrient(player, self)
        if self.direction == "down":
-            self.image = self.face_down
+			self.image = self.front_still_gun
        if self.direction == "up":
-			self.image = self.face_up       
-       
+			self.image = self.back_still_gun       
+	   
        if self.direction == "right":
-            self.image = self.face_right
+			self.image = self.right_still_gun
        if self.direction == "left":
-        	self.image = self.face_left
+			self.image = self.left_still_gun
+# 		   
+#        else:	   
+# 		   if self.direction == "down":
+# 				self.image = self.face_down
+# 		   if self.direction == "up":
+# 				self.image = self.face_up       
+# 		   
+# 		   if self.direction == "right":
+# 				self.image = self.face_right
+# 		   if self.direction == "left":
+# 				self.image = self.face_left
+
+        	
+   def __walk(self, player):
+	if self.walking == 0:
+          if self.image == self.front_still:
+             self.image = self.front_walk
+             self.walking = 1
+          elif self.image == self.left_still:
+             self.image = self.left_walk
+             self.walking = 1
+          elif self.image == self.back_still:
+             self.image = self.back_walk
+             self.walking = 1
+          elif self.image == self.right_still:
+             self.image = self.right_walk
+             self.walking = 1
+          else:
+             self.walking = 1
+	elif self.walking == 2:
+    	  if self.image == self.front_still:
+             self.image = self.front_walk2
+             self.walking = -1
+          elif self.image == self.left_still:
+             self.image = self.left_walk2
+             self.walking = -1
+          elif self.image == self.back_still:
+             self.image = self.back_walk2
+             self.walking = -1
+          elif self.image == self.right_still:
+             self.image = self.right_walk2
+             self.walking = -1
+          else:
+             self.walking = -1
+	else:
+		  self.walking += 1
+		  if self.image == self.front_walk2 or self.image == self.front_walk:
+		      self.image = self.front_still
+		  elif self.image == self.left_walk2 or self.image == self.left_walk:
+		      self.image = self.left_still
+		  elif self.image == self.back_walk2 or self.image == self.back_walk:
+		      self.image = self.back_still
+		  elif self.image == self.right_walk2 or self.image == self.right_walk:
+		      self.image = self.right_still
+
 
 """
 This is to cover a door up. Shaking the room so much causes it to break and then bam, new room

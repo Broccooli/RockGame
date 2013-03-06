@@ -104,11 +104,11 @@ class R_Attack(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self)
 		if direction == "left":
 		    self.image = pygame.image.load('../images/arrow_left.png')
-		if direction == "right":
+		elif direction == "right":
 		    self.image = pygame.image.load('../images/arrow_right.png')
-		if direction == "up":
+		elif direction == "up":
 		    self.image = pygame.image.load('../images/arrow_up.png')
-		if direction == "down":
+		else:
 		    self.image = pygame.image.load('../images/arrow_down.png')
 		self.rect = self.image.get_rect()
 		self.position = position
