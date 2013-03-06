@@ -1,6 +1,7 @@
 import os, pygame, sys, speechConstants
 from pygame.locals import *
 from levels import Levels
+from HUB import Menu
 
 
 WHITE = pygame.Color(255,255,255)
@@ -63,6 +64,87 @@ class HandleDialog(object):
 	        self.dialogBox.draw(windowSurface, (50, 400))
 	        pygame.display.update()
 	        fpsClock.tick(30)
+	
+    def companionOpening(self, windowSurface, companion):
+	    menu = Menu((440, 51), (255, 255, 204), 
+        (102, 0, 0), pygame.font.SysFont('Verdana', 15), ["Give Sword", "Give Bow", "Kill"])
+	    self.dialogBox.set_dialog(speechConstants.COMPANION_OPEN)
+	    dialog_done = False
+	    #Dialog Loop
+	    while not dialog_done:
+	        for event in pygame.event.get():
+	            if event.type ==KEYUP:
+	                if event.key == K_RETURN:
+	                    self.dialogBox.progress()
+	        self.dialogBox.draw(windowSurface, (50, 400))
+	        pygame.display.update()
+	        fpsClock.tick(30)
+	        dialog_done = self.dialogBox.over()
+	    option = 5
+	    option2 = 5
+	    
+	    #Menu Loop
+	    while (option == 5):
+	        menu.update_box()
+	        pygame.display.update()
+	        for event in pygame.event.get():
+	            if event.type == QUIT:
+	                sys.exit(0) # Clicking the x now closes the game, not ESC
+	            if event.type ==KEYUP:
+	                if event.key == K_DOWN:
+	                    menu.next_down()
+	                if event.key == K_UP:
+	                    menu.next_up()
+	                if event.key == K_RETURN:
+	                    option = menu.get_position()
+		
+		
+	    if option == 2:
+	        companion.startAlive(False)
+		#Second menu for Agressive or Defensive 
+	    if option == 0 or option == 1:
+	        menu = Menu((440, 51), (255, 255, 204),(102, 0, 0), pygame.font.SysFont('Verdana', 15), ["Be Aggressive", "Be Defensive"])
+	        while (option2 == 5):
+	           menu.update_box()
+	           pygame.display.update()
+	           for event in pygame.event.get():
+	            if event.type == QUIT:
+	                sys.exit(0) # Clicking the x now closes the game, not ESC
+	            if event.type ==KEYUP:
+	                if event.key == K_DOWN:
+	                    menu.next_down()
+	                if event.key == K_UP:
+	                    menu.next_up()
+	                if event.key == K_RETURN:
+	                    option2 = menu.get_position()
+	    
+	    if option == 0:
+	        if option2 == 0:
+	            self.dialogBox.set_dialog(speechConstants.COMPANION_SWORD_A)
+	        else:
+	            self.dialogBox.set_dialog(speechConstants.COMPANION_SWORD_D)
+	    if option == 1:
+	        if option2 == 0:
+	            self.dialogBox.set_dialog(speechConstants.COMPANION_BOW_A)
+	        else:
+	            self.dialogBox.set_dialog(speechConstants.COMPANION_BOW_D)
+	    if option == 2:
+	        self.dialogBox.set_dialog(speechConstants.COMPANION_KILL)
+	    #Dialog Loop
+	    while not self.dialogBox.over():
+	        for event in pygame.event.get():
+	            if event.type ==KEYUP:
+	                if event.key == K_RETURN:
+	                    self.dialogBox.progress()
+	        self.dialogBox.draw(windowSurface, (50, 400))
+	        pygame.display.update()
+	        fpsClock.tick(30)
+        
+        
+	    if not option == 2:
+	        companion.startUp(option, option2)
+	        
+        	   
 """
 Little method making the "Next" arrow
 """ 

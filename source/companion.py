@@ -1,6 +1,7 @@
 import os, pygame, sys, helpers
 from pygame.locals import *
 from attack import *
+from dialogHandle import *
 
 class Companion(pygame.sprite.Sprite):
 
@@ -23,15 +24,27 @@ class Companion(pygame.sprite.Sprite):
     	self.invul = 0 #typical invulnerable period
     	self.stun_timer = 0
     	self.old_position = position
+    	self.alive = True
     	self.attack_group = pygame.sprite.RenderPlain()
     	self.lazor_group = pygame.sprite.RenderPlain()
-    	self.weapon = 1 #one is for sword, 0 is for bow
+    	self.weapon = 1 #one is for bow, 0 is sword
     	self.defensive = False #is he running up to attack whoever or trying to defend player.
     	self.cool_down = 0
+    	self.dialogHandle = HandleDialog(self.windowSurface, DialogBox((440, 51), (255, 255, 204), 
+             (102, 0, 0), pygame.font.SysFont('Verdana', 15)))
+    	self.dialogHandle.companionOpening(self.windowSurface, self)
+
 
     def startUp(self, weapon, defensive): #called by dialog menu thing
-    	self. weapon = weapon
-    	self.defensive = defensive
+    	self.weapon = weapon
+    	if defensive == 0:
+    	   self.defensive = False
+    	else:
+    	   self.defensive = True
+    def startAlive(self, alive):
+        self.alive = alive
+    def isAlive(self):
+        return self.alive
     """
     checks what weapon is carried, does things based off that
     """ 	
@@ -39,7 +52,7 @@ class Companion(pygame.sprite.Sprite):
     	old_position = self.rect.topleft
     	if len(enemyGroup) > 0:
     	
-			if self.weapon == 0:
+			if self.weapon == 1:
 				if self.defensive == True:
 					self.bowFightD(player, rocks, enemyGroup)
 				else:
@@ -264,4 +277,5 @@ class Companion(pygame.sprite.Sprite):
 		"""
 		
 		self.rect.topleft = helpers.checkBoundry((my_x, my_y))
-		self.position = self.rect.topleft      
+		self.position = self.rect.topleft    
+		

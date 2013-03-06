@@ -106,8 +106,9 @@ class Player(pygame.sprite.Sprite):
 		if self.hasFriend == False:
 		   self.hasFriend = True
 		   friend = Companion((self.position[0] +10, self.position[1]))
-		   friend.startUp(0, True)
-		   self.companion_group.add(friend)
+		   print friend.isAlive()
+		   if friend.isAlive():
+		       self.companion_group.add(friend)
 		
 	
 	
