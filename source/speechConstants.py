@@ -55,7 +55,7 @@ FIGHT_TAHZI = [
 "Move!"]
 
 COMPANION_OPEN = [
-"Henders? Wait no, who ar-",
+"Ugh, what happened? I must've gotten hit by that boulder when it fell. Crap, guess theres no going back no-",
 "What is this thing saying. Cannot understand.",
 "Listen, I don't know you but it loo-",
 "How long will it babble? Kill it or arm it."]
@@ -75,3 +75,19 @@ COMPANION_BOW_D = [
 COMPANION_BOW_A = [
 "Hold up the ranged weapon. Pull a shot and dash to the side of him then fire.",
 "That should let him know to strafe for a better position to shoot from"]
+
+PART2_ROOM1 = [
+"This part seems different. What is that thing lying on the floor?",
+"It seems to have killed the same things I have. Does that make us allies?"]
+
+PART2_ROOM2 = [
+"Waves of them. They must all perish"]
+
+PART2_ROOM3 = [
+"5"]
+
+PART2_ROOM4 = [
+"5"]
+
+FINAL_ROOM = [
+"Huge, powerful, and about to die."]

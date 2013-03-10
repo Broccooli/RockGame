@@ -78,6 +78,34 @@ class Levels():
 		Boulder((320, 140)), Boulder((320, 55)), Boulder((400, 170)), Boulder((425, 240)), Boulder((575, 240)), 
 		Boulder((245, 310)), Boulder((320, 360)),Boulder((320, 445)) ))
 		
+		#First of the real dung. Trying to look like these boulders weren't placed
+		rocks_by_level.append(pygame.sprite.RenderPlain(Boulder((165, 340)), Boulder((305, 235)),
+		Boulder((150, 115)), Boulder((600, 70))
+		))
+		
+		#Second, Only one in the top as if it had also fallen due to shaking
+		rocks_by_level.append(pygame.sprite.RenderPlain(Boulder((25, 30))))
+		
+		#Third, slight puzzle
+		rocks_by_level.append(pygame.sprite.RenderPlain(Boulder((460, 195)), Boulder((460, 150)),
+		Boulder((500, 115)), Boulder((550, 150)),
+		Boulder((500, 150)), Boulder((325, 105)),
+		Boulder((170, 195)), Boulder((125, 150)),
+		Boulder((125, 115)), Boulder((85, 150)),
+		Boulder((80, 195)), Boulder((550, 195)), Rock((325, 300))
+		))
+		
+		#Fourth, Grid pattern
+		rocks_by_level.append(pygame.sprite.RenderPlain(Rock((105, 85)), Rock((50, 165)),
+		Rock((255, 85)), Rock((180, 165)), Rock((440, 85)), Rock((340, 165)), Rock((590, 85)), Rock((525, 165)),
+		#First two rows, going to copy the pattern completely. Difference in Y = 80
+		Rock((105, 245)), Rock((50, 325)), Rock((255, 245)), Rock((180, 325)), 
+		Rock((440, 245)), Rock((340, 325)), Rock((590, 245)), Rock((525, 325))
+		
+		))
+		
+		#Boss spawns rocks
+		rocks_by_level.append(pygame.sprite.RenderPlain())
 		
 		
 		return rocks_by_level
@@ -104,8 +132,18 @@ class Levels():
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
 		#Ninth
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
-		#No door here
+		#No door here, covered by a rock
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 50), False)))
+		#companion room, start of real dungeon.
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), False)))
+		#Second of real levels
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), False)))
+		#Third
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), True)))
+		#Fourth
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), True)))
+		#No door for the last boss
+		doors_by_level.append(pygame.sprite.RenderPlain())
 		
 		return doors_by_level
 		
@@ -121,6 +159,11 @@ class Levels():
 		player_entrance.append((600, 435))
 		player_entrance.append((600, 435))
 		player_entrance.append((600, 435))
+		player_entrance.append((20, 50))
+		player_entrance.append((325, 20))
+		player_entrance.append((325, 20))
+		player_entrance.append((325, 20))
+		player_entrance.append((325, 20))
 		return player_entrance
 		
 	def createLevels_enemies(self, windowSurface):
@@ -140,6 +183,19 @@ class Levels():
 		enemies_by_level.append(pygame.sprite.RenderPlain())
 		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((550,230), 2), R_Enemy((115, 75), windowSurface), R_Enemy((115, 385), windowSurface)))
 		enemies_by_level.append(pygame.sprite.RenderPlain(TahZi()))
+		#enemies of the First part of dung
+		enemies_by_level.append(pygame.sprite.RenderPlain())
+		#Second room, standing in rows
+		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((220,260), 2), M_Enemy((390, 260), 1),
+	    R_Enemy((95, 370), windowSurface), R_Enemy((325, 370), windowSurface), R_Enemy((520, 370), windowSurface)))
+		#Only ranger turret
+		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((505,195), windowSurface), R_Enemy((125, 195), windowSurface)))
+		#Spread through grid
+		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((110, 160), windowSurface), 
+		   R_Enemy((110, 320), windowSurface), R_Enemy((440, 325), windowSurface),
+		   R_Enemy((440, 165), windowSurface), M_Enemy((525,440), 1), M_Enemy((170,440), 2)))
+		#Last Bawwss
+		enemies_by_level.append(pygame.sprite.RenderPlain())
 		return enemies_by_level
 		
 	def dialogSelect(self):
@@ -155,6 +211,11 @@ class Levels():
 		speech_by_level.append(speechConstants.FLOWERS)
 		speech_by_level.append(speechConstants.NINTH_ROOM)
 		speech_by_level.append(speechConstants.FIGHT_TAHZI)
+		speech_by_level.append(speechConstants.PART2_ROOM1)
+		speech_by_level.append(speechConstants.PART2_ROOM2)
+		speech_by_level.append(speechConstants.PART2_ROOM3)
+		speech_by_level.append(speechConstants.PART2_ROOM4)
+		speech_by_level.append(speechConstants.FINAL_ROOM)
 		return speech_by_level
 		
 	def placePlate(self):
@@ -166,6 +227,12 @@ class Levels():
 		plates_by_level.append("1")
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((485, 400))))
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((580, 450))))
+		plates_by_level.append("1")
+		#Start of real dung
+		plates_by_level.append("1")
+		plates_by_level.append("1")
+		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((140, 210))))
+		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((40, 450))))
 		plates_by_level.append("1")
 		return plates_by_level
 		

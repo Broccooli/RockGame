@@ -11,7 +11,7 @@ class Door(pygame.sprite.Sprite):
 			    self.image = pygame.image.load('../images/rightdoorL.png')
 			if position[1] == 0:
 			    self.image = pygame.image.load('../images/doorL.png')
-			if position[1] == 512:
+			if position[1] == 480:
 			    self.image = pygame.image.load('../images/bottomdoorL.png')
     	else:
     	    if position[0] == 0:
@@ -20,7 +20,7 @@ class Door(pygame.sprite.Sprite):
     	        self.image = pygame.image.load('../images/rightdoor.png')
     	    if position[1] == 0:
     	        self.image = pygame.image.load('../images/door.png')
-    	    if position[1] == 512:
+    	    if position[1] == 480:
     	        self.image = pygame.image.load('../images/bottomdoor.png')
     	self.rect = self.image.get_rect()
     	self.rect.topleft = position[0], position [1]
@@ -31,5 +31,5 @@ class Door(pygame.sprite.Sprite):
     	    self.image = pygame.image.load('../images/rightdoor.png')
     	if self.rect.topleft[1] == 0:
     	    self.image = pygame.image.load('../images/door.png')
-    	if self.rect.topleft[1] == 512:
+    	if self.rect.topleft[1] == 480:
     	    self.image = pygame.image.load('../images/bottomdoor.png')

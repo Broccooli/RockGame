@@ -58,6 +58,7 @@ ncols = int(windowSurface.get_width() / 32) + 1
 background_rect = level_background[0][0].get_rect()
 dialog_handle = HandleDialog(windowSurface, dialogbox)
 reset = 0
+interact_flag = False
 
 current_level =0
 #helpers.set(current_level, (560, 250))
@@ -69,9 +70,11 @@ while True:
         if event.type ==KEYUP:
         	if event.key == K_RETURN:
         		dialogbox.progress() #Moves the dialog box along
+        	if event.key == K_RSHIFT:
+        	    interact_flag = True
         	if event.key == K_k:
-        		current_level = len(doors_by_level)-1
-        		player.startRoom(player_entrance[current_level -1])
+        		current_level = len(doors_by_level)-5
+        		player.startRoom(player_entrance[current_level -5])
         		#to jump to last room
         		player.getBelt()
         		player.getGaunt()
@@ -113,6 +116,8 @@ while True:
     			last = len(speech_by_level[current_level])
     			dialogbox.set_dialog(speech_by_level[current_level][2:last])
     			speech_by_level[current_level] = "0"
+    	elif speech_by_level[current_level][0] == "5":
+    	    i = 1 #5 means do nothing 
     	else:	
     		dialogbox.set_dialog(speech_by_level[current_level])
     		speech_by_level[current_level] = "0"
@@ -128,8 +133,8 @@ while True:
         if not plates_by_level[current_level] == "1":
         	plates_by_level[current_level].draw(windowSurface)
         player.update_position(rocks_by_level[current_level], playerGroup, enemies_by_level[current_level])
-        playerGroup.draw(windowSurface)
         doors_by_level[current_level].draw(windowSurface)
+        playerGroup.draw(windowSurface)
         enemies_by_level[current_level].update(player, rocks_by_level[current_level])
         rocks_by_level[current_level].draw(windowSurface)   
         enemies_by_level[current_level].draw(windowSurface)
@@ -157,7 +162,7 @@ while True:
     levelChange = pygame.sprite.spritecollide(player, doors_by_level[current_level],False)
         
     
-    if levelChange:
+    if levelChange and interact_flag:
     	if enemies_by_level[current_level]: #makes sure all enemies are dead before proceeding
     		dialog_handle.enemyAlive(windowSurface)
     		player.backUp()
@@ -179,6 +184,8 @@ while True:
         	level_background = level_maker.drawBackground(windowSurface)
         	transitioning = True
         	dialog_handle.levelChange()
+    
+    interact_flag = False
     pygame.display.update()
     fpsClock.tick(30)
     

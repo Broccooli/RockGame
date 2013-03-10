@@ -23,7 +23,7 @@ class Squik(pygame.sprite.Sprite):
       self.image = self.front_still
       self.rect = self.image.get_rect()
       self.player = pygame.sprite.RenderPlain()
-      self.gel = 50
+      self.gel = 30
       self.handle_hit = 0 
       self.hit_rock_timer = 100
       self.stuck = True
@@ -109,7 +109,7 @@ class Squik(pygame.sprite.Sprite):
    def get_hit(self, direction, damage):
       if self.vulnerable == True:
          self.gel -= damage
-         print self.gel
+         #print self.gel
          if self.wake:
             self.breakRock(self.rocks)
          self.wake = True
