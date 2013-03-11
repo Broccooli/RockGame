@@ -12,6 +12,7 @@ from HUB import *
 from dimmer import Dimmer
 from transition import Transition
 from dialogHandle import *
+from companion import DownedComp
 
 pygame.init()
 
@@ -49,6 +50,7 @@ level_background = level_maker.drawBackground(windowSurface)
 speech_by_level = level_maker.dialogSelect()
 player_entrance = level_maker.playerStartPositions()
 plates_by_level = level_maker.placePlate()
+downedComp = DownedComp()
 fpsClock = pygame.time.Clock()
 """
 Sets up how big the background should be     
@@ -90,12 +92,48 @@ while True:
         		rocks_by_level[current_level] = returns[1]
     			player.startRoom(player_entrance[current_level-1])
     
+    """
+    Death and resetting taken care of here
+    """
+    if not player.alive:
+        reset = helpers.dead(windowSurface)
+        player.health = 1
+        player.alive = True
+        reset +=1
+        print reset
+    
+    if reset == 6:
+        player.health = 5
+        current_level = 0
+        reset =1
+    
     if reset == 1:
+       if current_level < 4:
+          current_level = 0
+       elif current_level < 7:
+          current_level = 4
+       elif current_level < 11:
+          current_level = 7
+       else:
+          current_level = 11
+       
+       
        returns = helpers.reset(current_level, windowSurface)
        enemies_by_level[current_level] = returns[0]
        rocks_by_level[current_level] = returns[1]
-       player.startRoom(player_entrance[current_level-1])
+       if current_level ==0:
+          player.startRoom((560, 250))
+       else:
+          player.startRoom(player_entrance[current_level-1])
        reset = 0
+    
+    
+    """
+    This is just for the companionDead thing to start up the comp
+    """
+    if pygame.sprite.collide_rect(player, downedComp) and interact_flag == True:
+         player.getFriend()
+         downedComp.leave()
     
     """
     This is for background things, need it to keep it there
@@ -132,12 +170,14 @@ while True:
     if not transitioning:
         if not plates_by_level[current_level] == "1":
         	plates_by_level[current_level].draw(windowSurface)
-        player.update_position(rocks_by_level[current_level], playerGroup, enemies_by_level[current_level])
+        player.update_position(rocks_by_level[current_level], playerGroup, enemies_by_level[current_level], plates_by_level[current_level])
         doors_by_level[current_level].draw(windowSurface)
         playerGroup.draw(windowSurface)
         enemies_by_level[current_level].update(player, rocks_by_level[current_level])
         rocks_by_level[current_level].draw(windowSurface)   
         enemies_by_level[current_level].draw(windowSurface)
+        if current_level == 11: #For the downed comp sprite
+            downedComp.showUp(windowSurface)
         HUB.drawHealth(player, windowSurface)
         dialogbox.draw(windowSurface, (50, 400))
         dialog_handle.update(current_level, enemies_by_level[current_level], windowSurface)
@@ -153,7 +193,8 @@ while True:
     		current_door = doors_by_level[current_level].sprites()
     		current_door[0].unlock()
 
-
+    
+    
     """
     Called when the player hits the door, starts transition.
     Below everything so if the door is locked the screen is drawn

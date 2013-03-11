@@ -64,6 +64,39 @@ class HandleDialog(object):
 	        self.dialogBox.draw(windowSurface, (50, 400))
 	        pygame.display.update()
 	        fpsClock.tick(30)
+
+
+    def examineRock(self, windowSurface, ID):
+	    self.dialogBox.set_dialog(speechConstants.EXAMINE_ROCK)
+	    if ID == 2:
+	       image = pygame.image.load('../images/Boulder.png')
+	    else:
+	       image = pygame.image.load('../images/Rock.png')
+	    image = pygame.transform.scale(image, (100, 100))
+	    while not self.dialogBox.over():
+	        for event in pygame.event.get():
+	            if event.type ==KEYUP:
+	                if event.key == K_RETURN:
+	                    self.dialogBox.progress()
+	        self.dialogBox.draw(windowSurface, (50, 400))
+	        windowSurface.blit(image, (275, 200))
+	        pygame.display.update()
+	        fpsClock.tick(30)
+
+    def examinePlate(self, windowSurface):
+	    self.dialogBox.set_dialog(speechConstants.EXAMINE_PLATE)
+	    image = pygame.image.load('../images/plate.png')
+	    image = pygame.transform.scale(image, (100, 100))
+	    while not self.dialogBox.over():
+	        for event in pygame.event.get():
+	            if event.type ==KEYUP:
+	                if event.key == K_RETURN:
+	                    self.dialogBox.progress()
+	        self.dialogBox.draw(windowSurface, (50, 400))
+	        windowSurface.blit(image, (275, 200))
+	        pygame.display.update()
+	        fpsClock.tick(30)
+
 	
     def companionOpening(self, windowSurface, companion):
 	    menu = Menu((440, 51), (255, 255, 204), 

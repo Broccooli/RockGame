@@ -91,3 +91,9 @@ PART2_ROOM4 = [
 
 FINAL_ROOM = [
 "Huge, powerful, and about to die."]
+
+EXAMINE_ROCK = [
+"Rock. Yes."]
+
+EXAMINE_PLATE = [
+"This needs to be pressed down with more weight than myself."]

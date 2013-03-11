@@ -135,3 +135,36 @@ def pauseBalls(windowSurface, my_font): #by going up stairs, pauseballs, by goin
     dimmer.undim()
     return reset
     
+def dead(windowSurface):
+    option = 0
+    reset = 0
+    paused = True
+    dimmer.dim()
+    menu = Menu((440, 51), (255, 255, 204), 
+       (102, 0, 0), pygame.font.SysFont('Verdana', 15), ["Load Checkpoint", "Restart", "Exit"])
+    while (paused == True):
+       menu.update_box()
+       pygame.display.update()
+       for event in pygame.event.get():
+        if event.type == QUIT:
+            sys.exit(0) # Clicking the x now closes the game, not ESC
+        if event.type ==KEYUP:
+        	if event.key == K_ESCAPE:
+        	   paused = False
+        	if event.key == K_DOWN:
+        	   menu.next_down()
+        	if event.key == K_UP:
+        	   menu.next_up()
+        	if event.key == K_RETURN:
+        	   option = menu.get_position()
+        	   if option == 0:
+        	      paused = False
+        	      return reset
+        	   if option == 1:
+        	      reset = 5
+        	      paused = False
+        	      return reset
+        	   if option == 2:
+        	      sys.exit(0)
+    dimmer.undim()
+    

@@ -279,3 +279,19 @@ class Companion(pygame.sprite.Sprite):
 		self.rect.topleft = helpers.checkBoundry((my_x, my_y))
 		self.position = self.rect.topleft    
 		
+
+class DownedComp(pygame.sprite.Sprite):
+
+    
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+    	self.image = pygame.image.load('../images/hero_placeholder.png')
+    	self.rect = self.image.get_rect()
+    	self.rect.topleft = (600,100)
+    	self.shown = True
+    	
+    def showUp(self, windowSurface):
+        if self.shown:
+           windowSurface.blit(self.image ,(600, 100))
+    def leave(self):
+        self.shown = False

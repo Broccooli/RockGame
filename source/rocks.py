@@ -9,6 +9,7 @@ class Rock(pygame.sprite.Sprite):
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position [1]
+    	self.ID = 1
     
     "This one is only for Grunk."
     def getMoved(self, rocks, direction, player):
@@ -81,6 +82,7 @@ class Boulder(pygame.sprite.Sprite):
     	self.rect.topleft = position[0], position [1]
     	self.shaken = False
     	self.on_it = False
+    	self.ID = 2
     	
     def getMoved(self, rocks, direction, player):
 		i = 1 #filler, im going to do something with this later. but i means nothing
