@@ -1,6 +1,6 @@
 import os, pygame, sys, helpers
 from pygame.locals import *
-from attack import Attack
+from attack import *
 from companion import Companion
 from dialogHandle import *
 
@@ -45,6 +45,15 @@ class Player(pygame.sprite.Sprite):
     	self.dialogbox = DialogBox((440, 51), (255, 255, 204), 
              (102, 0, 0), pygame.font.SysFont('Verdana', 15))
         self.dialog_handle = HandleDialog(screen, self.dialogbox)
+        #these are for bow attacks
+        self.weapon = 0 #0 for sword, 1 for bow
+        self.aiming = False
+        self.targetX = 0
+        self.targetY = 0
+        self.target_main = False
+        self.attack_group = pygame.sprite.RenderPlain()
+        self.lazor_group = pygame.sprite.RenderPlain()
+        self.lazor_sight = False
     	
     def update_position(self, rocks, playerGroup, enemyGroup, plates):
 		keys = pygame.key.get_pressed()
@@ -52,59 +61,106 @@ class Player(pygame.sprite.Sprite):
 		y = self.rect.topleft[1]
 		interact_flag = False
 		old_position = self.rect.topleft
-		if keys[K_LEFT] and not self.attacking and self.alive:
-			x -= 5
-			self.direction = "left"
-			if self.push_timer == 0:
-				self.momentum = self.direction
-			if self.walking_timer <=0:
-				self.__walk()
-				self.walking_timer = 5
+		if keys[K_a] and not self.attacking and self.alive:
+			
+			if not self.aiming:
+				x -= 5
+				self.direction = "left"
+				if self.push_timer == 0:
+					self.momentum = self.direction
+				if self.walking_timer <=0:
+					self.__walk()
+					self.walking_timer = 5
+				else:
+					self.walking_timer -= 1
+				if x <= 15:
+					x = 15
 			else:
-				self.walking_timer -= 1
-			if x <= 15:
-				x = 15
-		if keys[K_RIGHT] and not self.attacking:
-			x += 5
-			self.direction = "right"
-			if self.push_timer == 0:
-				self.momentum = self.direction
-			if self.walking_timer <=0:
-				self.__walk()
-				self.walking_timer = 5
+				if not self.direction == "right":
+				    self.targetX -= 2
+		if keys[K_d] and not self.attacking:
+			
+			if not self.aiming:
+				x += 5
+				self.direction = "right"
+				if self.push_timer == 0:
+					self.momentum = self.direction
+				if self.walking_timer <=0:
+					self.__walk()
+					self.walking_timer = 5
+				else:
+					self.walking_timer -= 1
+				if x >= 620:
+					x = 620
 			else:
-				self.walking_timer -= 1
-			if x >= 620:
-				x = 620
-		if keys[K_DOWN] and not self.attacking:
-			y += 5
-			self.direction = "down"
-			if self.push_timer == 0:
-				self.momentum = self.direction
-			if self.walking_timer <=0:
-				self.__walk()
-				self.walking_timer = 5
+				if not self.direction == "left":
+				    self.targetX += 2
+		if keys[K_s] and not self.attacking:
+			
+			if not self.aiming:
+				y += 5
+				self.direction = "down"
+				if self.push_timer == 0:
+					self.momentum = self.direction
+				if self.walking_timer <=0:
+					self.__walk()
+					self.walking_timer = 5
+				else:
+					self.walking_timer -= 1
+				if y >= 460:
+					y = 460
 			else:
-				self.walking_timer -= 1
-			if y >= 460:
-				y = 460
+				if not self.direction == "up":
+				    self.targetY += 2
 				
-		if keys[K_UP] and not self.attacking and self.alive:
-			y -= 5
-			self.direction = "up"
-			if self.push_timer == 0:
-				self.momentum = self.direction
-			if self.walking_timer <=0:
-				self.__walk()
-				self.walking_timer = 5
+		if keys[K_w] and not self.attacking and self.alive:
+			
+			if not self.aiming:
+				y -= 5
+				self.direction = "up"
+				if self.push_timer == 0:
+					self.momentum = self.direction
+				if self.walking_timer <=0:
+					self.__walk()
+					self.walking_timer = 5
+				else:
+					self.walking_timer -= 1
+				if y <= 15:
+					y = 15
 			else:
-				self.walking_timer -= 1
-			if y <= 15:
-				y = 15
+				if not self.direction == "down":
+				    self.targetY -= 2
+		
+		if keys[K_q] and self.weapon == 1 and self.alive:
+		    self.aiming=True
+		    self.targetX = self.rect.center[0]
+		    self.targetY = self.rect.center[1]
+		    self.lazor_sight = True
+		    self.main_target = True
+		lazor_sight = PlayerTarget(self.rect.center)    
+		if self.lazor_sight == True:
+		    lazor_sight.move((self.targetX, self.targetY), self.screen)
+		
+		
 		if keys[K_SPACE] and not self.attacking:
 	
-			self.attacking = True
-			playerGroup.add(self.attack)
+			if self.weapon == 0:
+			   self.attacking = True
+			   playerGroup.add(self.attack)
+			else:
+			    if self.aiming==True:
+			       self.aiming = False
+			       attack = R_Attack(self.rect.center, (self.targetX, self.targetY), self.direction)
+			       self.attack_group.add(attack)
+			       self.target_main = False
+			       self.lazor_sight = False
+			       self.lazor_group.empty()
+			       print self.targetX, self.targetY
+		
+		
+		if keys[K_RSHIFT]:
+			interact_flag = True	
+		#These two keys are simply for testing (position finding and spawning comp)
 		if keys[K_p]:
 			print self.rect.topleft
 		if keys[K_v]:
@@ -114,8 +170,8 @@ class Player(pygame.sprite.Sprite):
 			   print friend.isAlive()
 			   if friend.isAlive():
 				   self.companion_group.add(friend)
-		if keys[K_RSHIFT]:
-			interact_flag = True	
+		if keys[K_b]:
+		    self.getBow()
 		
 		
 		if self.hasFriend == True:
@@ -124,7 +180,6 @@ class Player(pygame.sprite.Sprite):
 		
 		
 		if self.health < 0:
-			self.kill()
 			self.alive = False
 		self.rect.topleft = x, y
 		self.position = self.rect.topleft	
@@ -134,6 +189,10 @@ class Player(pygame.sprite.Sprite):
 			self.attacking = False
 			self.attack.kill()
 			
+		
+		self.attack_group.update()
+		self.attack_group.draw(self.screen)
+		
 		hit_enemy = pygame.sprite.spritecollide(self.attack, enemyGroup, False)
 		if hit_enemy:
 			if self.clock == 0:
@@ -169,14 +228,18 @@ class Player(pygame.sprite.Sprite):
 					print "Oi, dis rock at ", hit_rock[0].rect.topleft
 		if self.invul > 0:
 			self.invul -= 1
-	
+			
+			
+
     def getBelt(self): #belt will be dropped by first boss, allows pushing rocks
     	self.has_belt = True
     	
     def getHealth(self):
     	return str(self.health)
     def getGaunt(self): #for breaking rocks, dropped by squik
-        self.has_gaunt = True	
+        self.has_gaunt = True
+        
+        	
     def getHit(self, direction, damage):
     	helpers.shake(self.screen, 40)
     	self.old_position = self.rect.topleft
@@ -216,6 +279,8 @@ class Player(pygame.sprite.Sprite):
 			   if friend.isAlive():
 				   self.companion_group.add(friend)
     
+    def getBow(self):
+    	self.weapon = 1
     
     def __walk(self):
        if self.walking == 0:
@@ -258,3 +323,17 @@ class Player(pygame.sprite.Sprite):
 		  if self.direction == "down":
 		     self.image = self.down_still
 		  self.walking += 1
+		  
+		  
+class PlayerTarget(pygame.sprite.Sprite):
+
+    
+    def __init__(self, position):
+        pygame.sprite.Sprite.__init__(self)
+    	self.image = pygame.image.load('../images/lazor.png')
+    	self.rect = self.image.get_rect()
+    	self.rect.topleft = position
+    def move(self, position, screen):
+        self.rect.topleft = position
+        screen.blit(self.image, position)
+    	

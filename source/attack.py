@@ -125,12 +125,13 @@ class R_Attack(pygame.sprite.Sprite):
 		y = self.target[1]
 		my_x = self.rect.topleft[0]
 		my_y = self.rect.topleft[1]
-		if x > self.position[0]:
+		print self.rect.topleft
+		if x >= self.position[0]:
 			if y > self.position[1]:#bottom right
 				my_x -= (self.position[0] - self.target[0])/(self.distance / 10)
 				my_y -= (self.position[1] - self.target[1])/(self.distance / 10)
 			elif y == self.position[1]:
-				my_x += 2
+				my_x += 6
 			else: #topright
 				my_x += -(self.position[0] - self.target[0])/(self.distance / 10)
 				my_y -= (self.position[1] - self.target[1])/(self.distance / 10)
@@ -139,7 +140,7 @@ class R_Attack(pygame.sprite.Sprite):
 				my_x -= (self.position[0] - self.target[0])/(self.distance / 10)
 				my_y += -(self.position[1] - self.target[1])/(self.distance / 10)
 			elif y == self.position[1]:
-				my_x -= 2
+				my_x -= 6
 			else: #topleft
 				my_x -= -(self.target[0] - self.position[0])/(self.distance / 10)
 				my_y -= -(self.target[1] - self.position[1])/(self.distance / 10)

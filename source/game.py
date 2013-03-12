@@ -84,13 +84,9 @@ while True:
         		reset = helpers.pauseBalls(windowSurface, my_font)
         	if event.key == K_o:
         		enemies_by_level[current_level].empty()
-        	if event.key == K_a:
+        	if event.key == K_1:
         		rocks_by_level[current_level].add(pygame.sprite.RenderPlain(Rock((player.rect.topleft[0] + 40, player.rect.topleft[1]))))
-        	if event.key == K_q:
-        		returns = helpers.reset(current_level, windowSurface)
-        		enemies_by_level[current_level] = returns[0]
-        		rocks_by_level[current_level] = returns[1]
-    			player.startRoom(player_entrance[current_level-1])
+
     
     """
     Death and resetting taken care of here
