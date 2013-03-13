@@ -215,7 +215,6 @@ class M_Enemy(pygame.sprite.Sprite):
 	"""
 	
 	if (y < self.rect.topleft[1] +50 and y > self.rect.topleft[1] - 50) and ((self.blocked_direction == "left") or (self.blocked_direction == "right")):
-		print "here"
 		self.__chase((spot[0], spot[1]+ 20))
 	if x == self.rect.topleft[0] and ((self.blocked_direction == "up") or (self.blocked_direction == "down")):
 		self.__patrol()

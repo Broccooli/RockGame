@@ -115,8 +115,8 @@ while True:
        
        
        returns = helpers.reset(current_level, windowSurface)
-       enemies_by_level[current_level] = returns[0]
-       rocks_by_level[current_level] = returns[1]
+       enemies_by_level = returns[0]
+       rocks_by_level = returns[1]
        if current_level ==0:
           player.startRoom((560, 250))
        else:

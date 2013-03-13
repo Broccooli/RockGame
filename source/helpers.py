@@ -97,7 +97,7 @@ def reset(level, windowSurface):
 	level_rocks = set_rocks[level]
 	set_enemy = Levels().createLevels_enemies(windowSurface)
 	level_enemy = set_enemy[level]
-	return [level_enemy, level_rocks]
+	return [set_enemy, set_rocks]
 
 """
 Pause screen loop is here

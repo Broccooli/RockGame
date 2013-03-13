@@ -33,6 +33,7 @@ class Companion(pygame.sprite.Sprite):
     	self.dialogHandle = HandleDialog(self.windowSurface, DialogBox((440, 51), (255, 255, 204), 
              (102, 0, 0), pygame.font.SysFont('Verdana', 15)))
     	self.dialogHandle.companionOpening(self.windowSurface, self)
+    	self.sway = 0
 
 
     def startUp(self, weapon, defensive): #called by dialog menu thing
@@ -245,13 +246,23 @@ class Companion(pygame.sprite.Sprite):
 		working right here to make the enemy move out of the straight chase line of chasing player
 		"""
 		
+		if helpers.distance(spot, self.rect.topleft) > 10 and not self.defensive:
+			if self.sway > 0:			
+			   y -= self.sway *2
+			   #x -= 100	
+			   		   
+			if self.sway > 30:
+			   self.sway -= 60
+			else:
+			   y += self.sway *4
+			   #x += 100
+			print self.sway   
+			self.sway +=1
+		print y
+		
 		if (y < self.rect.topleft[1] +50 and y > self.rect.topleft[1] - 50) and ((self.blocked_direction == "left") or (self.blocked_direction == "right")):
-			print "here"
-			self.__chase((spot[0], spot[1]+ 20))
-		if x == self.rect.topleft[0] and ((self.blocked_direction == "up") or (self.blocked_direction == "down")):
-			self.__patrol()
-		
-		
+			self.__chase((spot[0], spot[1]+ 100))
+
 		if x+10 > self.rect.topleft[0] and not self.blocked_direction == "right":
 			self.follow_direction = "right"
 			my_x += 2

@@ -125,7 +125,6 @@ class R_Attack(pygame.sprite.Sprite):
 		y = self.target[1]
 		my_x = self.rect.topleft[0]
 		my_y = self.rect.topleft[1]
-		print self.rect.topleft
 		if x >= self.position[0]:
 			if y > self.position[1]:#bottom right
 				my_x -= (self.position[0] - self.target[0])/(self.distance / 10)
