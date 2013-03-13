@@ -184,7 +184,7 @@ class Player(pygame.sprite.Sprite):
 		self.rect.topleft = x, y
 		self.position = self.rect.topleft	
 		if self.attacking:
-			self.attack.use(self, self.direction)
+			self.attack.use(self, self.direction, self.screen)
 		if self.attack.is_done():
 			self.attacking = False
 			self.attack.kill()
