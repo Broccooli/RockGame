@@ -10,7 +10,8 @@ class M_Enemy(pygame.sprite.Sprite):
 
  def __init__(self, position, id):
        pygame.sprite.Sprite.__init__(self)
-       if id == 1:
+       self.id = id
+       if id == 1 or id == 3:
          self.front_still = pygame.image.load('../images/arms_front_still.png')
          self.image = self.front_still
          self.front_walk = pygame.image.load('../images/arms_front_walk.png')
@@ -51,6 +52,7 @@ class M_Enemy(pygame.sprite.Sprite):
        self.walking = 0
        self.walking_timer = 0
        self.blocked_direction = "nope"
+       self.lazor_group = pygame.sprite.RenderPlain()
 
  def update(self, player, rocks):
     	
@@ -60,13 +62,13 @@ class M_Enemy(pygame.sprite.Sprite):
 		Above checks the distance from enemy to player, according to that,
 		the enemy either chases directly or patrols
 		"""      
-       if distance < 15:
+       if distance < 15 or self.id == 3:
               self.follow = True
        else:
               self.follow = False
        if self.follow:
             if self.clock == 0:
-			  self.__chase(player.rect.topleft)
+			  self.__chase(player.rect.topleft, rocks)
 			  if self.walking_timer <=0:
 			     self.__walk(player)
 			     self.walking_timer = 5
@@ -205,7 +207,7 @@ class M_Enemy(pygame.sprite.Sprite):
               player.getHit(self.follow_direction, 2)
               self.clock = 15
               
- def __chase(self, spot):
+ def __chase(self, spot, rocks): #added rocks to avoid them
 	x = spot[0]
 	y = spot[1]
 	my_x = self.rect.topleft[0]
@@ -214,10 +216,18 @@ class M_Enemy(pygame.sprite.Sprite):
 	working right here to make the enemy move out of the straight chase line of chasing player
 	"""
 	
-	if (y < self.rect.topleft[1] +50 and y > self.rect.topleft[1] - 50) and ((self.blocked_direction == "left") or (self.blocked_direction == "right")):
-		self.__chase((spot[0], spot[1]+ 20))
-	if x == self.rect.topleft[0] and ((self.blocked_direction == "up") or (self.blocked_direction == "down")):
-		self.__patrol()
+	
+	if self.id == 3:
+	   lazor_sight = Lazor(self.rect.center, spot)
+	   self.lazor_group.add(lazor_sight)
+	   self.lazor_group.add(Lazor(self.rect.topleft, spot))
+	   self.lazor_group.update()
+	   lazor_rock = pygame.sprite.groupcollide(self.lazor_group, rocks, True, False)
+	   if lazor_rock:
+	       x += 100
+	       y += 100
+            
+            
 	
 	
 	if x+10 > self.rect.topleft[0] and not self.blocked_direction == "right":
