@@ -21,7 +21,7 @@ class Attack(pygame.sprite.Sprite):
         
         self.done = True
             
-    def use(self, player, direction, screen):
+    def use(self, player, direction):
         
         if not self.ready:
             self.__prepare(player, direction)

@@ -222,10 +222,13 @@ class M_Enemy(pygame.sprite.Sprite):
 	   self.lazor_group.add(lazor_sight)
 	   self.lazor_group.add(Lazor(self.rect.topleft, spot))
 	   self.lazor_group.update()
+	   #self.lazor_group.draw(pygame.display.get_surface())
 	   lazor_rock = pygame.sprite.groupcollide(self.lazor_group, rocks, True, False)
 	   if lazor_rock:
-	       x += 100
-	       y += 100
+	       if x < my_x +40 and x > my_x -40:
+	          x += 100
+	       if y < my_y +40 and y > my_y -40:
+	          y += 100
             
             
 	

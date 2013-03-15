@@ -167,7 +167,6 @@ class Player(pygame.sprite.Sprite):
 			if self.hasFriend == False:
 			   self.hasFriend = True
 			   friend = Companion((self.position[0] +10, self.position[1]))
-			   print friend.isAlive()
 			   if friend.isAlive():
 				   self.companion_group.add(friend)
 		if keys[K_b]:
@@ -184,7 +183,7 @@ class Player(pygame.sprite.Sprite):
 		self.rect.topleft = x, y
 		self.position = self.rect.topleft	
 		if self.attacking:
-			self.attack.use(self, self.direction, self.screen)
+			self.attack.use(self, self.direction)
 		if self.attack.is_done():
 			self.attacking = False
 			self.attack.kill()

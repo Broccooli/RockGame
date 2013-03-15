@@ -8,9 +8,23 @@ class Companion(pygame.sprite.Sprite):
     
     def __init__(self, position):
         pygame.sprite.Sprite.__init__(self)
-    	self.image = pygame.image.load('../images/hero_left_still.png')
+    	self.left_still = pygame.image.load('../images/comp_left_still.png')
+    	self.left_walk = pygame.image.load('../images/comp_left_walk.png')
+    	self.left_walk2 = pygame.image.load('../images/comp_left_walk2.png')
+    	self.right_still = pygame.image.load('../images/comp_right_still.png')
+    	self.right_walk = pygame.image.load('../images/comp_right_walk.png')
+    	self.right_walk2 = pygame.image.load('../images/comp_right_walk2.png')
+    	self.front_still = pygame.image.load('../images/comp_front_still.png')
+    	self.front_walk = pygame.image.load('../images/comp_front_walk.png')
+    	self.front_walk2 = pygame.image.load('../images/comp_front_walk2.png')
+    	self.back_still = pygame.image.load('../images/comp_back_still.png')
+    	self.back_walk = pygame.image.load('../images/comp_back_walk.png')
+    	self.back_walk2 = pygame.image.load('../images/comp_back_walk2.png')
+    	self.image = self.front_still
     	self.rect = self.image.get_rect()
     	self.windowSurface = pygame.display.get_surface()
+    	self.walking = 0
+    	self.walking_timer = 0
     	self.position = position
     	self.rect.topleft = position[0], position[1]
     	self.alive = True
@@ -66,7 +80,7 @@ class Companion(pygame.sprite.Sprite):
         else:
            # print helpers.distance(self.rect.topleft, player.rect.topleft)
             if helpers.distance(self.rect.topleft, player.rect.topleft) > 6:
-			    self.__chase(player.rect.topleft)		
+			    self.__chase(player)		
     	self.rect.topleft = helpers.checkBoundry(self.rect.topleft)
     	if not self.__check_collision(rocks, player, old_position):
           self.blocked_direction = "nope" 
@@ -162,7 +176,7 @@ class Companion(pygame.sprite.Sprite):
     def swordFightD(self, player, rocks, enemyGroup):
 		enemy = enemyGroup.sprites()
 		if helpers.distance(self.rect.topleft, player.rect.topleft) < 10:
-			    self.__chase(enemy[0].rect.topleft)
+			    self.__chase(enemy[0])
 		elif helpers.distance(self.rect.topleft,player.rect.topleft) > 9 and helpers.distance(self.rect.topleft,player.rect.topleft) < 11:
 				i = 1
 		else:
@@ -190,7 +204,7 @@ class Companion(pygame.sprite.Sprite):
     def swordFightA(self, player, rocks, enemyGroup):
         enemy = enemyGroup.sprites()
         if self.clock == 0:
-            self.__chase(enemy[0].rect.topleft)
+            self.__chase(enemy[0])
         if helpers.distance(self.rect.topleft, enemy[0].rect.topleft) < 10:
             self.attacking = True
             self.attack_group.add(self.attack)
@@ -238,30 +252,34 @@ class Companion(pygame.sprite.Sprite):
               return True
     	
     def __chase(self, spot):
-		x = spot[0]
-		y = spot[1]
+		
+		if self.walking_timer <=0:
+			     self.__walk(spot)
+			     self.walking_timer = 5
+		else:
+			     self.walking_timer -= 1
+		x = spot.rect.topleft[0]
+		y = spot.rect.topleft[1]
 		my_x = self.rect.topleft[0]
 		my_y = self.rect.topleft[1]
 		"""
 		working right here to make the enemy move out of the straight chase line of chasing player
 		"""
 		
-		if helpers.distance(spot, self.rect.topleft) > 10 and not self.defensive:
+		if helpers.distance(spot.rect.topleft, self.rect.topleft) > 10 and not self.defensive:
 			if self.sway > 0:			
 			   y -= self.sway *2
-			   #x -= 100	
-			   		   
+			   if x < my_x +30 and x > my_x -30:
+			       x -= self.sway *2  
 			if self.sway > 30:
 			   self.sway -= 60
 			else:
 			   y += self.sway *4
-			   #x += 100
-			print self.sway   
+			   if x < my_x +30 and x > my_x -30:
+			       x -= self.sway *4    
 			self.sway +=1
-		print y
 		
-		if (y < self.rect.topleft[1] +50 and y > self.rect.topleft[1] - 50) and ((self.blocked_direction == "left") or (self.blocked_direction == "right")):
-			self.__chase((spot[0], spot[1]+ 100))
+		
 
 		if x+10 > self.rect.topleft[0] and not self.blocked_direction == "right":
 			self.follow_direction = "right"
@@ -290,13 +308,59 @@ class Companion(pygame.sprite.Sprite):
 		self.rect.topleft = helpers.checkBoundry((my_x, my_y))
 		self.position = self.rect.topleft    
 		
+		
+    def __face(self, player):
+       direction = helpers.checkOrient(player, self)
+       if direction == "down":
+            self.image = self.front_still
+       if direction == "up":
+			self.image = self.back_still              
+       if direction == "right":
+            self.image = self.right_still
+       if direction == "left":
+        	self.image = self.left_still
+        	
+    def __walk(self, player):
+       if self.walking == 0:
+          if self.image == self.front_still:
+             self.image = self.front_walk
+             self.walking = 1
+          elif self.image == self.left_still:
+             self.image = self.left_walk
+             self.walking = 1
+          elif self.image == self.back_still:
+             self.image = self.back_walk
+             self.walking = 1
+          elif self.image == self.right_still:
+             self.image = self.right_walk
+             self.walking = 1
+          else:
+             self.walking = 1
+       elif self.walking == 2:
+    	  if self.image == self.front_still:
+             self.image = self.front_walk2
+             self.walking = -1
+          elif self.image == self.left_still:
+             self.image = self.left_walk2
+             self.walking = -1
+          elif self.image == self.back_still:
+             self.image = self.back_walk2
+             self.walking = -1
+          elif self.image == self.right_still:
+             self.image = self.right_walk2
+             self.walking = -1
+          else:
+             self.walking = -1
+       else:
+		self.__face(player)
+		self.walking += 1
 
 class DownedComp(pygame.sprite.Sprite):
 
     
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-    	self.image = pygame.image.load('../images/hero_placeholder.png')
+    	self.image = pygame.image.load('../images/comp_down.png')
     	self.rect = self.image.get_rect()
     	self.rect.topleft = (600,100)
     	self.shown = True
