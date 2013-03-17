@@ -261,6 +261,8 @@ class Player(pygame.sprite.Sprite):
     def startRoom(self, spot):
     	self.rect.topleft = spot[0], spot[1]
     	self.position = self.rect.topleft
+    	if self.hasFriend:
+    	    self.companion_group.sprites()[0].rect.topleft = spot
     def backUp(self):
     	if self.direction == "left":
     	    self.rect.topleft = self.rect.topleft[0] +5, self.rect.topleft[1]

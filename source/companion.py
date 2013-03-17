@@ -79,7 +79,7 @@ class Companion(pygame.sprite.Sprite):
 					self.swordFightA(player, rocks, enemyGroup)
         else:
            # print helpers.distance(self.rect.topleft, player.rect.topleft)
-            if helpers.distance(self.rect.topleft, player.rect.topleft) > 6:
+            if helpers.distance(self.rect.topleft, player.rect.topleft) > 6                            :
 			    self.__chase(player)		
     	self.rect.topleft = helpers.checkBoundry(self.rect.topleft)
     	if not self.__check_collision(rocks, player, old_position):
@@ -175,6 +175,14 @@ class Companion(pygame.sprite.Sprite):
     
     def swordFightD(self, player, rocks, enemyGroup):
 		enemy = enemyGroup.sprites()
+		target = enemy[0]
+		print len(enemy)
+		for x in range(len(enemy)):
+		    if helpers.distance(self.rect.topleft, enemy[x].rect.topleft) < helpers.distance(self.rect.topleft, target.rect.topleft):
+		        target = enemy[x]
+		        print "looping "
+		
+		
 		if helpers.distance(self.rect.topleft, player.rect.topleft) < 10:
 			    self.__chase(enemy[0])
 		elif helpers.distance(self.rect.topleft,player.rect.topleft) > 9 and helpers.distance(self.rect.topleft,player.rect.topleft) < 11:
@@ -185,7 +193,7 @@ class Companion(pygame.sprite.Sprite):
 		    self.attacking = True
 		    self.attack_group.add(self.attack)
 		if self.attacking:
-		    self.attack.use(self, self.direction)
+		    self.attack.use(self, self.follow_direction)
 		if self.attack.is_done():
 		    self.attacking = False
 		    self.attack.kill()
@@ -203,13 +211,19 @@ class Companion(pygame.sprite.Sprite):
     """    
     def swordFightA(self, player, rocks, enemyGroup):
         enemy = enemyGroup.sprites()
+        target = enemy[0]
+        for x in range(len(enemy)):
+		    if helpers.distance(self.rect.topleft, enemy[x].rect.topleft) < helpers.distance(self.rect.topleft, target.rect.topleft):
+		        target = enemy[x]
+		        print "looping "
+        
         if self.clock == 0:
             self.__chase(enemy[0])
         if helpers.distance(self.rect.topleft, enemy[0].rect.topleft) < 10:
             self.attacking = True
             self.attack_group.add(self.attack)
         if self.attacking:
-		    self.attack.use(self, self.direction)
+		    self.attack.use(self, self.follow_direction)
     	if self.attack.is_done():
 	    	self.attacking = False
 	    	self.attack.kill()
@@ -319,6 +333,7 @@ class Companion(pygame.sprite.Sprite):
             self.image = self.right_still
        if direction == "left":
         	self.image = self.left_still
+       self.follow_direction = direction
         	
     def __walk(self, player):
        if self.walking == 0:

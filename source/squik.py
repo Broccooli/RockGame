@@ -19,9 +19,12 @@ class Squik(pygame.sprite.Sprite):
       self.left_walk2 = self.left_walk
       self.right_still = pygame.image.load('../images/squik_right_still.png')
       self.right_walk = pygame.image.load('../images/squik_right_walk.png')
+      self.break_rock_image = pygame.image.load('../images/squik_break_rock.png')
+      self.bubble_image = pygame.image.load('../images/fullGoop4.png')
       self.right_walk2 = self.right_walk
       self.image = self.front_still
       self.rect = self.image.get_rect()
+      self.rect.topleft = self.position
       self.player = pygame.sprite.RenderPlain()
       self.gel = 30
       self.handle_hit = 0 
@@ -35,7 +38,6 @@ class Squik(pygame.sprite.Sprite):
       self.walking = 0
    
    def update(self, player, rocks):
-      
       self.rocks = rocks
       self.old_position = self.rect.topleft
       self.__check_collision(rocks, player, self.old_position)
@@ -59,6 +61,7 @@ class Squik(pygame.sprite.Sprite):
        if self.hit_rock_timer > 0:
           self.hit_rock_timer -=1   
        else:
+          self.image = self.break_rock_image
           hit_rock = pygame.sprite.spritecollide(self, rocks, False)
           if hit_rock:
              helpers.shake(pygame.display.get_surface(), 100)
@@ -107,6 +110,7 @@ class Squik(pygame.sprite.Sprite):
 
    
    def get_hit(self, direction, damage):
+      self.image = self.bubble_image
       if self.vulnerable == True:
          self.gel -= damage
          #print self.gel
@@ -114,7 +118,8 @@ class Squik(pygame.sprite.Sprite):
             self.breakRock(self.rocks)
          self.wake = True
          self.touched_rocks.empty()
-      if len(self.touched_rocks.sprites()) < 2:
+      self.knocked_position = self.position
+      if len(self.touched_rocks.sprites()) <= 1:
          if direction == "right":
             self.knocked_position = self.position[0] + 10, self.position[1]
          elif direction == "left":
