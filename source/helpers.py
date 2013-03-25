@@ -103,12 +103,13 @@ def reset(level, windowSurface):
 Pause screen loop is here
 """	
 
-def pauseBalls(windowSurface, my_font): #by going up stairs, pauseballs, by going down stairs
+def pauseBalls(windowSurface): #by going up stairs, pauseballs, by going down stairs
+    my_font = pygame.font.SysFont('Verdana', 15, True)
     option = 0
     reset = 0
     paused = True
     dimmer.dim()
-    menu = Menu((440, 51), (255, 255, 204), 
+    menu = Menu((480, 51), (255, 255, 204), 
        (102, 0, 0), my_font, ["Resume", "Restart", "Exit"])
     while (paused == True):
        menu.update_box()
@@ -140,7 +141,7 @@ def dead(windowSurface):
     reset = 0
     paused = True
     dimmer.dim()
-    menu = Menu((440, 51), (255, 255, 204), 
+    menu = Menu((480, 51), (255, 255, 204), 
        (102, 0, 0), pygame.font.SysFont('Verdana', 15), ["Load Checkpoint", "Restart", "Exit"])
     while (paused == True):
        menu.update_box()

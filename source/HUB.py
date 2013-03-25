@@ -133,11 +133,11 @@ class Menu():
     def update_box(self):
         self.image.fill(self.background_color)
         spot = 150
-        self.screen.fill(self.border_color, pygame.Rect(200, 120, 185, 210))
-        self.screen.fill(self.background_color, pygame.Rect(205, 125, 175, 200))
-        self.screen.blit(self.cursor, (205, self.cursor_position))
+        self.screen.fill(self.border_color, pygame.Rect(240, 120, 185, 210))
+        self.screen.fill(self.background_color, pygame.Rect(245, 125, 175, 200))
+        self.screen.blit(self.cursor, (245, self.cursor_position))
         for i in range(self.options):
-        	self.screen.blit(self.font.render(self.option_choices[i], True, BLACK), (255, spot))
+        	self.screen.blit(self.font.render(self.option_choices[i], True, BLACK), (295, spot))
         	spot += 50
         
 #         pygame.draw.rect(self.image, self.border_color, 

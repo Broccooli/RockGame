@@ -31,13 +31,14 @@ class Squik(pygame.sprite.Sprite):
       self.hit_rock_timer = 100
       self.stuck = True
       self.vulnerable = False
-      self.touched_rocks = pygame.sprite.RenderPlain(Rock((0, 0)), Rock ((0, -1)))
+      self.touched_rocks = pygame.sprite.RenderPlain(Rock ((0, -1)))
       self.knocked_position = self.position
       self.rocks = pygame.sprite.RenderPlain()
       self.wake = False
       self.walking = 0
    
    def update(self, player, rocks):
+      print len(self.touched_rocks)
       self.rocks = rocks
       self.old_position = self.rect.topleft
       self.__check_collision(rocks, player, self.old_position)
@@ -52,7 +53,6 @@ class Squik(pygame.sprite.Sprite):
       if self.wake == True:
          if self.stuck == False:
             self.__chase(player)
-            self.touched_rocks.empty()
          else:
             self.breakRock(rocks)
    
@@ -66,6 +66,7 @@ class Squik(pygame.sprite.Sprite):
           if hit_rock:
              helpers.shake(pygame.display.get_surface(), 100)
              hit_rock[0].kill()
+             self.touched_rocks.empty()
           self.stuck = False
       	  self.hit_rock_timer = 100
    
@@ -101,7 +102,7 @@ class Squik(pygame.sprite.Sprite):
          self.rect.topleft = old_position[0], old_position[1]
          self.position = self.rect.topleft
          self.stuck = True
-         self.touched_rocks.add(hit_rock)
+         self.touched_rocks.add(hit_rock[0])
       playerGroup = player.groups()
       hit_player = pygame.sprite.spritecollide(self, playerGroup[0], False, pygame.sprite.collide_rect_ratio(.6))
       if hit_player:
@@ -113,21 +114,21 @@ class Squik(pygame.sprite.Sprite):
       self.image = self.bubble_image
       if self.vulnerable == True:
          self.gel -= damage
-         #print self.gel
+         print self.gel
          if self.wake:
+            self.hit_rock_timer = 0
             self.breakRock(self.rocks)
          self.wake = True
-         self.touched_rocks.empty()
       self.knocked_position = self.position
       if len(self.touched_rocks.sprites()) <= 1:
          if direction == "right":
             self.knocked_position = self.position[0] + 10, self.position[1]
          elif direction == "left":
-            self.knocked_position = self.position[0] - 10, self.position[1]
+            self.knocked_position = self.position[0] - 8, self.position[1]
          elif direction == "down":
-            self.knocked_position = self.position[0], self.position[1] +10
+            self.knocked_position = self.position[0], self.position[1] +8
          elif direction == "up":
-            self.knocked_position = self.position[0], self.position[1] -10
+            self.knocked_position = self.position[0], self.position[1] -8
       self.rect.topleft = helpers.checkBoundry(self.knocked_position)
       self.position = self.rect.topleft
          #might do a screen shake or some animation here

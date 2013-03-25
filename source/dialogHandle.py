@@ -99,7 +99,7 @@ class HandleDialog(object):
 
 	
     def companionOpening(self, windowSurface, companion):
-	    menu = Menu((440, 51), (255, 255, 204), 
+	    menu = Menu((480, 51), (255, 255, 204), 
         (102, 0, 0), pygame.font.SysFont('Verdana', 15), ["Give Sword", "Give Bow", "Kill"])
 	    self.dialogBox.set_dialog(speechConstants.COMPANION_OPEN)
 	    dialog_done = False

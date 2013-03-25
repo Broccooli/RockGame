@@ -32,7 +32,7 @@ class Player(pygame.sprite.Sprite):
     	self.attack = Attack()
     	self.clock = 0
     	self.direction = "left"
-    	self.health = 5
+    	self.health = 500
     	self.invul = 0 #typical invulnerable period
     	self.screen = screen
     	self.push_timer = 0 #slows rocks down

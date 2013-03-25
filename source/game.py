@@ -75,13 +75,13 @@ while True:
         	if event.key == K_RSHIFT:
         	    interact_flag = True
         	if event.key == K_k:
-        		current_level = len(doors_by_level)-9
+        		current_level = len(doors_by_level)-5
         		player.startRoom(player_entrance[current_level -5])
         		#to jump to last room
         		player.getBelt()
         		player.getGaunt()
         	if event.key == K_ESCAPE:
-        		reset = helpers.pauseBalls(windowSurface, my_font)
+        		reset = helpers.pauseBalls(windowSurface)
         	if event.key == K_o:
         		enemies_by_level[current_level].empty()
         	if event.key == K_1:
