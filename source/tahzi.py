@@ -75,7 +75,7 @@ class TahZi(pygame.sprite.Sprite):
          if self.current_rock.isShaken():
             self.rect.topleft = self.position[0] + 40, self.position[1]
             self.position = self.rect.topleft  
-            self.stun_timer = 20
+            self.stun_timer = 45
             self.stranded = 2
             hit_rock[0].stable()
       	    hit_rock[0].getOff()

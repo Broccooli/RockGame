@@ -61,7 +61,7 @@ class Player(pygame.sprite.Sprite):
 		y = self.rect.topleft[1]
 		interact_flag = False
 		old_position = self.rect.topleft
-		if keys[K_a] and not self.attacking and self.alive:
+		if keys[K_LEFT] and not self.attacking and self.alive:
 			
 			if not self.aiming:
 				x -= 5
@@ -78,7 +78,7 @@ class Player(pygame.sprite.Sprite):
 			else:
 				if not self.direction == "right":
 				    self.targetX -= 2
-		if keys[K_d] and not self.attacking:
+		if keys[K_RIGHT] and not self.attacking:
 			
 			if not self.aiming:
 				x += 5
@@ -95,7 +95,7 @@ class Player(pygame.sprite.Sprite):
 			else:
 				if not self.direction == "left":
 				    self.targetX += 2
-		if keys[K_s] and not self.attacking:
+		if keys[K_DOWN] and not self.attacking:
 			
 			if not self.aiming:
 				y += 5
@@ -113,7 +113,7 @@ class Player(pygame.sprite.Sprite):
 				if not self.direction == "up":
 				    self.targetY += 2
 				
-		if keys[K_w] and not self.attacking and self.alive:
+		if keys[K_UP] and not self.attacking and self.alive:
 			
 			if not self.aiming:
 				y -= 5
@@ -131,7 +131,7 @@ class Player(pygame.sprite.Sprite):
 				if not self.direction == "down":
 				    self.targetY -= 2
 		
-		if keys[K_q] and self.weapon == 1 and self.alive:
+		if keys[K_SLASH] and self.weapon == 1 and self.alive:
 		    self.aiming=True
 		    self.targetX = self.rect.center[0]
 		    self.targetY = self.rect.center[1]
@@ -261,6 +261,7 @@ class Player(pygame.sprite.Sprite):
     def startRoom(self, spot):
     	self.rect.topleft = spot[0], spot[1]
     	self.position = self.rect.topleft
+    	print spot
     	if self.hasFriend:
     	    self.companion_group.sprites()[0].rect.topleft = spot
     def backUp(self):

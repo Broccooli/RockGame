@@ -208,6 +208,11 @@ class DialogBox(object):
         self.scroll_delay = 1
         self.frame = 0
         self.down_arrow = arrow_image(pygame.Color(0,0,0))
+        self.player_avatar = pygame.transform.scale(pygame.image.load('../images/hero_avatar.png'), (150, 200))
+        self.comp_avatar = pygame.image.load('../images/compa_avatar.png')
+        self.wiz_avatar = pygame.image.load('../images/wizderp_avatar.png')
+        self.comp_avatar = pygame.transform.scale(self.comp_avatar, (150, 200))
+        self.imageA = 0
     
     def set_scrolldelay(self, delay):
         self.scroll_delay = delay
@@ -218,6 +223,9 @@ class DialogBox(object):
         self.dialog = dialog_list
         self.shown = True
         self.text_pos = 0
+        #if dialog_list[0] == '*':
+           #self.imageA = self.comp_avatar
+        
     
     def update_box(self):
         self.image.fill(self.background_color)
@@ -238,8 +246,13 @@ class DialogBox(object):
         
         if self.shown and self.page < self.pages:
             my_font = pygame.font.SysFont('verdana', 15)
+            
             self.update_box()
             self.curr_dialog = self.dialog[self.page]
+            if not self.curr_dialog.count("\"", 0, len(self.curr_dialog)) == 0:
+            	surface.blit(self.comp_avatar, (510, 340))
+            else:
+            	surface.blit(self.player_avatar, (510,340))
             xpos = 4
             ypos = 4
             if self.text_pos < len(self.curr_dialog):

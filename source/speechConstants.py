@@ -55,9 +55,9 @@ FIGHT_TAHZI = [
 "Move!"]
 
 COMPANION_OPEN = [
-"Ugh, what happened? I must've gotten hit by that boulder when it fell. Crap, guess theres no going back no-",
+"\"Ugh, what happened? I must've gotten hit by that boulder when it fell. Crap, guess theres no going back no-\"",
 "What is this thing saying. Cannot understand.",
-"Listen, I don't know you but it loo-",
+"\"Listen, I don't know you but it loo-\"",
 "How long will it babble? Kill it or arm it."]
 
 COMPANION_KILL = [

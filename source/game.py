@@ -75,7 +75,7 @@ while True:
         	if event.key == K_RSHIFT:
         	    interact_flag = True
         	if event.key == K_k:
-        		current_level = len(doors_by_level)-5
+        		current_level = len(doors_by_level)-6
         		player.startRoom(player_entrance[current_level -5])
         		#to jump to last room
         		player.getBelt()
