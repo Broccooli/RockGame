@@ -52,6 +52,7 @@ class Companion(pygame.sprite.Sprite):
     	self.tick = 0
     	self.recall_timer = 0 #if the companion is stuck, it will attack to chase after player for a set time, removing it from the rock hes on
     	self.stayed_still = 0
+    	self.strafe_timer = -40
 
 
     def startUp(self, weapon, defensive): #called by dialog menu thing
@@ -97,7 +98,7 @@ class Companion(pygame.sprite.Sprite):
            self.blocked_direction = "nope" 
            self.collide = True
     	self.rect.topleft = helpers.checkBoundry(self.rect.topleft)
-    	if old_position == self.rect.topleft:
+    	if old_position == self.rect.topleft and self.weapon ==0 and not self.defensive:
     	    self.stayed_still +=1
     	    if self.stayed_still > 25:
     	        self.stayed_still = 0
@@ -113,7 +114,11 @@ class Companion(pygame.sprite.Sprite):
     
     def bowFightA(self, player, rocks, enemyGroup): 
         enemy = enemyGroup.sprites()
-        lazor_sight = Lazor(self.rect.center, enemy[0].rect.center)
+        target = enemy[0]
+        for x in range(len(enemy)):
+		    if helpers.distance(self.rect.topleft, enemy[x].rect.topleft) < helpers.distance(self.rect.topleft, target.rect.topleft):
+		        target = enemy[x]
+        lazor_sight = Lazor(self.rect.center, target.rect.center)
         self.lazor_group.add(lazor_sight)
         self.lazor_group.update()
         lazor_player = pygame.sprite.spritecollide(player, self.lazor_group, False)
@@ -122,12 +127,14 @@ class Companion(pygame.sprite.Sprite):
                 self.clock -= 1
             if self.cool_down >0:
                 self.cool_down -=1 
-            position = self.rect.topleft[1]
-            position += 2
-            self.rect.topleft = self.rect.topleft[0], position
+            self.__strafe()
+        else:
+            if self.clock > 0:
+                self.clock -= 1
+        self.__strafe()
         if self.clock == 0:
             if self.cool_down == 0:
-                attack = R_Attack(self.rect.center, enemy[0].rect.center, self.direction)
+                attack = R_Attack(self.rect.center, target.rect.center, self.direction)
                 self.attack_group.add(attack)
                 self.cool_down = 80
             else:
@@ -141,9 +148,9 @@ class Companion(pygame.sprite.Sprite):
                player.getHit("none", 1)
                hit_player[0].kill()
         
-        hit_enemy = pygame.sprite.spritecollide(enemy[0], self.attack_group, False)
+        hit_enemy = pygame.sprite.spritecollide(target, self.attack_group, False)
         if hit_enemy:
-               enemy[0].get_hit("none", 1)
+               target.get_hit("none", 1)
                hit_enemy[0].kill()
         
         self.attack_group.update()
@@ -412,6 +419,15 @@ class Companion(pygame.sprite.Sprite):
 		self.__face(player)
 		self.walking += 1
 
+    def __strafe(self):
+        if self.strafe_timer < 0:
+            self.rect.topleft = (self.rect.topleft[0]+2, self.rect.topleft[1])
+            self.strafe_timer += 1
+        elif self.strafe_timer < 40:
+        	self.rect.topleft = (self.rect.topleft[0]-2, self.rect.topleft[1])
+        	self.strafe_timer +=1
+        else:
+        	self.strafe_timer = -40
 class DownedComp(pygame.sprite.Sprite):
 
     
