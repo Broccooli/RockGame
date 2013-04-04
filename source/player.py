@@ -268,6 +268,7 @@ class Player(pygame.sprite.Sprite):
     	print spot
     	if self.hasFriend:
     	    self.companion_group.sprites()[0].rect.topleft = spot
+    	    self.companion_group.sprites()[0].stayed_still = 0
     def backUp(self):
     	if self.direction == "left":
     	    self.rect.topleft = self.rect.topleft[0] +5, self.rect.topleft[1]

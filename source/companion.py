@@ -50,6 +50,8 @@ class Companion(pygame.sprite.Sprite):
     	self.sway = 0
     	self.collide = False
     	self.tick = 0
+    	self.recall_timer = 0 #if the companion is stuck, it will attack to chase after player for a set time, removing it from the rock hes on
+    	self.stayed_still = 0
 
 
     def startUp(self, weapon, defensive): #called by dialog menu thing
@@ -68,17 +70,20 @@ class Companion(pygame.sprite.Sprite):
     def update(self, player, rocks, enemyGroup):
     	old_position = self.rect.topleft
     	if len(enemyGroup) > 0:
-    	
-			if self.weapon == 1:
-				if self.defensive == True:
-					self.bowFightD(player, rocks, enemyGroup)
+			if self.recall_timer == 0:
+				if self.weapon == 1:
+					if self.defensive == True:
+						self.bowFightD(player, rocks, enemyGroup)
+					else:
+						self.bowFightA(player, rocks, enemyGroup)
 				else:
-					self.bowFightA(player, rocks, enemyGroup)
+					if self.defensive == True:
+						self.swordFightD(player, rocks, enemyGroup)
+					else:
+						self.swordFightA(player, rocks, enemyGroup)
 			else:
-				if self.defensive == True:
-					self.swordFightD(player, rocks, enemyGroup)
-				else:
-					self.swordFightA(player, rocks, enemyGroup)
+			     self.__chase(player.rect.topleft, rocks, player)
+			     self.recall_timer -= 1
         else:
            # print helpers.distance(self.rect.topleft, player.rect.topleft)
             if helpers.distance(self.rect.topleft, player.rect.topleft) > 6                            :
@@ -92,6 +97,12 @@ class Companion(pygame.sprite.Sprite):
            self.blocked_direction = "nope" 
            self.collide = True
     	self.rect.topleft = helpers.checkBoundry(self.rect.topleft)
+    	if old_position == self.rect.topleft:
+    	    self.stayed_still +=1
+    	    if self.stayed_still > 25:
+    	        self.stayed_still = 0
+    	        self.__chase(player.rect.topleft, rocks, player)
+    	        self.recall_timer = 60
     	
     	
     
