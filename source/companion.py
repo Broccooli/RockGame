@@ -247,10 +247,10 @@ class Companion(pygame.sprite.Sprite):
 			     self.walking_timer = 5
             else:
 			     self.walking_timer -= 1
-        if helpers.distance(self.rect.topleft, target.rect.topleft) < 5 and self.cool_down <= 0:
+        if helpers.distance(self.rect.topleft, target.rect.topleft) < 9 and self.cool_down <= 0:
             self.attacking = True
             self.attack_group.add(self.attack)
-            self.cool_down = 50
+            self.cool_down = 20
         elif self.cool_down > 0:
         	self.cool_down -=1
         if self.attacking:
@@ -269,6 +269,8 @@ class Companion(pygame.sprite.Sprite):
     	helpers.shake(self.windowSurface, 40)
     	self.old_position = self.rect.topleft
     	self.position = self.rect.topleft
+    	if self.weapon == 0:
+    	    self.attack_group.empty()
     	if self.invul == 0:
            if direction == "right":
               self.old_position = self.position[0] + 40, self.position[1]

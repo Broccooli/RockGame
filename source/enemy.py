@@ -355,9 +355,14 @@ class R_Enemy(pygame.sprite.Sprite):
        y = player.rect.topleft[1]
        if self.clock == 0:
                if self.cool_down == 0:
-                       attack = R_Attack(self.rect.center, player.rect.center, helpers.checkOrient(player, self))
-                       self.attack_group.add(attack)
-                       self.cool_down = 80
+                   target = player
+                   if player.hasFriend:
+			           freind = player.passComp()
+			           if helpers.distance(player.rect.topleft, self.rect.topleft) > helpers.distance(freind.rect.topleft, self.rect.topleft):
+			               target = freind    
+                   attack = R_Attack(self.rect.center, target.rect.center, helpers.checkOrient(target, self))
+                   self.attack_group.add(attack)
+                   self.cool_down = 80
                else:
                        self.cool_down -= 1
        else:
@@ -371,6 +376,12 @@ class R_Enemy(pygame.sprite.Sprite):
        if hit_player:
                player.getHit("none", 1)
                hit_player[0].kill()
+       if player.hasFriend:
+           friend = player.passComp()
+           hit_friend = pygame.sprite.spritecollide(friend, self.attack_group, False)
+           if hit_friend:
+               friend.getHit("none", 1)
+               hit_friend[0].kill()
        self.__check_collision(rocks, player, old_position)
 
  def get_hit(self, direction, damage):
