@@ -49,8 +49,7 @@ class Companion(pygame.sprite.Sprite):
     	self.dialogHandle.companionOpening(self.windowSurface, self)
     	self.sway = 0
     	self.collide = False
-    	self.back_track_timer = 0
-    	self.click_target = position
+    	self.tick = 0
 
 
     def startUp(self, weapon, defensive): #called by dialog menu thing
@@ -89,10 +88,11 @@ class Companion(pygame.sprite.Sprite):
 			     self.walking_timer = 5
 			    else:
 			     self.walking_timer -= 1		
-    	if not self.__check_collision(rocks, player, old_position):
-          self.blocked_direction = "nope" 
-          self.collide = True
+        if not self.__check_collision(rocks, player, old_position):
+           self.blocked_direction = "nope" 
+           self.collide = True
     	self.rect.topleft = helpers.checkBoundry(self.rect.topleft)
+    	
     	
     
     """
@@ -221,7 +221,7 @@ class Companion(pygame.sprite.Sprite):
 		    self.attack.kill()
 		hit_enemy = pygame.sprite.spritecollide(target, self.attack_group, False)
 		if hit_enemy:
-		    target.get_hit("none", 1)
+		    target.get_hit(self.follow_direction, 1)
 		self.attack_group.update()
 		self.attack_group.draw(self.windowSurface)   
 
@@ -266,8 +266,9 @@ class Companion(pygame.sprite.Sprite):
         
         
     def getHit(self, direction, damage):
-    	helpers.shake(self.screen, 40)
+    	helpers.shake(self.windowSurface, 40)
     	self.old_position = self.rect.topleft
+    	self.position = self.rect.topleft
     	if self.invul == 0:
            if direction == "right":
               self.old_position = self.position[0] + 40, self.position[1]
@@ -295,97 +296,62 @@ class Companion(pygame.sprite.Sprite):
               self.position = self.rect.topleft
               self.blocked_direction = self.follow_direction
               return True
-    	
+    "Target is the sprite, spot is the location"	
     def __chase(self, spot, rocks, target):
-        old_position = self.rect.topleft
-        my_x = self.rect.topleft[0]
-        my_y = self.rect.topleft[1]
-        self.follow_direction = helpers.checkOrient(target, self)
-        lazor_sight = Lazor(self.rect.center, spot)
-        self.lazor_group.add(lazor_sight)
-        self.lazor_group.add(Lazor(self.rect.topleft, spot))
-        self.lazor_group.update()
-        self.lazor_group.draw(pygame.display.get_surface())
-        first_shot = self.lazor_group.sprites()
-        if len(first_shot) > 50:
-        	self.lazor_group.empty()
-        lazor_rock = pygame.sprite.groupcollide(self.lazor_group, rocks, False, False)
-        if lazor_rock:
-            for rock in pygame.sprite.groupcollide(self.lazor_group, rocks, True, False).keys():
-				if self.back_track_timer == 0:
-					if self.follow_direction == "up":
-						self.click_target = (my_x - 50, my_y -25)
-					elif self.follow_direction == "down":
-						self.click_target = (my_x + 50, my_y +25)
-					elif self.follow_direction == "right":
-						self.click_target = (my_x +25, my_y +50)
-					else:
-						self.click_target = (my_x -25, my_y -50)
-					self.back_track_timer = 40
-				   
-        if self.back_track_timer > 0:
-            spot = self.click_target
-            self.back_track_timer -=1
-            
-        x = spot[0]
-        y = spot[1]
-        """
-        working right here to make the enemy move out of the straight chase line of chasing player
-        """
-		
-        if helpers.distance(spot, self.rect.topleft) > 10 and not self.defensive and not lazor_rock:
-			if self.sway > 0:			
-			   y -= self.sway *2
-			   if x < my_x +30 and x > my_x -30:
-			       x -= self.sway *2  
+		my_x = self.rect.topleft[0]
+		my_y = self.rect.topleft[1]
+		x = spot[0]
+		y = spot[1]
+		if helpers.distance(spot, self.rect.topleft) > 10 and not self.defensive:
+			if self.tick ==0:		#Increase up to 30	
+				if y < my_y +30 and y > my_y -30:
+					y -= self.sway *2
+				if x < my_x +30 and x > my_x -30:
+					x -= self.sway *2 
+				self.sway +=1
 			if self.sway > 30:
-			   self.sway -= 80
-			else:
-			   y += self.sway *4
-			   if x < my_x +30 and x > my_x -30:
-			       x -= self.sway *4    
-			self.sway +=1
+				self.tick = 1
+			if self.tick == 1:		#Decrease to -30
+				if y < my_y +30 and y > my_y -30:
+					y -= abs(self.sway *2)
+				if x < my_x +30 and x > my_x -30:
+					x -= abs(self.sway *2)    
+				self.sway -=1
+			if self.sway < -30:
+				self.tick = 0
+			spot = (x, y)
+        
+        
+        
+        
+		canShift = True
+		self.follow_direction = helpers.checkOrient(target, self)
+		self.lazor_group.add(LazorStick(self.rect.center, spot))
+		self.lazor_group.add(LazorStick(self.rect.topleft, spot)) #These two are the lazors from mid and top
+		self.lazor_group.update()
+		self.lazor_group.draw(pygame.display.get_surface()) #shown only for tests
+		lazor_rock = pygame.sprite.groupcollide(self.lazor_group, rocks, False, False)
+		lazor_target = pygame.sprite.spritecollide(target, self.lazor_group, True)
+		if lazor_rock and not lazor_target:
+			for rock in pygame.sprite.groupcollide(self.lazor_group, rocks, True, False).keys():
+				if canShift == True:
+					if self.follow_direction == "up" or self.follow_direction == "down":
+						self.rect.topleft = (self.rect.topleft[0]+2, self.rect.topleft[1])
+					else:
+						self.rect.topleft = (self.rect.topleft[0], self.rect.topleft[1]+2)
+				canShift = False
 		
-		
+		else:
+			if x+10 >= self.rect.topleft[0]:
+				my_x += 2
+			if x-10 < self.rect.topleft[0]:
+				my_x -= 2
+			if y+10 >= self.rect.topleft[1]:
+				my_y += 2
+			if y-10 < self.rect.topleft[1]:
+				my_y -= 2    
+			self.rect.topleft = (my_x, my_y)
 
-        if x+10 > self.rect.topleft[0] and not self.blocked_direction == "left":
-			#self.follow_direction = "right"
-			my_x += 2
-			if not self.blocked_direction == "nope":
-			   my_x += 2
-        if x-10 < self.rect.topleft[0]and not self.blocked_direction == "right":
-			#self.follow_direction = "left"
-			my_x -= 2
-			if not self.blocked_direction == "nope":
-			   my_x -= 2
-        if y+10 > self.rect.topleft[1]and not self.blocked_direction == "down":
-			#self.follow_direction = "down"
-			my_y += 2
-			if not self.blocked_direction == "nope":
-			   my_y += 2
-        if y-10 < self.rect.topleft[1]and not self.blocked_direction == "up":
-			#self.follow_direction = "up"
-			my_y -= 2
-			if not self.blocked_direction == "nope":
-			   my_y -= 2
-        """
-		also working right here to make the enemy move out of the straight chase line of chasing player
-		"""
-		
-        self.rect.topleft = helpers.checkBoundry((my_x, my_y))
-        if self.rect.topleft == old_position:
-        	direction = helpers.checkOrient(target, self)
-        	if direction == "down":
-        		my_y +=4
-        	elif direction == "up":
-        		my_y -=4
-        	elif direction == "right":
-        		my_x +=4
-        	else: 
-        		my_x -=4
-        	self.rect.topleft = helpers.checkBoundry((my_x, my_y))
-        self.position = self.rect.topleft
-		
     def __face(self, player):
        direction = helpers.checkOrient(player, self)
        if direction == "down":

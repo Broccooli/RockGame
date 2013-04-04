@@ -179,8 +179,10 @@ class Lazor(pygame.sprite.Sprite):
                 if not (position[1] - target[1]) == 0:
                         self.slope = (position[0] - target[0])/(position[1] - target[1])
                 self.distance = math.sqrt(abs((position[0] - target[0])**2) + abs((position[1] - target[1])**2))
+                self.traveled = 0
         
         def update(self):
+                self.traveled += 1
                 x = self.target[0]
                 y = self.target[1]
                 my_x = self.rect.topleft[0]
@@ -213,3 +215,61 @@ class Lazor(pygame.sprite.Sprite):
                         self.kill()
                 if my_y < 0:
                         self.kill()
+
+						
+						
+"""
+THIS is used as a walking stick.
+"""
+class LazorStick(pygame.sprite.Sprite):
+
+
+        def __init__(self, position, target):
+                pygame.sprite.Sprite.__init__(self)
+                self.image = pygame.image.load('../images/lazor.png')
+                self.rect = self.image.get_rect()
+                self.position = position
+                
+                self.rect.topleft = position[0], position[1]
+                self.target = target
+                if not (position[1] - target[1]) == 0:
+                        self.slope = (position[0] - target[0])/(position[1] - target[1])
+                self.distance = math.sqrt(abs((position[0] - target[0])**2) + abs((position[1] - target[1])**2))
+                self.traveled = 0
+        
+        def update(self):
+                self.traveled += 1
+                x = self.target[0]
+                y = self.target[1]
+                my_x = self.rect.topleft[0]
+                my_y = self.rect.topleft[1]
+                if x > self.position[0]:
+                        if y > self.position[1]:#bottom right
+                                my_x -= (self.position[0] - self.target[0])/(self.distance / 10)
+                                my_y -= (self.position[1] - self.target[1])/(self.distance / 10)
+                        elif y == self.position[1]:
+                                my_x += 15
+                        else: #topright
+                                my_x += -(self.position[0] - self.target[0])/(self.distance / 10)
+                                my_y -= (self.position[1] - self.target[1])/(self.distance / 10)
+                else:
+                        if y > self.position[1]: #bottom left
+                                my_x -= (self.position[0] - self.target[0])/(self.distance / 10)
+                                my_y += -(self.position[1] - self.target[1])/(self.distance / 10)
+                        elif y == self.position[1]:
+                                my_x -= 15
+                        else: #topleft
+                                my_x -= -(self.target[0] - self.position[0])/(self.distance / 10)
+                                my_y -= -(self.target[1] - self.position[1])/(self.distance / 10)
+                self.rect.topleft = my_x, my_y
+                "Window 675 x 500"
+                if my_x > 700:
+                        self.kill()
+                if my_x < 0:
+                        self.kill()
+                if my_y > 550:
+                        self.kill()
+                if my_y < 0:
+                        self.kill()
+                if self.traveled > 10:
+						self.kill()

@@ -55,6 +55,10 @@ class Player(pygame.sprite.Sprite):
         self.lazor_group = pygame.sprite.RenderPlain()
         self.lazor_sight = False
     	
+    def passComp(self):
+    	freind = self.companion_group.sprites()
+    	return freind[0]
+    
     def update_position(self, rocks, playerGroup, enemyGroup, plates):
 		keys = pygame.key.get_pressed()
 		x = self.rect.topleft[0]

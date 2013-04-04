@@ -68,7 +68,13 @@ class M_Enemy(pygame.sprite.Sprite):
               self.follow = False
        if self.follow:
             if self.clock == 0:
-			  self.__chase(player.rect.topleft, rocks)
+			  target = player
+			  if player.hasFriend:
+			     freind = player.passComp()
+			     if helpers.distance(player.rect.topleft, self.rect.topleft) > helpers.distance(freind.rect.topleft, self.rect.topleft):
+			        target = freind
+			  
+			  self.__chase(target.rect.topleft, rocks)
 			  if self.walking_timer <=0:
 			     self.__walk(player)
 			     self.walking_timer = 5
@@ -206,6 +212,12 @@ class M_Enemy(pygame.sprite.Sprite):
        if hit_player:
               player.getHit(self.follow_direction, 2)
               self.clock = 15
+       if player.hasFriend:
+		   friend = player.passComp()
+		   hit_friend = pygame.sprite.collide_rect(self, friend) 
+		   if hit_friend:
+				  friend.getHit(self.follow_direction, 2)
+				  self.clock = 15
               
  def __chase(self, spot, rocks): #added rocks to avoid them
 	x = spot[0]
