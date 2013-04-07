@@ -208,10 +208,10 @@ class DialogBox(object):
         self.scroll_delay = 1
         self.frame = 0
         self.down_arrow = arrow_image(pygame.Color(0,0,0))
-        self.player_avatar = pygame.transform.scale(pygame.image.load('../images/hero_avatar.png'), (150, 200))
+        self.player_avatar = pygame.transform.scale(pygame.image.load('../images/hero_avatar.png'), (140, 150))
         self.comp_avatar = pygame.image.load('../images/compa_avatar.png')
         self.wiz_avatar = pygame.image.load('../images/wizderp_avatar.png')
-        self.comp_avatar = pygame.transform.scale(self.comp_avatar, (150, 200))
+        self.comp_avatar = pygame.transform.scale(self.comp_avatar, (140, 150))
         self.imageA = 0
     
     def set_scrolldelay(self, delay):

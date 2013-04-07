@@ -204,42 +204,36 @@ class Companion(pygame.sprite.Sprite):
     def swordFightD(self, player, rocks, enemyGroup):
 		enemy = enemyGroup.sprites()
 		target = enemy[0]
-		print len(enemy)
 		for x in range(len(enemy)):
 		    if helpers.distance(self.rect.topleft, enemy[x].rect.topleft) < helpers.distance(self.rect.topleft, target.rect.topleft):
 		        target = enemy[x]
 		        
 		
+		old_position = self.rect.topleft
+		#if helpers.distance(self.rect.topleft, player.rect.topleft) < 10:
+		self.__chase(target.rect.topleft, rocks, target)
+		if self.walking_timer <=0:
+		 self.__walk(target)
+		 self.walking_timer = 5
+		else:
+		 self.walking_timer -= 1
+		self.__leash(old_position, player, rocks)
 		
-		if helpers.distance(self.rect.topleft, player.rect.topleft) < 10:
-			    self.__chase(target.rect.topleft, rocks, target)
-			    if self.walking_timer <=0:
-			     self.__walk(target)
-			     self.walking_timer = 5
-			    else:
-			     self.walking_timer -= 1
-		elif helpers.distance(self.rect.topleft,player.rect.topleft) > 9 and helpers.distance(self.rect.topleft,player.rect.topleft) < 11:
-				i = 1
-		else:
-		        self.__chase(player.rect.topleft, rocks, player)
-		        if self.walking_timer <=0:
-			     self.__walk(player)
-			     self.walking_timer = 5
-		        else:
-			     self.walking_timer -= 1
-		if helpers.distance(self.rect.topleft, target.rect.topleft) < 5 and self.collide == False:		
-		    self.attacking = True
-		    self.attack_group.add(self.attack)
-		else:
-			self.collide = True
+		
+		if helpers.distance(self.rect.topleft, target.rect.topleft) < 9 and self.cool_down <= 0:
+			self.attacking = True
+			self.attack_group.add(self.attack)
+			self.cool_down = 20
+		elif self.cool_down > 0:
+			self.cool_down -=1
 		if self.attacking:
-		    self.attack.use(self, self.follow_direction)
+			self.attack.use(self, self.follow_direction)
 		if self.attack.is_done():
-		    self.attacking = False
-		    self.attack.kill()
+			self.attacking = False
+			self.attack.kill()
 		hit_enemy = pygame.sprite.spritecollide(target, self.attack_group, False)
 		if hit_enemy:
-		    target.get_hit(self.follow_direction, 1)
+			target.get_hit("none", 1)
 		self.attack_group.update()
 		self.attack_group.draw(self.windowSurface)   
 
@@ -362,13 +356,13 @@ class Companion(pygame.sprite.Sprite):
 				canShift = False
 		
 		else:
-			if x+10 >= self.rect.topleft[0]:
+			if x+10 >= self.rect.topleft[0] and not self.blocked_direction == "right":
 				my_x += 2
-			if x-10 < self.rect.topleft[0]:
+			if x-10 < self.rect.topleft[0] and not self.blocked_direction == "left":
 				my_x -= 2
-			if y+10 >= self.rect.topleft[1]:
+			if y+10 >= self.rect.topleft[1] and not self.blocked_direction == "up":
 				my_y += 2
-			if y-10 < self.rect.topleft[1]:
+			if y-10 < self.rect.topleft[1] and not self.blocked_direction == "down":
 				my_y -= 2    
 			self.rect.topleft = (my_x, my_y)
 
@@ -428,6 +422,11 @@ class Companion(pygame.sprite.Sprite):
         	self.strafe_timer +=1
         else:
         	self.strafe_timer = -40
+        	
+    def __leash(self, old_position, player, rocks):
+    	if helpers.distance(player.rect.topleft, self.rect.topleft) > 10:
+    		self.rect.topleft = old_position
+    		self.__chase(player.rect.topleft, rocks, player)
 class DownedComp(pygame.sprite.Sprite):
 
     
