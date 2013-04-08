@@ -2,30 +2,30 @@ import os, pygame, sys, helpers
 from pygame.locals import *
 
 INTRO_MESSAGE = [
-"Everything comes into focus slowly. You are in a rublled filled room. Not alone. ", 
-"The creature stupidly walking around the room, you have a burning urge to kill it. "]
+"Everything comes into focus slowly. This room is filled with rubble, and....", 
+"The creature stupidly walking around the room, it must be destroyed. "]
 
 DOOR_LOCKED = [
 "This path is barred. There must be a way to open it."]
 
 ENEMY_ALIVE = [
-"No. They cannot... You must...",
+"No. They cannot... must...",
 "Destory them."]
 
 SECOND_ROOM = [#the "1" allows for this to be held till an event happens, currently enemy death
 "1",
-"As the monster dies, the door opens.",
+"As the creature dies, the door opens.",
 "Continue forward."]
 
 THIRD_ROOM = [#the "1" allows for this to be held till an event happens, currently enemy death
 "1",
 "There is something large beyond this door.",
-"Tear it down."]
+"Must tear it down."]
 
 KILL_GRUNK =[
 "1",
-"This creature is about your size, how could it push those rocks?",
-"This belt maybe? Best to take it"]
+"This creature is about my size, how could it push those rocks?",
+"This belt maybe? Mine now."]
 
 FOURTH_ROOM = [
 "What a terrible position to be in.",
@@ -65,7 +65,8 @@ COMPANION_KILL = [
 
 COMPANION_SWORD_D = [
 "Hand him the blade. Hold the bow up. Make X with arms.",
-"That should make him realize you want him to defend you"]
+"That should make him realize I want him to defend me",
+"Should be an effective shield at least."]
 COMPANION_SWORD_A= [
 "Hand him the blade. Hold the bow up. Make few slashes in the air.",
 "That should convey to kill all he sees"]
