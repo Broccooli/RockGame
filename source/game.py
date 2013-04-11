@@ -13,6 +13,8 @@ from dimmer import Dimmer
 from transition import Transition
 from dialogHandle import *
 from companion import DownedComp
+from title import TitleScreen
+sys.stderr = open('errorlog.txt', 'w')
 
 pygame.init()
 
@@ -24,6 +26,8 @@ windowSurface = pygame.display.set_mode((WIDTH,HEIGHT))
 x = WIDTH / 2
 y = HEIGHT / 2
 transitioning = False
+title = TitleScreen(windowSurface)
+title.start()
 # new_position = (x,y)
 
 player = Player((560,250), windowSurface)
@@ -225,4 +229,7 @@ while True:
     interact_flag = False
     pygame.display.update()
     fpsClock.tick(30)
+
+sys.stderr.close()
+sys.stderr = sys.__stderr__
     

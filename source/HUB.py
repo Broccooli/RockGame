@@ -133,7 +133,7 @@ class Menu():
     def update_box(self):
         self.image.fill(self.background_color)
         spot = 150
-        self.screen.fill(self.border_color, pygame.Rect(240, 120, 185, 210))
+        self.screen.fill(self.border_color, pygame.Rect(240, 120, 185, 150))
         self.screen.fill(self.background_color, pygame.Rect(245, 125, 175, 200))
         self.screen.blit(self.cursor, (245, self.cursor_position))
         for i in range(self.options):
@@ -147,7 +147,7 @@ class Menu():
         self.shown = False
         self.page = self.pages
     def next_down(self):
-    	if self.cursor_option < 2:
+    	if self.cursor_option < len(self.option_choices) - 1:
     	    self.cursor_position += 50
     	    self.cursor_option += 1
     def next_up(self): 
