@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-#!/usr/bin/env python
-
-import os, pygame, sys, time, helpers, speechConstants
+import sys
+sys.stderr = open('errorlog.txt', 'w')
+import os, pygame,time, helpers, speechConstants
 from pygame.locals import *
 from doors import Door
 from player import Player
@@ -14,10 +14,8 @@ from transition import Transition
 from dialogHandle import *
 from companion import DownedComp
 from title import TitleScreen
-sys.stderr = open('errorlog.txt', 'w')
 
 pygame.init()
-
 
 WIDTH = 672
 HEIGHT = 512
