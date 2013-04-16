@@ -126,6 +126,7 @@ class Menu():
         self.cursor_position = 150
         self.cursor_option = 0
         self.shown = False
+        #self.origin = spot #this will be used as an origin 
         self.options = len(options)
         self.option_choices = options
         self.update_box()
