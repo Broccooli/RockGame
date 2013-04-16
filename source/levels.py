@@ -186,14 +186,14 @@ class Levels():
 		#enemies of the First part of dung
 		enemies_by_level.append(pygame.sprite.RenderPlain())
 		#Second room, standing in rows
-		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((220,260), 2), M_Enemy((390, 260), 1),
+		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((220,260), 3), M_Enemy((390, 260), 3),
 	    R_Enemy((95, 370), windowSurface), R_Enemy((325, 370), windowSurface), R_Enemy((520, 370), windowSurface)))
 		#Only ranger turret
 		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((505,195), windowSurface), R_Enemy((125, 195), windowSurface)))
 		#Spread through grid
 		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((110, 160), windowSurface), 
 		   R_Enemy((110, 320), windowSurface), R_Enemy((440, 325), windowSurface),
-		   R_Enemy((440, 165), windowSurface), M_Enemy((525,440), 1), M_Enemy((170,440), 2)))
+		   R_Enemy((440, 165), windowSurface), M_Enemy((525,440), 3), M_Enemy((170,440), 3)))
 		#Last Bawwss
 		enemies_by_level.append(pygame.sprite.RenderPlain())
 		return enemies_by_level

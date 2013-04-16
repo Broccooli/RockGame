@@ -228,6 +228,6 @@ while True:
     pygame.display.update()
     fpsClock.tick(30)
 
-sys.stderr.close()
-sys.stderr = sys.__stderr__
+#sys.stderr.close()
+#sys.stderr = sys.__stderr__
     

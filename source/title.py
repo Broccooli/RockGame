@@ -25,6 +25,7 @@ class TitleScreen():
                         self.menu.next_up()
                     if event.key == K_RETURN:
                         option = self.menu.get_position()
+                        
                         if option == 0:
                             return
                         if option == 1:

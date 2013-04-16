@@ -11,7 +11,7 @@ class M_Enemy(pygame.sprite.Sprite):
  def __init__(self, position, id):
        pygame.sprite.Sprite.__init__(self)
        self.id = id
-       if id == 1 or id == 3:
+       if id == 1:
          self.front_still = pygame.image.load('../images/arms_front_still.png')
          self.image = self.front_still
          self.front_walk = pygame.image.load('../images/arms_front_walk.png')
@@ -25,6 +25,21 @@ class M_Enemy(pygame.sprite.Sprite):
          self.right_still = pygame.image.load('../images/arms_right_still.png')
          self.right_walk = pygame.image.load('../images/arms_right_walk.png')
          self.right_walk2 = self.right_walk
+       elif id == 3:
+         self.front_still = pygame.image.load('../images/ff_front_still.png')
+         self.image = self.front_still
+         self.front_walk = pygame.image.load('../images/ff_front_walk1.png')
+         self.front_walk2 = pygame.image.load('../images/ff_front_walk2.png')
+         self.left_walk = pygame.image.load('../images/ff_left_walk1.png')
+         self.left_walk2 = pygame.image.load('../images/ff_left_walk2.png')
+         self.left_still = pygame.image.load('../images/ff_left_still.png')
+         self.back_still = pygame.image.load('../images/ff_back_still.png')
+         self.back_walk = pygame.image.load('../images/ff_back_walk1.png')
+         self.back_walk2 = pygame.image.load('../images/ff_back_walk2.png')
+         self.right_still = pygame.image.load('../images/ff_right_still.png')
+         self.right_walk = pygame.image.load('../images/ff_right_walk1.png')
+         self.right_walk2 = pygame.image.load('../images/ff_right_walk2.png')  
+       
        else:
          self.front_still = pygame.image.load('../images/headless_front_still.png')
          self.image = self.front_still
