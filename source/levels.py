@@ -104,47 +104,52 @@ class Levels():
 		
 		))
 		
-		#Boss spawns rocks
+		
 		rocks_by_level.append(pygame.sprite.RenderPlain())
 		
+		#Boss spawns rocks
+		rocks_by_level.append(pygame.sprite.RenderPlain(Boulder((300, 185)), Boulder((330, 185)), Boulder((300, 185)),
+		Boulder((360, 185)),Boulder((390, 185)),Boulder((420, 185)), Boulder((450, 185)), Boulder((480, 185)), Boulder((510, 185)),
+		Boulder((270, 185)), Boulder((240, 185)), Boulder((210, 185)), Boulder((180, 185)), Boulder((150, 185)), Boulder((120, 185)),
+		Boulder((90, 185)), Boulder((60, 185)), Boulder((30, 185)), Boulder((540, 185)), Boulder((570, 185)), Boulder((600, 185)), Boulder((630, 185))))
 		
 		return rocks_by_level
 		
 	def createLevels_Door(self):
 		doors_by_level = []
 		#0
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((0, 255), False)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((0, 255), False, True)))
 		#1
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((0, 255), False)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((0, 255), False, True)))
 		#2
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((100, 0), False)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((100, 0), False, True)))
 		#3
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 50), False)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 50), False, True)))
 		#4
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True, True)))
 		#5
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((550, 0), True)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((550, 0), True, True)))
 		#6
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((200, 0), False)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((200, 0), False, True)))
 		#Squick
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((600, 0), False)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((600, 0), False, True)))
 		#Flowers
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True, True)))
 		#Ninth
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 255), True, True)))
 		#No door here, covered by a rock
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 50), False)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((640, 50), False, True)))
 		#companion room, start of real dungeon.
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), False)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), False, True)))
 		#Second of real levels
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), False)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), False, True)))
 		#Third
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), True)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), True, True)))
 		#Fourth
-		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), True)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 480), True, True)))
 		#No door for the last boss
-		doors_by_level.append(pygame.sprite.RenderPlain())
-		
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 255), False, False)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((300, 460), False, False)))
 		return doors_by_level
 		
 	def playerStartPositions(self): #going to be one behind doors, opposite of previous exit
@@ -164,6 +169,7 @@ class Levels():
 		player_entrance.append((325, 20))
 		player_entrance.append((325, 20))
 		player_entrance.append((325, 20))
+		player_entrance.append((300, 460))
 		return player_entrance
 		
 	def createLevels_enemies(self, windowSurface):
@@ -196,6 +202,7 @@ class Levels():
 		   R_Enemy((440, 165), windowSurface), M_Enemy((525,440), 3), M_Enemy((170,440), 3)))
 		#Last Bawwss
 		enemies_by_level.append(pygame.sprite.RenderPlain())
+		enemies_by_level.append(pygame.sprite.RenderPlain())
 		return enemies_by_level
 		
 	def dialogSelect(self):
@@ -215,6 +222,7 @@ class Levels():
 		speech_by_level.append(speechConstants.PART2_ROOM2)
 		speech_by_level.append(speechConstants.PART2_ROOM3)
 		speech_by_level.append(speechConstants.PART2_ROOM4)
+		speech_by_level.append(speechConstants.THRONE_ROOM)
 		speech_by_level.append(speechConstants.FINAL_ROOM)
 		return speech_by_level
 		
@@ -233,6 +241,7 @@ class Levels():
 		plates_by_level.append("1")
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((140, 210))))
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((40, 450))))
+		plates_by_level.append("1")
 		plates_by_level.append("1")
 		return plates_by_level
 		

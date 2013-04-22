@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys
-sys.stderr = open('errorlog.txt', 'w')
+#sys.stderr = open('errorlog.txt', 'w')
 import os, pygame,time, helpers, speechConstants
 from pygame.locals import *
 from doors import Door
@@ -28,7 +28,7 @@ title = TitleScreen(windowSurface)
 title.start()
 # new_position = (x,y)
 
-player = Player((560,250), windowSurface)
+player = Player((560,230), windowSurface)
 playerGroup = pygame.sprite.RenderPlain(player)
 
 
@@ -54,6 +54,7 @@ player_entrance = level_maker.playerStartPositions()
 plates_by_level = level_maker.placePlate()
 downedComp = DownedComp()
 fpsClock = pygame.time.Clock()
+blackAbyss = pygame.Surface((680, 250))
 """
 Sets up how big the background should be     
 """
@@ -77,8 +78,8 @@ while True:
         	if event.key == K_RSHIFT:
         	    interact_flag = True
         	if event.key == K_k:
-        		current_level = len(doors_by_level)-5
-        		player.startRoom(player_entrance[current_level -5])
+        		current_level = len(doors_by_level)-2
+        		player.startRoom(player_entrance[current_level -2])
         		#to jump to last room
         		player.getBelt()
         		player.getGaunt()
@@ -172,9 +173,14 @@ while True:
         doors_by_level[current_level].draw(windowSurface)
         if current_level == 11: #For the downed comp sprite
             downedComp.showUp(windowSurface)
-        playerGroup.draw(windowSurface)
+        if current_level == 16: #black abyss
+        	windowSurface.blit(blackAbyss, (0,0))
+        
         enemies_by_level[current_level].update(player, rocks_by_level[current_level])
-        rocks_by_level[current_level].draw(windowSurface)   
+        rocks_by_level[current_level].draw(windowSurface)
+        if current_level == 16: #black abyss
+        	windowSurface.blit(blackAbyss, (0,0))  
+        playerGroup.draw(windowSurface) 
         enemies_by_level[current_level].draw(windowSurface)
         HUB.drawHealth(player, windowSurface)
         dialogbox.draw(windowSurface, (50, 400))

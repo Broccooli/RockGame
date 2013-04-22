@@ -92,6 +92,10 @@ PART2_ROOM4 = [
 
 FINAL_ROOM = [
 "Huge, powerful, and about to die."]
+THRONE_ROOM = [
+"Nice chair.",
+"\"We must be close, the leader must be down there\"",
+"Real nice chair."]
 
 EXAMINE_ROCK = [
 "Rock. Yes."]
