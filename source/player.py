@@ -9,53 +9,76 @@ class Player(pygame.sprite.Sprite):
 
     
     def __init__(self, position, screen):
-        pygame.sprite.Sprite.__init__(self)
-    	self.left_still = pygame.image.load('../images/hero_left_still.png')
-    	self.left_walk1 = pygame.image.load('../images/hero_left_walk1.png')
-    	self.left_walk2 = pygame.image.load('../images/hero_left_walk2.png')
-    	self.right_still = pygame.image.load('../images/hero_right_still.png')
-    	self.right_walk1 = pygame.image.load('../images/hero_right_walk1.png')
-    	self.right_walk2 = pygame.image.load('../images/hero_right_walk2.png')
-    	self.down_still = pygame.image.load('../images/hero_front_still.png')
-    	self.down_walk1 = pygame.image.load('../images/hero_front_walk1.png')
-    	self.down_walk2 = pygame.image.load('../images/hero_front_walk2.png')
-    	self.up_still = pygame.image.load('../images/hero_back_still.png')
-    	self.up_walk1 = pygame.image.load('../images/hero_back_walk1.png')
-    	self.up_walk2 = pygame.image.load('../images/hero_back_walk2.png')
-    	self.image = self.left_still
+    	pygame.sprite.Sprite.__init__(self)
+        
+        self.left_w = Animation( [pygame.image.load('../images/hero_left_still.png'),
+                                  pygame.image.load('../images/hero_left_walk1.png'),
+                                  pygame.image.load('../images/hero_left_walk2.png')] )
+        
+        self.right_w = Animation( [pygame.image.load('../images/hero_right_still.png'),
+                                   pygame.image.load('../images/hero_right_walk1.png'),
+                                   pygame.image.load('../images/hero_right_walk2.png')] )
+        
+        self.down_w = Animation( [pygame.image.load('../images/hero_front_still.png'),
+                                  pygame.image.load('../images/hero_front_walk1.png'),
+                                  pygame.image.load('../images/hero_front_walk2.png')] )
+        
+        self.up_w = Animation( [pygame.image.load('../images/hero_back_still.png'),
+                                pygame.image.load('../images/hero_back_walk1.png'),
+                                pygame.image.load('../images/hero_back_walk2.png')] )
 
-        
-        self.left_w = Animation( [self.left_still, self.left_walk1, self.left_walk2] )
-        self.right_w = Animation( [self.right_still, self.right_walk1, self.right_walk2] )
-        self.down_w = Animation( [self.down_still, self.down_walk1, self.down_walk2] )
-        self.up_w = Animation( [self.up_still, self.up_walk1, self.up_walk2] )
-        
+        self.image = self.left_w.update()
+
+        # -------- Player positioning --------
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position[1]
+
+    	# -------- Player states --------
     	self.alive = True
     	self.has_belt = False
     	self.has_gaunt = False
     	self.attacking = False
+    	self.hasFriend = False
+    	self.aiming = False
+
+    	# -------- Attack --------
     	self.attack = Attack()
+
+    	# -------- Timers --------
     	self.clock = 0
+    	self.push_timer = 0 #slows rocks down
+
+    	# -------- Player attributes --------
     	self.direction = "left"
     	self.health = 500
     	self.invul = 0 #typical invulnerable period
+    	self.old_position = position
+
+    	# -------- Screen to print to --------
     	self.screen = screen
+
+    	# -------- Rock Movement --------
     	self.push_timer = 0 #slows rocks down
     	self.momentum = "up" #makes sure rocks only move in a singular direction
-    	self.old_position = position
-    	self.walking = 1
+
+    	# -------- Walking --------
     	self.walking_timer = 0
-    	self.hasFriend = False
+
+    	# -------- Companion --------
     	self.companion_group = pygame.sprite.RenderPlain()
+
+    	# -------- Dialog --------
     	self.dialogbox = DialogBox((440, 51), (255, 255, 204), 
              (102, 0, 0), pygame.font.SysFont('Verdana', 15))
         self.dialog_handle = HandleDialog(screen, self.dialogbox)
         #these are for bow attacks
+
+        # -------- Players weapon type
         self.weapon = 0 #0 for sword, 1 for bow
-        self.aiming = False
+
+        
+        
         self.targetX = 0
         self.targetY = 0
         self.target_main = False
