@@ -78,8 +78,8 @@ while True:
         	if event.key == K_RSHIFT:
         	    interact_flag = True
         	if event.key == K_k:
-        		current_level = len(doors_by_level)-2
-        		player.startRoom(player_entrance[current_level -2])
+        		current_level = len(doors_by_level)-1
+        		player.startRoom(player_entrance[current_level -1])
         		#to jump to last room
         		player.getBelt()
         		player.getGaunt()
@@ -173,13 +173,14 @@ while True:
         doors_by_level[current_level].draw(windowSurface)
         if current_level == 11: #For the downed comp sprite
             downedComp.showUp(windowSurface)
-        if current_level == 16: #black abyss
-        	windowSurface.blit(blackAbyss, (0,0))
+
         
         enemies_by_level[current_level].update(player, rocks_by_level[current_level])
         rocks_by_level[current_level].draw(windowSurface)
         if current_level == 16: #black abyss
-        	windowSurface.blit(blackAbyss, (0,0))  
+        	windowSurface.blit(blackAbyss, (0,0))
+        	boss = enemies_by_level[current_level].sprites()
+        	boss[0].attack_group.draw(windowSurface)
         playerGroup.draw(windowSurface) 
         enemies_by_level[current_level].draw(windowSurface)
         HUB.drawHealth(player, windowSurface)

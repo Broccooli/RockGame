@@ -9,6 +9,7 @@ from squik import Squik
 from plates import PressurePlate
 from random import randint
 from tahzi import TahZi
+from finalBoss import FinalBoss
 
 class Levels():
 	"X< 672, Y < 512"
@@ -202,7 +203,7 @@ class Levels():
 		   R_Enemy((440, 165), windowSurface), M_Enemy((525,440), 3), M_Enemy((170,440), 3)))
 		#Last Bawwss
 		enemies_by_level.append(pygame.sprite.RenderPlain())
-		enemies_by_level.append(pygame.sprite.RenderPlain())
+		enemies_by_level.append(pygame.sprite.RenderPlain(FinalBoss(windowSurface)))
 		return enemies_by_level
 		
 	def dialogSelect(self):

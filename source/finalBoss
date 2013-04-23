@@ -1,0 +1,32 @@
+class FinalBoss(pygame.sprite.Sprite):
+
+
+ def __init__(self):
+       pygame.sprite.Sprite.__init__(self)
+       self.faceSmile = pygame.image.load('../images/final_boss_head_smile.png')
+       self.faceGrowl = pygame.image.load('../images/final_boss_head.png')
+       self.leftFist = pygame.image.load('../images/final_boss_left_fist.png')
+       self.leftHand = pygame.image.load('../images/final_boss_left_hand.png')
+       self.rightFist = pygame.image.load('../images/final_boss_right_fist.png')
+       self.rightHand = pygame.image.load('../images/final_boss_right_hand.png')
+       self.image = self.faceGrowl
+       self.rect = self.image.get_rect()
+       self.rect.topleft = (300, 200)
+       self.health = 5
+       self.bob_timer = 0
+       
+       
+ def update(self, player)
+	self.bob()
+	
+
+
+ def __bob(self)
+ 	if self.bob_timer < 0:
+ 		self.rect.topleft = (self.rect.topleft[0], self.rect.topleft[1]+2)
+ 		self.bob_timer -=1
+ 	else if self.bob_timer == 30:
+ 		self.bob_timer = -30
+ 	else
+ 		self.rect.topleft = (self.rect.topleft[0], self.rect.topleft[1]-2)
+ 		self.bob_timer +=1

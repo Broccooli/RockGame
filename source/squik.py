@@ -36,6 +36,7 @@ class Squik(pygame.sprite.Sprite):
       self.rocks = pygame.sprite.RenderPlain()
       self.wake = False
       self.walking = 0
+      self.walking_timer = 0
    
    def update(self, player, rocks):
       print len(self.touched_rocks)
@@ -58,10 +59,12 @@ class Squik(pygame.sprite.Sprite):
    
       
    def breakRock(self, rocks):
+       if self.hit_rock_timer < 20:
+           self.image = self.break_rock_image
        if self.hit_rock_timer > 0:
           self.hit_rock_timer -=1   
        else:
-          self.image = self.break_rock_image
+          self.image = self.front_still
           hit_rock = pygame.sprite.spritecollide(self, rocks, False)
           if hit_rock:
              helpers.shake(pygame.display.get_surface(), 100)
@@ -73,7 +76,11 @@ class Squik(pygame.sprite.Sprite):
    
    
    def __chase(self, player):
-	self.__walk(player)
+	if self.walking_timer <= 0:
+	   self.__walk(player)
+	   self.walking_timer = 2
+	else:
+		self.walking_timer -= 1
 	x = player.rect.topleft[0]
 	y = player.rect.topleft[1]
 	my_x = self.rect.topleft[0]
