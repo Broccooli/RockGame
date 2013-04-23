@@ -3,6 +3,7 @@ from pygame.locals import *
 from attack import *
 from companion import Companion
 from dialogHandle import *
+from animation import Animation
 
 class Player(pygame.sprite.Sprite):
 
@@ -22,6 +23,13 @@ class Player(pygame.sprite.Sprite):
     	self.up_walk1 = pygame.image.load('../images/hero_back_walk1.png')
     	self.up_walk2 = pygame.image.load('../images/hero_back_walk2.png')
     	self.image = self.left_still
+
+        
+        self.left_w = Animation( [self.left_still, self.left_walk1, self.left_walk2] )
+        self.right_w = Animation( [self.right_still, self.right_walk1, self.right_walk2] )
+        self.down_w = Animation( [self.down_still, self.down_walk1, self.down_walk2] )
+        self.up_w = Animation( [self.up_still, self.up_walk1, self.up_walk2] )
+        
     	self.rect = self.image.get_rect()
     	self.position = position
     	self.rect.topleft = position[0], position[1]
@@ -290,46 +298,14 @@ class Player(pygame.sprite.Sprite):
     	self.weapon = 1
     
     def __walk(self):
-       if self.walking == 0:
-          if self.image == self.down_still:
-             self.image = self.down_walk1
-             self.walking = 1
-          elif self.image == self.left_still:
-             self.image = self.left_walk1
-             self.walking = 1
-          elif self.image == self.up_still:
-             self.image = self.up_walk1
-             self.walking = 1
-          elif self.image == self.right_still:
-             self.image = self.right_walk1
-             self.walking = 1
-          else:
-             self.walking = 1
-       elif self.walking == 2:
-    	  if self.image == self.down_still:
-             self.image = self.down_walk2
-             self.walking = -1
-          elif self.image == self.left_still:
-             self.image = self.left_walk2
-             self.walking = -1
-          elif self.image == self.up_still:
-             self.image = self.up_walk2
-             self.walking = -1
-          elif self.image == self.right_still:
-             self.image = self.right_walk2
-             self.walking = -1
-          else:
-             self.walking = -1
-       else:
-		  if self.direction == "left":
-		     self.image = self.left_still
-		  if self.direction == "right":
-		     self.image = self.right_still
-		  if self.direction == "up":
-		     self.image = self.up_still
-		  if self.direction == "down":
-		     self.image = self.down_still
-		  self.walking += 1
+        if self.direction == "left":
+	   self.image = self.left_w.update()
+	if self.direction == "right":
+            self.image = self.right_w.update()
+	if self.direction == "up":
+            self.image = self.up_w.update()
+	if self.direction == "down":
+            self.image = self.down_w.update()
 		  
 		  
 class PlayerTarget(pygame.sprite.Sprite):
