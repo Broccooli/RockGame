@@ -318,6 +318,14 @@ class Fire_Attack(pygame.sprite.Sprite):
                                 my_y -= -(self.target[1] - self.position[1])/(self.distance / 10)
                 self.rect.topleft = my_x, my_y
                 "Window 675 x 500"
+                hit_rock = pygame.sprite.spritecollide(self, rocks, False)
+                if hit_rock:
+                	for i in range(len(hit_rock)):
+                		if hit_rock[i].ID == 1:
+                			self.target = (self.target[0], -self.target[1])
+                			hit_rock[i].getHit()
+                
+                
                 if my_x > 700:
                         self.kill()
                 if my_x < 0:

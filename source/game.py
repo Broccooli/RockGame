@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys
-sys.stderr = open('errorlog.txt', 'w')
+#sys.stderr = open('errorlog.txt', 'w')
 import os, pygame,time, helpers, speechConstants
 from pygame.locals import *
 from doors import Door
@@ -236,6 +236,6 @@ while True:
     pygame.display.update()
     fpsClock.tick(30)
 
-sys.stderr.close()
-sys.stderr = sys.__stderr__
+#sys.stderr.close()
+#sys.stderr = sys.__stderr__
     
