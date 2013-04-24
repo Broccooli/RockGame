@@ -293,7 +293,7 @@ class Fire_Attack(pygame.sprite.Sprite):
                         self.image = pygame.transform.rotate(self.image, -(self.slope))
                 self.distance = math.sqrt(abs((position[0] - target[0])**2) + abs((position[1] - target[1])**2))
         
-        def update(self, player):
+        def update(self, player, rocks):
                 x = self.target[0]
                 y = self.target[1]
                 my_x = self.rect.topleft[0]

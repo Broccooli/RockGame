@@ -1,6 +1,7 @@
 import os, pygame, sys, helpers, math
 from pygame.locals import *
 from attack import *
+from rocks import Rock
 class FinalBoss(pygame.sprite.Sprite):
 
 
@@ -14,18 +15,19 @@ class FinalBoss(pygame.sprite.Sprite):
        self.rightHand = pygame.image.load('../images/final_boss_right_hand.png')
        self.image = self.faceGrowl
        self.rect = self.image.get_rect()
-       self.rect.topleft = (280, 70)
+       self.rect.topleft = (290, 40)
        self.health = 5
        self.bob_timer = 1
        self.attack_timer = 0
-       self.attack_group = pygame.sprite.RenderPlain(Leftie(self.leftFist, self.leftHand, ))
+       self.attack_group = pygame.sprite.RenderPlain(Leftie(self.leftFist, self.leftHand), PamalaHanderson(self.rightFist, self.rightHand))
        self.screen = screen
+       
        
        
  def update(self, player, rocks):
 	if self.attack_timer == 0:
 		self.__loadShot(player)
-		self.attack_timer = 60
+		self.attack_timer = 130
 	elif self.attack_timer <10:
 		self.image = self.faceGrowl
 		self.attack_timer -=1
@@ -34,7 +36,7 @@ class FinalBoss(pygame.sprite.Sprite):
 		self.attack_timer -=1
 		self.image = self.faceSmile
 	
-	self.attack_group.update(player)
+	self.attack_group.update(player, rocks)
 	self.attack_group.draw(self.screen)
 
  def __bob(self):
@@ -73,20 +75,16 @@ class Leftie(pygame.sprite.Sprite):
        self.cool_down = 0
        self.slam_complete = True
        self.reset_complete = True
+       self.placedRock = False
        
    
- def update(self, player):
- 	if helpers.distance(player.rect.topleft, self.rect.topleft) < 15:
-		#if self.cool_down ==0:
+ def update(self, player, rocks):
+ 	if helpers.distance(player.rect.topleft, self.rect.topleft) < 15 and self.reset_complete:
 			self.image = self.fist
-			self.__slam(player)
+			self.__slam(player, rocks)
 			self.cool_down = 60
  	else:
  		self.image = self.hand
- 		print "reset:"
- 		print self.reset_complete
- 		print "slam:"
- 		print self.slam_complete
  		self.__bob()
  		if self.cool_down > 0:
  			self.cool_down -=1
@@ -107,11 +105,79 @@ class Leftie(pygame.sprite.Sprite):
 			self.rect.topleft = (self.rect.topleft[0], self.rect.topleft[1]-2)
 		else:
 			self.reset_complete = True
+			self.placedRock = False
  		
- def __slam(self, player):
+ def __slam(self, player, rocks):
  	if self.rect.topleft[1] < 200 and self.reset_complete:
  		self.rect.topleft = (self.rect.topleft[0], self.rect.topleft[1] +4)
  		self.slam_complete = False
  	else:
+ 		if not self.placedRock:
+ 			hit_rock = pygame.sprite.spritecollide(self, rocks, False)
+ 			for i in range(len(hit_rock)):
+ 				if hit_rock[i].ID == 1:
+ 					hit_rock[i].getHit()
+ 			rocks.add(Rock((self.rect.topleft[0]+50, self.rect.topleft[1]+80)))
+ 			self.placedRock = True    
+ 		self.slam_complete = True
+ 		self.reset_complete = False
+ 		
+ 		
+class PamalaHanderson(pygame.sprite.Sprite):
+ def __init__(self, fist, hand):
+       pygame.sprite.Sprite.__init__(self)
+       self.fist = fist
+       self.hand = hand
+       self.image = hand
+       self.rect = self.image.get_rect()
+       self.bob_timer = 0
+       self.rect.topleft = (480,80)
+       self.cool_down = 0
+       self.slam_complete = True
+       self.reset_complete = True
+       self.placedRock = False
+       
+   
+ def update(self, player, rocks):
+ 	if helpers.distance(player.rect.topleft, self.rect.topleft) < 15 and self.reset_complete:
+			self.image = self.fist
+			self.__slam(player, rocks)
+			self.cool_down = 60
+ 	else:
+ 		self.image = self.hand
+ 		self.__bob()
+ 		if self.cool_down > 0:
+ 			self.cool_down -=1
+ 		
+ def __bob(self):
+	if self.reset_complete and self.slam_complete:
+		self.image = self.hand
+		if self.bob_timer > 0:
+			self.rect.topleft = (self.rect.topleft[0], self.rect.topleft[1]+1)
+			self.bob_timer +=1
+		else:
+			self.rect.topleft = (self.rect.topleft[0], self.rect.topleft[1]-1)
+			self.bob_timer +=1
+		if self.bob_timer > 20:
+			self.bob_timer = -20
+	elif self.slam_complete:
+		if self.rect.topleft[1] >= 70:
+			self.rect.topleft = (self.rect.topleft[0], self.rect.topleft[1]-2)
+		else:
+			self.reset_complete = True
+			self.placedRock = False
+ 		
+ def __slam(self, player, rocks):
+ 	if self.rect.topleft[1] < 200 and self.reset_complete:
+ 		self.rect.topleft = (self.rect.topleft[0], self.rect.topleft[1] +4)
+ 		self.slam_complete = False
+ 	else:
+ 		if not self.placedRock:
+ 			hit_rock = pygame.sprite.spritecollide(self, rocks, False)
+ 			for i in range(len(hit_rock)):
+ 				if hit_rock[i].ID == 1:
+ 					hit_rock[i].getHit()
+ 			rocks.add(Rock((self.rect.topleft[0]+50, self.rect.topleft[1]+80)))
+ 			self.placedRock = True    
  		self.slam_complete = True
  		self.reset_complete = False
