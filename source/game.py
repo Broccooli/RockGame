@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys
-#sys.stderr = open('errorlog.txt', 'w')
+sys.stderr = open('errorlog.txt', 'w')
 import os, pygame,time, helpers, speechConstants
 from pygame.locals import *
 from doors import Door
@@ -25,7 +25,8 @@ x = WIDTH / 2
 y = HEIGHT / 2
 transitioning = False
 title = TitleScreen(windowSurface)
-title.start()
+title.start() # Starts the title screen, which just returns with no value to
+              # start the game
 # new_position = (x,y)
 
 player = Player((560,230), windowSurface)
@@ -235,6 +236,6 @@ while True:
     pygame.display.update()
     fpsClock.tick(30)
 
-#sys.stderr.close()
-#sys.stderr = sys.__stderr__
+sys.stderr.close()
+sys.stderr = sys.__stderr__
     
