@@ -181,7 +181,9 @@ while True:
         if current_level == 16: #black abyss
         	windowSurface.blit(blackAbyss, (0,0))
         	boss = enemies_by_level[current_level].sprites()
-        	boss[0].attack_group.draw(windowSurface)
+        	if len(boss) >= 1:
+        	    
+        	    boss[0].attack_group.draw(windowSurface)
         playerGroup.draw(windowSurface) 
         enemies_by_level[current_level].draw(windowSurface)
         HUB.drawHealth(player, windowSurface)

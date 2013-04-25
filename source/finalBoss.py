@@ -16,29 +16,53 @@ class FinalBoss(pygame.sprite.Sprite):
        self.image = self.faceGrowl
        self.rect = self.image.get_rect()
        self.rect.topleft = (290, 40)
-       self.health = 5
+       self.health = 3
        self.bob_timer = 1
        self.attack_timer = 0
        self.attack_group = pygame.sprite.RenderPlain(Leftie(self.leftFist, self.leftHand), PamalaHanderson(self.rightFist, self.rightHand))
        self.screen = screen
+       self.immortal_timer = 4
+       self.dying = False
        
        
        
  def update(self, player, rocks):
-	if self.attack_timer == 0:
-		self.__loadShot(player)
-		self.attack_timer = 130
-	elif self.attack_timer <10:
-		self.image = self.faceGrowl
-		self.attack_timer -=1
-	else:
-		self.__bob()
-		self.attack_timer -=1
-		self.image = self.faceSmile
+	if not self.dying:
+		print self.health
+		if self.attack_timer == 0:
+			self.__loadShot(player)
+			self.attack_timer = 130
+		elif self.attack_timer <10:
+			self.image = self.faceGrowl
+			self.attack_timer -=1
+		else:
+			self.__bob()
+			self.attack_timer -=1
+			self.image = self.faceSmile
 	
-	self.attack_group.update(player, rocks)
-	self.attack_group.draw(self.screen)
-
+		self.attack_group.update(player, rocks)
+		self.attack_group.draw(self.screen)
+		hit_player = pygame.sprite.spritecollide(player, self.attack_group, False)
+		if hit_player:
+			player.getHit("none", 1)
+			#hit_player[0].kill()
+		if player.hasFriend:
+			friend = player.passComp()
+			hit_friend = pygame.sprite.spritecollide(friend, self.attack_group, False)
+			if hit_friend:
+				friend.getHit("none", 100)
+				hit_friend[0].kill()
+		hit_head = pygame.sprite.spritecollide(self, self.attack_group, False)
+		if hit_head and self.immortal_timer <= 0:
+			helpers.shake(pygame.display.get_surface(), 50)
+			self.health -= 1
+			self.immortal_timer = 30
+			if self.health <=0:
+				self.image = self.faceGrowl 
+				self.dying = True
+		self.immortal_timer -= 1
+	else:
+		self.__die()
  def __bob(self):
  	if self.bob_timer > 0:
  		self.rect.topleft = (self.rect.topleft[0], self.rect.topleft[1]+1)
@@ -50,15 +74,19 @@ class FinalBoss(pygame.sprite.Sprite):
  		self.bob_timer = -30
  		
  def __loadShot(self, player):
+ 	self.immortal_timer = 8
  	target = player
  	if player.hasFriend:
 		freind = player.passComp()
-		if helpers.distance(player.rect.topleft, self.rect.topleft) > helpers.distance(freind.rect.topleft, self.rect.topleft):
-			target = freind    
-	attack = Fire_Attack(self.rect.center, target.rect.center, helpers.checkOrient(target, self))
+		target = freind    
+	attack = Fire_Attack((self.rect.center[0], self.rect.center[1] + 40), target.rect.center, helpers.checkOrient(target, self))
 	self.attack_group.add(attack)
 
-
+ def __die(self):
+ 	if self.rect.topleft[1] >= 0:
+ 		self.rect.topleft = (self.rect.topleft[0], self.rect.topleft[1]-2)
+ 	else:
+ 		self.kill()
 
 
 
@@ -88,6 +116,7 @@ class Leftie(pygame.sprite.Sprite):
  		self.__bob()
  		if self.cool_down > 0:
  			self.cool_down -=1
+ 	
  		
  def __bob(self):
 	if self.reset_complete and self.slam_complete:
