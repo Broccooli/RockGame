@@ -114,6 +114,7 @@ class Levels():
 		Boulder((270, 185)), Boulder((240, 185)), Boulder((210, 185)), Boulder((180, 185)), Boulder((150, 185)), Boulder((120, 185)),
 		Boulder((90, 185)), Boulder((60, 185)), Boulder((30, 185)), Boulder((540, 185)), Boulder((570, 185)), Boulder((600, 185)), Boulder((630, 185))))
 		
+		rocks_by_level.append(pygame.sprite.RenderPlain())
 		return rocks_by_level
 		
 	def createLevels_Door(self):
@@ -151,6 +152,7 @@ class Levels():
 		#No door for the last boss
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 255), False, False)))
 		doors_by_level.append(pygame.sprite.RenderPlain(Door((300, 460), False, False)))
+		doors_by_level.append(pygame.sprite.RenderPlain(Door((325, 255), False, False)))
 		return doors_by_level
 		
 	def playerStartPositions(self): #going to be one behind doors, opposite of previous exit
@@ -171,6 +173,7 @@ class Levels():
 		player_entrance.append((325, 20))
 		player_entrance.append((325, 20))
 		player_entrance.append((300, 460))
+		player_entrance.append((320, 255))
 		return player_entrance
 		
 	def createLevels_enemies(self, windowSurface):
@@ -225,6 +228,7 @@ class Levels():
 		speech_by_level.append(speechConstants.PART2_ROOM4)
 		speech_by_level.append(speechConstants.THRONE_ROOM)
 		speech_by_level.append(speechConstants.FINAL_ROOM)
+		speech_by_level.append(speechConstants.MEET_WIZARD)
 		return speech_by_level
 		
 	def placePlate(self):
@@ -242,6 +246,7 @@ class Levels():
 		plates_by_level.append("1")
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((140, 210))))
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((40, 450))))
+		plates_by_level.append("1")
 		plates_by_level.append("1")
 		plates_by_level.append("1")
 		return plates_by_level

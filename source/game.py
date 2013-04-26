@@ -13,7 +13,8 @@ from dimmer import Dimmer
 from transition import Transition
 from dialogHandle import *
 from companion import DownedComp
-from title import TitleScreen
+from title import *
+from wizderp import Wizderp
 
 pygame.init()
 
@@ -49,6 +50,7 @@ doors, and dialog
 rocks_by_level = level_maker.createLevels_Rock()
 doors_by_level = level_maker.createLevels_Door()
 enemies_by_level = level_maker.createLevels_enemies(windowSurface)
+enemies_by_level.append(pygame.sprite.RenderPlain(Wizderp(windowSurface)))
 level_background = level_maker.drawBackground(windowSurface)
 speech_by_level = level_maker.dialogSelect()
 player_entrance = level_maker.playerStartPositions()
@@ -66,6 +68,7 @@ dialog_handle = HandleDialog(windowSurface, dialogbox)
 reset = 0
 interact_flag = False
 
+ending = 0
 current_level =0
 #helpers.set(current_level, (560, 250))
 pygame.key.set_repeat(1, 10)
@@ -182,8 +185,16 @@ while True:
         	windowSurface.blit(blackAbyss, (0,0))
         	boss = enemies_by_level[current_level].sprites()
         	if len(boss) >= 1:
-        	    
         	    boss[0].attack_group.draw(windowSurface)
+        if current_level == 17: #could end the game
+        	boss = enemies_by_level[current_level].sprites()
+        	if len(boss) >= 1:
+        		if boss[0].will_fight == False:
+        			ending = 1
+        			break
+        	else:
+        		ending = 0
+        		break
         playerGroup.draw(windowSurface) 
         enemies_by_level[current_level].draw(windowSurface)
         HUB.drawHealth(player, windowSurface)
@@ -238,6 +249,14 @@ while True:
     pygame.display.update()
     fpsClock.tick(30)
 
+
+if ending == 1: #evil ending
+	end = EndScreen(windowSurface, 1)
+	end.start()
+
+else: #freedom
+	end = EndScreen(windowSurface, 0)
+	end.start()
 #sys.stderr.close()
 #sys.stderr = sys.__stderr__
     

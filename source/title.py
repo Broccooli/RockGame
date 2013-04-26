@@ -1,6 +1,7 @@
 #from HUB import Menu
 import pygame, sys
 from pygame.locals import *
+from dialogHandle import *
 WHITE = pygame.Color(255,255,255)
 BLACK = pygame.Color(0,0,0)
 class TitleScreen():
@@ -49,7 +50,7 @@ class StartMenu():
         self.update_box()
         
         
-    def update_box(self):
+    def update_box(self, color = WHITE):
         
         spot = 350
        
@@ -58,7 +59,7 @@ class StartMenu():
         self.screen.blit(self.cursor, (45, self.cursor_position))
         
         for i in range(self.options):
-        	self.screen.blit(self.font.render(self.option_choices[i], True, WHITE), (95, spot))
+        	self.screen.blit(self.font.render(self.option_choices[i], True, color), (95, spot))
         	spot += 50
         
     def next_down(self):
@@ -72,3 +73,41 @@ class StartMenu():
     def get_position(self):
     	return self.cursor_option
     
+
+class EndScreen():
+
+    def __init__(self, surface, id):
+        self.s = surface
+        self.id = id
+        if id == 0:
+        	self.background = pygame.image.load('../images/Freedom_ending.jpg')
+        else:
+        	self.background = pygame.image.load('../images/New_master_ending.jpg')
+
+
+    def start(self):
+        self.s.blit(self.background, (0,0))
+        self.dialogHandle = HandleDialog(self.s, DialogBox((440, 51), BLACK , WHITE, pygame.font.SysFont('Verdana', 15)))
+        self.dialogHandle.ending(self.s, self.id)
+        self.menu = StartMenu(self.background, pygame.font.SysFont('Verdana', 15, True),
+                         ["Fin (Thanks for playing!)"])
+        dialog_done = False
+        while(True):
+            if self.id == 0:
+            	self.menu.update_box(BLACK)
+            else:
+            	self.menu.update_box()
+            pygame.display.update()
+			
+			
+            for event in pygame.event.get():
+                if event.type == KEYUP:
+                    if event.key == K_DOWN:
+                        self.menu.next_down()
+                    if event.key == K_UP:
+                        self.menu.next_up()
+                    if event.key == K_RETURN:
+                        option = self.menu.get_position()
+                        
+                        if option == 0:
+                            sys.exit(0)

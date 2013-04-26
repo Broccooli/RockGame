@@ -98,6 +98,74 @@ class HandleDialog(object):
 	        fpsClock.tick(30)
 
 	
+    def wizardChoice(self, windowSurface):
+    	option = 5
+    	menu = Menu((480, 51), (255, 255, 204), 
+        (102, 0, 0), pygame.font.SysFont('Verdana', 15), ["Accept", "Fight"])
+    	while (option == 5):
+    		menu.update_box()
+	        pygame.display.update()
+	        for event in pygame.event.get():
+	            if event.type == QUIT:
+	                sys.exit(0) # Clicking the x now closes the game, not ESC
+	            if event.type ==KEYUP:
+	                if event.key == K_DOWN:
+	                    menu.next_down()
+	                if event.key == K_UP:
+	                    menu.next_up()
+	                if event.key == K_RETURN:
+	                    option = menu.get_position()
+     	dialog_done = False
+     	if option == 1:
+	    	self.dialogBox.set_dialog(speechConstants.FIGHT_WIZARD)
+	    	while not dialog_done:
+				for event in pygame.event.get():
+					if event.type ==KEYUP:
+						if event.key == K_RETURN:
+							self.dialogBox.progress()
+				self.dialogBox.draw(windowSurface, (50, 400))
+				pygame.display.update()
+				fpsClock.tick(30)
+				dialog_done = self.dialogBox.over()
+	    	return True
+     	if option == 0:
+	    	self.dialogBox.set_dialog(speechConstants.ACCEPT_WIZARD)
+	    	while not dialog_done:
+				for event in pygame.event.get():
+					if event.type ==KEYUP:
+						if event.key == K_RETURN:
+							self.dialogBox.progress()
+				self.dialogBox.draw(windowSurface, (50, 400))
+				pygame.display.update()
+				fpsClock.tick(30)
+				dialog_done = self.dialogBox.over()
+	    	return False
+    
+    def ending(self, windowSurface, id):
+		dialog_done = False
+		if id == 1:
+	    		self.dialogBox.set_dialog(speechConstants.MASTER_END)
+	    		while not dialog_done:
+					for event in pygame.event.get():
+						if event.type ==KEYUP:
+							if event.key == K_RETURN:
+								self.dialogBox.progress()
+					self.dialogBox.draw(windowSurface, (50, 400), WHITE)
+					pygame.display.update()
+					fpsClock.tick(30)
+					dialog_done = self.dialogBox.over()
+		if id == 0:
+	    		self.dialogBox.set_dialog(speechConstants.FREEDOM_END)
+	    		while not dialog_done:
+					for event in pygame.event.get():
+						if event.type ==KEYUP:
+							if event.key == K_RETURN:
+								self.dialogBox.progress()
+					self.dialogBox.draw(windowSurface, (50, 400), WHITE)
+					pygame.display.update()
+					fpsClock.tick(30)
+					dialog_done = self.dialogBox.over()
+    
     def companionOpening(self, windowSurface, companion):
 	    
 	    self.dialogBox.set_dialog(speechConstants.COMPANION_OPEN)
@@ -209,9 +277,8 @@ class DialogBox(object):
         self.frame = 0
         self.down_arrow = arrow_image(pygame.Color(0,0,0))
         self.player_avatar = pygame.transform.scale(pygame.image.load('../images/hero_avatar.png'), (140, 150))
-        self.comp_avatar = pygame.image.load('../images/compa_avatar.png')
-        self.wiz_avatar = pygame.image.load('../images/wizderp_avatar.png')
-        self.comp_avatar = pygame.transform.scale(self.comp_avatar, (140, 150))
+        self.comp_avatar = pygame.transform.scale(pygame.image.load('../images/compa_avatar.png'), (140, 150))
+        self.wiz_avatar = pygame.transform.scale(pygame.image.load('../images/wizderp_avatar.png'), (140, 150))
         self.imageA = 0
     
     def set_scrolldelay(self, delay):
@@ -242,7 +309,7 @@ class DialogBox(object):
         else:
             self.text_pos = len(self.curr_dialog)
     
-    def draw(self, surface, pos):
+    def draw(self, surface, pos, color= BLACK):
         
         if self.shown and self.page < self.pages:
             my_font = pygame.font.SysFont('verdana', 15)
@@ -251,6 +318,8 @@ class DialogBox(object):
             self.curr_dialog = self.dialog[self.page]
             if not self.curr_dialog.count("\"", 0, len(self.curr_dialog)) == 0:
             	surface.blit(self.comp_avatar, (510, 340))
+            elif not self.curr_dialog.count("-", 0, len(self.curr_dialog)) == 0:
+            	surface.blit(self.wiz_avatar, (510, 340))
             else:
             	surface.blit(self.player_avatar, (510,340))
             xpos = 4
@@ -266,12 +335,12 @@ class DialogBox(object):
                     self.image.get_height()-8))
             dialog = self.curr_dialog[:self.text_pos]
             for word in dialog.split(" "):
-                ren = my_font.render("  "+ word, True, BLACK)
+                ren = my_font.render("  "+ word, True, color)
                 w = ren.get_width()
                 if xpos > self.image.get_width()-w:
                     ypos += ren.get_height()+3
                     xpos = 4
-                    ren = my_font.render("  " + word, True, BLACK)
+                    ren = my_font.render("  " + word, True, color)
                 self.image.blit(ren, (xpos, ypos))
                 xpos += w
             surface.blit(self.image, pos)

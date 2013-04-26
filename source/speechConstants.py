@@ -102,3 +102,37 @@ EXAMINE_ROCK = [
 
 EXAMINE_PLATE = [
 "This needs to be pressed down with more weight than myself."]
+
+MEET_WIZARD = [
+"-What have you done?!-",
+"I can understand it?",
+"-Of course you can understand me!-",
+"It reads my mind?",
+"-You have no mind! Fool! You are but a construct like everything else here!-",
+"-I created you!-",
+"-Your job was to keep the discarded section clean by destroying the broken models!-",
+"-How did you even get over here and why did you destory the functional ones?!-",
+"I was supposed to destroy...",
+"-Ugh. I made you too powerful. But all is not lost. I can always make more.-",
+"-But what you killed down there, that will no be remade.-",
+"-Instead, you will take its place.-",
+"-Come here, I will end your urge to destroy and leave you here to gaurd the throne-"]
+
+FIGHT_WIZARD = [
+"End my urge? Creature. My urge will never end."
+]
+
+ACCEPT_WIZARD = [
+"-Good, I knew you would obey. I did impart some of my own mind into you afterall-"
+]
+
+FREEDOM_END= [
+"This place is empty. If he was truly my creator then I now have no purpose.",
+"This does not bother me. I will leave."
+]
+
+MASTER_END =[
+"This was indeed a nice chair.",
+"My new feeling is clear: unless it's that wizard, anything that comes in here dies",
+"This is good"
+]
