@@ -51,7 +51,7 @@ NINTH_ROOM = [
 "Wait, trap?"]
 
 FIGHT_TAHZI = [
-"What is...? That weapon looks inter-",
+"What is...? That weapon looks inter...",
 "Move!"]
 
 COMPANION_OPEN = [

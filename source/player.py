@@ -67,6 +67,8 @@ class Player(pygame.sprite.Sprite):
 
         # -------- Companion --------
         self.companion_group = pygame.sprite.RenderPlain()
+        self.dialog_handle = HandleDialog(pygame.display.get_surface(), DialogBox((440, 51), (255, 255, 204), 
+             (102, 0, 0), pygame.font.SysFont('Verdana', 15)))
 
         # -------- Players weapon type
         self.weapon = 0 #0 for sword, 1 for bow
@@ -225,7 +227,12 @@ class Player(pygame.sprite.Sprite):
 
         self.attack_group.update()
         self.attack_group.draw(self.screen)
-
+        shot_enemies = pygame.sprite.groupcollide(enemyGroup, self.attack_group, False, True)
+        for enemy in shot_enemies.iterkeys():
+        	enemy.get_hit(self.direction, 6)
+        
+        
+        
         hit_enemy = pygame.sprite.spritecollide(self.attack, enemyGroup, False)
         if hit_enemy:
             if self.clock == 0:
@@ -315,6 +322,9 @@ class Player(pygame.sprite.Sprite):
                friend = Companion((self.position[0] +10, self.position[1]))
                if friend.isAlive():
                    self.companion_group.add(friend)
+               if friend.weapon == 0:
+                   self.getBow()
+            
 
     def getBow(self):
         self.weapon = 1

@@ -346,12 +346,18 @@ class M_Enemy(pygame.sprite.Sprite):
 class R_Enemy(pygame.sprite.Sprite):
 
 
- def __init__(self, position, windowSurface):
+ def __init__(self, position, windowSurface, id = 0):
     	pygame.sprite.Sprite.__init__(self)
-    	self.face_left = pygame.image.load('../images/legless_left.png')
-    	self.face_up = pygame.image.load('../images/legless_back.png')
-    	self.face_right = pygame.image.load('../images/legless_right.png')
-    	self.face_down = pygame.image.load('../images/legless_front.png')
+    	if id == 0:
+			self.face_left = pygame.image.load('../images/legless_left.png')
+			self.face_up = pygame.image.load('../images/legless_back.png')
+			self.face_right = pygame.image.load('../images/legless_right.png')
+			self.face_down = pygame.image.load('../images/legless_front.png')
+     	else:
+			self.face_left = pygame.image.load('../images/legs_left.png')
+			self.face_up = pygame.image.load('../images/legs_back.png')
+			self.face_right = pygame.image.load('../images/legs_right.png')
+			self.face_down = pygame.image.load('../images/legs_front.png')
     	self.image = self.face_left
     	self.rect = self.image.get_rect()
     	self.position = position
