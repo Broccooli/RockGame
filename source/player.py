@@ -99,11 +99,7 @@ class Player(pygame.sprite.Sprite):
             if not self.aiming:
                 x -= 5
                 self.direction = "left"
-
                 self.__checkPushAndWalk() # This method is used to check the push and walk timers
-
-                if x <= 15:
-                    x = 15
             else:
                 if not self.direction == "right":
                     self.targetX -= 2
@@ -112,11 +108,7 @@ class Player(pygame.sprite.Sprite):
             if not self.aiming:
                 x += 5
                 self.direction = "right"
-
                 self.__checkPushAndWalk()
-
-                if x >= 620:
-                    x = 620
             else:
                 if not self.direction == "left":
                     self.targetX += 2
@@ -125,11 +117,7 @@ class Player(pygame.sprite.Sprite):
             if not self.aiming:
                 y += 5
                 self.direction = "down"
-
                 self.__checkPushAndWalk() 
-
-                if y >= 460:
-                    y = 460
             else:
                 if not self.direction == "up":
                     self.targetY += 2
@@ -139,14 +127,13 @@ class Player(pygame.sprite.Sprite):
             if not self.aiming:
                 y -= 5
                 self.direction = "up"
-
                 self.__checkPushAndWalk()
-
-                if y <= 15:
-                    y = 15
             else:
                 if not self.direction == "down":
                     self.targetY -= 2
+
+        x = self.__checkBounds(x, 15, 620)
+        y = self.__checkBounds(y, 15, 460)
 
         # -------- END MOVEMENT --------
 
@@ -352,6 +339,15 @@ class Player(pygame.sprite.Sprite):
             self.walking_timer = 5
         else:
             self.walking_timer -= 1
+
+    def __checkBounds(self, axis, low, high):
+        
+        if ( axis <= low ):
+            return low
+        elif ( axis >= high ):
+            return high
+        else:
+            return axis
 
 
 class PlayerTarget(pygame.sprite.Sprite):

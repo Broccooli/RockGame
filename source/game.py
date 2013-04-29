@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys
-#sys.stderr = open('errorlog.txt', 'w')
+sys.stderr = open('errorlog.txt', 'w')
 import os, pygame,time, helpers, speechConstants
 from pygame.locals import *
 from doors import Door
@@ -256,7 +256,7 @@ if ending == 1: #evil ending
 else: #freedom
 	end = EndScreen(windowSurface, 0)
 	end.start()
-#sys.stderr.close()
-#sys.stderr = sys.__stderr__
+sys.stderr.close()
+sys.stderr = sys.__stderr__
 
     
