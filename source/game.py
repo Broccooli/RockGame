@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
 import sys
-sys.stderr = open('errorlog.txt', 'w')
+#sys.stderr = open('errorlog.txt', 'w')
 import os, pygame,time, helpers, speechConstants
 from pygame.locals import *
 from doors import Door
 from player import Player
-from rocks import Rock
+from rocks import *
 from levels import Levels
 from HUB import *
 from dimmer import Dimmer
@@ -56,6 +56,7 @@ speech_by_level = level_maker.dialogSelect()
 player_entrance = level_maker.playerStartPositions()
 plates_by_level = level_maker.placePlate()
 downedComp = DownedComp()
+throne = Throne()
 fpsClock = pygame.time.Clock()
 blackAbyss = pygame.Surface((680, 250))
 """
@@ -82,8 +83,8 @@ while True:
         	if event.key == K_RSHIFT:
         	    interact_flag = True
         	if event.key == K_k:
-        		current_level = len(doors_by_level)-8
-        		player.startRoom(player_entrance[current_level -8])
+        		current_level = len(doors_by_level)-3
+        		player.startRoom(player_entrance[current_level -3])
         		#to jump to last room
         		player.getBelt()
         		player.getGaunt()
@@ -177,7 +178,8 @@ while True:
         doors_by_level[current_level].draw(windowSurface)
         if current_level == 11: #For the downed comp sprite
             downedComp.showUp(windowSurface)
-
+        if current_level == 15: #Throne so pretty
+			throne.showUp(windowSurface)
         
         enemies_by_level[current_level].update(player, rocks_by_level[current_level])
         rocks_by_level[current_level].draw(windowSurface)
@@ -256,7 +258,7 @@ if ending == 1: #evil ending
 else: #freedom
 	end = EndScreen(windowSurface, 0)
 	end.start()
-sys.stderr.close()
-sys.stderr = sys.__stderr__
+#sys.stderr.close()
+#sys.stderr = sys.__stderr__
 
     
