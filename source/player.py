@@ -93,65 +93,18 @@ class Player(pygame.sprite.Sprite):
         interact_flag = False
         old_position = self.rect.topleft
 
+
         # -------- MOVEMENT --------
-        # Uses:
-        #   keys
-        #   x
-        #   y
-        #   
-        if keys[K_LEFT] and not self.attacking and self.alive:
-
-            if not self.aiming:
-                x -= 5
-                self.direction = "left"
-                self.__checkPushAndWalk() # This method is used to check the push and walk timers
-            else:
-                if not self.direction == "right":
-                    self.targetX -= 2
-        if keys[K_RIGHT] and not self.attacking and self.alive:
-
-            if not self.aiming:
-                x += 5
-                self.direction = "right"
-                self.__checkPushAndWalk()
-            else:
-                if not self.direction == "left":
-                    self.targetX += 2
-        if keys[K_DOWN] and not self.attacking and self.alive:
-
-            if not self.aiming:
-                y += 5
-                self.direction = "down"
-                self.__checkPushAndWalk() 
-            else:
-                if not self.direction == "up":
-                    self.targetY += 2
-
-        if keys[K_UP] and not self.attacking and self.alive:
-
-            if not self.aiming:
-                y -= 5
-                self.direction = "up"
-                self.__checkPushAndWalk() 
-            else:
-                if not self.direction == "down":
-                    self.targetY -= 2
-
-        x = self.__checkBounds(x, 15, 620)
-        y = self.__checkBounds(y, 15, 460)
+        x,y = self.__move(keys, x, y)
         # -------- END MOVEMENT --------
-
-
 
 
         # -------- ATTACKING -------- 
         self.__attack(keys, playerGroup)
         # -------- END ATTACKING --------
 
-
-        # -------- INTERACT KEY --------
-        if keys[K_RSHIFT]:
-            interact_flag = True
+        # -------- INTERACT KEY --------        
+        interact_flag = self.__setInteractFlag(keys)
         # -------- END INTERACT KEY --------
         
 
@@ -228,6 +181,50 @@ class Player(pygame.sprite.Sprite):
             self.invul -= 1
         
 
+
+    def __move(self, k, x, y):
+        if k[K_LEFT] and not self.attacking and self.alive:
+
+            if not self.aiming:
+                x -= 5
+                self.direction = "left"
+                self.__checkPushAndWalk() # This method is used to check the push and walk timers
+            else:
+                if not self.direction == "right":
+                    self.targetX -= 2
+        if k[K_RIGHT] and not self.attacking and self.alive:
+
+            if not self.aiming:
+                x += 5
+                self.direction = "right"
+                self.__checkPushAndWalk()
+            else:
+                if not self.direction == "left":
+                    self.targetX += 2
+        if k[K_DOWN] and not self.attacking and self.alive:
+
+            if not self.aiming:
+                y += 5
+                self.direction = "down"
+                self.__checkPushAndWalk() 
+            else:
+                if not self.direction == "up":
+                    self.targetY += 2
+
+        if k[K_UP] and not self.attacking and self.alive:
+
+            if not self.aiming:
+                y -= 5
+                self.direction = "up"
+                self.__checkPushAndWalk() 
+            else:
+                if not self.direction == "down":
+                    self.targetY -= 2
+
+        x = self.__checkBounds(x, 15, 620)
+        y = self.__checkBounds(y, 15, 460)
+
+        return x, y
 
 
     def getBelt(self): #belt will be dropped by first boss, allows pushing rocks
@@ -379,7 +376,7 @@ class Player(pygame.sprite.Sprite):
                    print self.targetX, self.targetY
 
     #Updates the companion if the player has one               
-    def __updateComp(r, eg):
+    def __updateComp(self, r, eg):
         if self.hasFriend == True:
             self.companion_group.update(self, rocks, enemyGroup)
             self.companion_group.draw(self.screen)
@@ -390,13 +387,17 @@ class Player(pygame.sprite.Sprite):
             self.alive = False
 
     # Continues the attack if it is in progress
-    def __contAttack():
+    def __contAttack(self):
         if self.attacking:
             self.attack.use(self, self.direction)
         if self.attack.is_done():
             self.attacking = False
             self.attack.kill()
 
+    def __setInteractFlag(self, k):
+        if k[K_RSHIFT]:
+            return True
+            
 class PlayerTarget(pygame.sprite.Sprite):
 
 
