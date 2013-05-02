@@ -101,6 +101,21 @@ class Boulder(pygame.sprite.Sprite):
     def isShaken(self):
 		return self.shaken
 		
+class Throne(pygame.sprite.Sprite):
+
+    
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+    	self.image = pygame.image.load('../images/throne.png')
+    	self.rect = self.image.get_rect()
+    	self.rect.topleft = (325,450)
+    
+    def showUp(self, windowSurface):
+        windowSurface.blit(self.image ,self.rect.topleft)
+
+
+
+
 "so puzzles arent so boring with what is going on"
 
 """I CANNOT GET THE REXT RIGHT WHEN DOING THE TOP. 

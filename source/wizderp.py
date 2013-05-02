@@ -24,6 +24,12 @@ class Wizderp(pygame.sprite.Sprite):
 		self.up_w = Animation( [pygame.image.load('../images/wiz_back_still.png'),
 								pygame.image.load('../images/wiz_back_walk1.png'),
 								pygame.image.load('../images/wiz_back_walk2.png')] )
+								
+		self.tele1 = pygame.image.load('../images/wiztele1.png')
+		self.tele2 = pygame.image.load('../images/wiztele2.png')
+		self.tele3 = pygame.image.load('../images/wiztele3.png')
+		self.tele4 = pygame.image.load('../images/wiztele4.png')
+		self.tele5 = pygame.image.load('../images/wiztele5.png')
 
 		self.image = self.left_w.update()
 		self.walking_timer = 0
@@ -36,29 +42,36 @@ class Wizderp(pygame.sprite.Sprite):
 		
 		
 		self.immortal_timer = 2
-		self.health = 5
+		self.health = 50
 		self.tele_spots = [(100, 50), (300, 100), (400, 200), (500, 50)]
 		self.tele_loc = 0
 		
 		self.decided = False
 		self.will_fight = True
+		self.tele_done = True
+		self.tele_tick = 1
+		self.tele_wait = 0
 		
 
  def update(self, player, rocks):
  	
- 	if self.decided:
+ 	if self.decided and self.tele_done:
 		self.direction =  direction = helpers.checkOrient(player, self)
 		if self.attack_timer <= 0:
 			self.__loadShot(player)
 			self.attack_timer = 130
-		elif self.attack_timer <10:
+		elif self.attack_timer <15:
 			self.attack_timer -=1
+			self.image = self.tele1
 		else:
 			self.__move(player)
 			self.attack_timer -=1
 		if self.immortal_timer > 0:
 			self.immortal_timer -=1
 			self.attack_timer -= 1
+ 	elif self.decided and (not self.tele_done):
+ 		self.__teleport()
+ 	
  	elif (not self.decided) and (helpers.distance(player.rect.topleft, self.rect.topleft) < 12):
  		self.__decide()
  	
@@ -127,8 +140,27 @@ class Wizderp(pygame.sprite.Sprite):
  
  
  def __teleport(self):
- 	self.tele_loc += 1
- 	if self.tele_loc >= len(self.tele_spots):
- 		self.tele_loc = 0
- 	self.rect.topleft = self.tele_spots[self.tele_loc]
+	 if self.tele_done:
+	 	self.image = self.tele1
+	 	self.tele_done = False
+	 	self.tele_tick = 10
+	 else:
+	 	if self.tele_tick <= 0:
+	 		if self.image == self.tele1:
+	 			self.image = self.tele2
+	 		elif self.image == self.tele2:
+	 			self.image = self.tele3
+	 		elif self.image == self.tele3:
+	 			self.image = self.tele4
+	 		elif self.image == self.tele4:
+	 			self.image = self.tele5
+	 			self.tele_loc += 1
+	 			if self.tele_loc >= len(self.tele_spots):
+	 				self.tele_loc = 0
+	 			self.rect.topleft = self.tele_spots[self.tele_loc]
+	 			
+	 			self.tele_done = True
+	 		self.tele_tick = 10
+	 	else:
+	 		self.tele_tick -= 1
  

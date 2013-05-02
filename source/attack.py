@@ -281,7 +281,14 @@ class Fire_Attack(pygame.sprite.Sprite):
         def __init__(self, position, target, direction):
                 pygame.sprite.Sprite.__init__(self)
                 
-                self.image = pygame.image.load('../images/hero_placeholder.png')
+                if direction == "left":
+                    self.image = pygame.image.load('../images/fireball_left.png')
+                elif direction == "right":
+                    self.image = pygame.image.load('../images/fireball_right.png')
+                elif direction == "up":
+                    self.image = pygame.image.load('../images/fireball_up.png')
+                else:
+                    self.image = pygame.image.load('../images/fireball_down.png')
                
                 self.rect = self.image.get_rect()
                 self.position = position
