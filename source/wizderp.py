@@ -42,7 +42,7 @@ class Wizderp(pygame.sprite.Sprite):
 		
 		
 		self.immortal_timer = 2
-		self.health = 50
+		self.health = 5
 		self.tele_spots = [(100, 50), (300, 100), (400, 200), (500, 50)]
 		self.tele_loc = 0
 		

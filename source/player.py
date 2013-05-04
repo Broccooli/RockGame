@@ -84,7 +84,8 @@ class Player(pygame.sprite.Sprite):
 
     def passComp(self):
         freind = self.companion_group.sprites()
-        return freind[0]
+        if len(freind) >0:
+        	return freind[0]
 
     def update_position(self, rocks, playerGroup, enemyGroup, plates):
         keys = pygame.key.get_pressed()
@@ -164,7 +165,7 @@ class Player(pygame.sprite.Sprite):
                    self.target_main = False
                    self.lazor_sight = False
                    self.lazor_group.empty()
-                   print self.targetX, self.targetY
+                   
         # -------- END ATTACKING --------
 
 
@@ -289,7 +290,6 @@ class Player(pygame.sprite.Sprite):
     def startRoom(self, spot):
         self.rect.topleft = spot[0], spot[1]
         self.position = self.rect.topleft
-        print spot
         if self.hasFriend:
             self.companion_group.sprites()[0].rect.topleft = spot
             self.companion_group.sprites()[0].stayed_still = 0

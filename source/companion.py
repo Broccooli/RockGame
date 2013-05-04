@@ -69,6 +69,13 @@ class Companion(pygame.sprite.Sprite):
     checks what weapon is carried, does things based off that
     """ 	
     def update(self, player, rocks, enemyGroup):
+    	if self.invul > 0:
+    		self.invul -= 1
+    	if self.health <= 0:
+			self.kill()
+			self.alive = False
+			player.hasFreind = False
+    	
     	old_position = self.rect.topleft
     	if len(enemyGroup) > 0:
 			if self.recall_timer == 0:
@@ -292,15 +299,10 @@ class Companion(pygame.sprite.Sprite):
               self.old_position = self.position[0], self.position[1] +40
            elif direction == "up":
               self.old_position = self.position[0], self.position[1] -40
-           if self.health <= 0:
-              self.kill()
            self.rect.topleft = helpers.checkBoundry(self.old_position)
            self.health -= damage
            self.invul = 80
         self.position = self.rect.topleft
-    	if self.health < 0:
-			self.kill()
-			self.alive = False
 			
     def __check_collision(self, rocks, player, old_position):
        

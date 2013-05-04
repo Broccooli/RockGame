@@ -238,7 +238,7 @@ class Levels():
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((310, 40))))
 		plates_by_level.append("1")
 		plates_by_level.append("1")
-		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((485, 400))))
+		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((485, 390))))
 		plates_by_level.append(pygame.sprite.RenderPlain(PressurePlate((580, 450))))
 		plates_by_level.append("1")
 		#Start of real dung

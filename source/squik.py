@@ -39,7 +39,6 @@ class Squik(pygame.sprite.Sprite):
       self.walking_timer = 0
    
    def update(self, player, rocks):
-      print len(self.touched_rocks)
       self.rocks = rocks
       self.old_position = self.rect.topleft
       self.__check_collision(rocks, player, self.old_position)
@@ -121,7 +120,6 @@ class Squik(pygame.sprite.Sprite):
       self.image = self.bubble_image
       if self.vulnerable == True:
          self.gel -= damage
-         print self.gel
          if self.wake:
             self.hit_rock_timer = 0
             self.breakRock(self.rocks)

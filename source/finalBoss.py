@@ -28,7 +28,6 @@ class FinalBoss(pygame.sprite.Sprite):
        
  def update(self, player, rocks):
 	if not self.dying:
-		print self.health
 		if self.attack_timer == 0:
 			self.__loadShot(player)
 			self.attack_timer = 130
@@ -48,10 +47,11 @@ class FinalBoss(pygame.sprite.Sprite):
 			#hit_player[0].kill()
 		if player.hasFriend:
 			friend = player.passComp()
-			hit_friend = pygame.sprite.spritecollide(friend, self.attack_group, False)
+			hit_friend = pygame.sprite.spritecollide(friend, self.attack_group, True)
 			if hit_friend:
 				friend.getHit("none", 100)
 				hit_friend[0].kill()
+				player.hasFriend = False
 		hit_head = pygame.sprite.spritecollide(self, self.attack_group, False)
 		if hit_head and self.immortal_timer <= 0:
 			helpers.shake(pygame.display.get_surface(), 50)
@@ -88,7 +88,8 @@ class FinalBoss(pygame.sprite.Sprite):
  	else:
  		self.kill()
 
-
+ def get_hit(self, direction, damage):
+ 	self.attack_timer += 1
 
 
 class Leftie(pygame.sprite.Sprite):

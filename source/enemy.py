@@ -233,6 +233,8 @@ class M_Enemy(pygame.sprite.Sprite):
 		   if hit_friend:
 				  friend.getHit(self.follow_direction, 2)
 				  self.clock = 15
+		   if friend.health <= 0:
+		      player.hasFriend = False			
               
  def __chase(self, spot, rocks): #added rocks to avoid them
 	x = spot[0]
@@ -403,6 +405,8 @@ class R_Enemy(pygame.sprite.Sprite):
            if hit_friend:
                friend.getHit("none", 1)
                hit_friend[0].kill()
+           if friend.health <= 0:
+               player.hasFriend = False
        self.__check_collision(rocks, player, old_position)
 
  def get_hit(self, direction, damage):

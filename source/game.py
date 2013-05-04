@@ -104,7 +104,6 @@ while True:
         player.health = 1
         player.alive = True
         reset +=1
-        print reset
     
     if reset == 6:
         player.health = 5
