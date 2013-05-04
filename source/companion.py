@@ -65,6 +65,9 @@ class Companion(pygame.sprite.Sprite):
         self.alive = alive
     def isAlive(self):
         return self.alive
+    
+    def getDead(self):
+    	self.dialogHandle.companionDeath(self.windowSurface, self)
     """
     checks what weapon is carried, does things based off that
     """ 	

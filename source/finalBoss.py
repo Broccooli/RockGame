@@ -50,6 +50,7 @@ class FinalBoss(pygame.sprite.Sprite):
 			hit_friend = pygame.sprite.spritecollide(friend, self.attack_group, True)
 			if hit_friend:
 				friend.getHit("none", 100)
+				friend.getDead()
 				hit_friend[0].kill()
 				player.hasFriend = False
 		hit_head = pygame.sprite.spritecollide(self, self.attack_group, False)
