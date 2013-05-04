@@ -136,3 +136,6 @@ MASTER_END =[
 "My new feeling is clear: unless it's that wizard, anything that comes in here dies",
 "This is good"
 ]
+
+COMPANION_DEATH = [
+"Lazy creature. It gets covered in red then just lays there. I'm leaving without it"]

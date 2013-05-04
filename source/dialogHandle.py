@@ -166,6 +166,21 @@ class HandleDialog(object):
 					fpsClock.tick(30)
 					dialog_done = self.dialogBox.over()
     
+    def companionDeath(self, windowSurface, companion):
+	    
+	    self.dialogBox.set_dialog(speechConstants.COMPANION_DEATH)
+	    dialog_done = False
+	    #Dialog Loop
+	    while not dialog_done:
+	        for event in pygame.event.get():
+	            if event.type ==KEYUP:
+	                if event.key == K_RETURN:
+	                    self.dialogBox.progress()
+	        self.dialogBox.draw(windowSurface, (50, 400))
+	        pygame.display.update()
+	        fpsClock.tick(30)
+	        dialog_done = self.dialogBox.over()
+
     def companionOpening(self, windowSurface, companion):
 	    
 	    self.dialogBox.set_dialog(speechConstants.COMPANION_OPEN)

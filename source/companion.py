@@ -75,6 +75,7 @@ class Companion(pygame.sprite.Sprite):
 			self.kill()
 			self.alive = False
 			player.hasFreind = False
+			self.dialogHandle.companionDeath(self.windowSurface, self)
     	
     	old_position = self.rect.topleft
     	if len(enemyGroup) > 0:

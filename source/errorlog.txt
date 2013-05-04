@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/Users/kevindougherty/RockGame/source/game.py", line 5, in <module>
+    import os, pygame,time, helpers, speechConstants
+  File "/Users/kevindougherty/RockGame/source/helpers.py", line 3, in <module>
+    from enemy import M_Enemy
+  File "/Users/kevindougherty/RockGame/source/enemy.py", line 351
+    if id = 0:
+          ^
+SyntaxError: invalid syntax
