@@ -83,9 +83,8 @@ class Player(pygame.sprite.Sprite):
         self.lazor_sight = False
 
     def passComp(self):
-        freind = self.companion_group.sprites()
-        if len(freind) >0:
-        	return freind[0]
+        friend = self.companion_group.sprites()
+        return friend[0]
 
     def update_position(self, rocks, playerGroup, enemyGroup, plates):
         keys = pygame.key.get_pressed()
@@ -94,89 +93,20 @@ class Player(pygame.sprite.Sprite):
         interact_flag = False
         old_position = self.rect.topleft
 
+
         # -------- MOVEMENT --------
-        if keys[K_LEFT] and not self.attacking and self.alive:
-
-            if not self.aiming:
-                x -= 5
-                self.direction = "left"
-                self.__checkPushAndWalk() # This method is used to check the push and walk timers
-            else:
-                if not self.direction == "right":
-                    self.targetX -= 2
-        if keys[K_RIGHT] and not self.attacking and self.alive:
-
-            if not self.aiming:
-                x += 5
-                self.direction = "right"
-                self.__checkPushAndWalk()
-            else:
-                if not self.direction == "left":
-                    self.targetX += 2
-        if keys[K_DOWN] and not self.attacking and self.alive:
-
-            if not self.aiming:
-                y += 5
-                self.direction = "down"
-                self.__checkPushAndWalk() 
-            else:
-                if not self.direction == "up":
-                    self.targetY += 2
-
-        if keys[K_UP] and not self.attacking and self.alive:
-
-            if not self.aiming:
-                y -= 5
-                self.direction = "up"
-                self.__checkPushAndWalk()
-            else:
-                if not self.direction == "down":
-                    self.targetY -= 2
-
-        x = self.__checkBounds(x, 15, 620)
-        y = self.__checkBounds(y, 15, 460)
-
+        x,y = self.__move(keys, x, y)
         # -------- END MOVEMENT --------
 
 
-
-
-        # -------- ATTACKING --------
-        if keys[K_SLASH] and self.weapon == 1 and self.alive:
-            self.aiming=True
-            self.targetX = self.rect.center[0]
-            self.targetY = self.rect.center[1]
-            self.lazor_sight = True
-        lazor_sight = PlayerTarget(self.rect.center)
-        if self.lazor_sight == True:
-            lazor_sight.move((self.targetX, self.targetY), self.screen)
-
-
-        if keys[K_SPACE] and not self.attacking:
-
-            if self.weapon == 0:
-               self.attacking = True
-               playerGroup.add(self.attack)
-            else:
-                if self.aiming==True:
-                   self.aiming = False
-                   attack = R_Attack(self.rect.center, (self.targetX, self.targetY), self.direction)
-                   self.attack_group.add(attack)
-                   self.target_main = False
-                   self.lazor_sight = False
-                   self.lazor_group.empty()
-                   
+        # -------- ATTACKING -------- 
+        self.__attack(keys, playerGroup)
         # -------- END ATTACKING --------
 
-
-
-
-        # -------- INTERACT KEY --------
-        if keys[K_RSHIFT]:
-            interact_flag = True
+        # -------- INTERACT KEY --------        
+        interact_flag = self.__setInteractFlag(keys)
         # -------- END INTERACT KEY --------
-
-
+        
 
         # -------- TESTING PURPOSES --------
         if keys[K_p]:
@@ -191,26 +121,28 @@ class Player(pygame.sprite.Sprite):
             self.getBow()
         if keys[K_t]:
             self.getBelt()
-
         # -------- END TESTING PURPOSES --------
 
 
-        # vvvv Update companion if the player has one vvvv
-        if self.hasFriend == True:
-            self.companion_group.update(self, rocks, enemyGroup)
-            self.companion_group.draw(self.screen)
-        # End update companion
+        # -------- UPDATE COMPANION --------        
+        self.__updateComp(rocks, enemyGroup)
+        # -------- END UPDATE COMPANION --------
 
 
-        if self.health < 0: #Check if player is alive
-            self.alive = False
-        self.rect.topleft = x, y #Set players new position
+        # -------- PLAYER ALIVE? --------        
+        self.__checkMortality()
+        # -------- END PLAYER ALIVE? --------
+
+
+        # -------- NEW PLAYER POSITION --------    
+        self.rect.topleft = x, y 
         self.position = self.rect.topleft
-        if self.attacking:
-            self.attack.use(self, self.direction)
-        if self.attack.is_done():
-            self.attacking = False
-            self.attack.kill()
+        # -------- END NEW PLAYER POSITION --------
+        
+
+        # -------- CONTINUE ATTACK --------        
+        self.__contAttack()
+        # -------- END CONTINUE ATTACK --------
 
 
         self.attack_group.update()
@@ -220,18 +152,19 @@ class Player(pygame.sprite.Sprite):
         	enemy.get_hit(self.direction, 6)
         
         
-        
+        # ---------- CHECK ENEMY COLLISION ----------
         hit_enemy = pygame.sprite.spritecollide(self.attack, enemyGroup, False)
-        if hit_enemy:
-            if self.clock == 0:
-                hit_enemy[0].get_hit(self.direction, 2)
-                self.clock = 30
-        else:
-            if self.clock > 0:
-                self.clock -= 1
+        self.__checkEnemyCollision(hit_enemy)
+        # ---------- END CHECK ----------
+
+        
+        
+        # -------- CHECK PUSH TIMER --------
         if self.push_timer > 0:
             self.push_timer -=1
-
+        # -------- END CHECK PUSH TIMER --------
+        
+        
         if not plates == "1":
             hit_plate = pygame.sprite.spritecollide(self, plates, False)
             if hit_plate:
@@ -239,24 +172,59 @@ class Player(pygame.sprite.Sprite):
                     self.dialog_handle.examinePlate(self.screen)
 
 
+        # ---------- CHECK ROCK COLLISION ----------
         hit_rock = pygame.sprite.spritecollide(self, rocks, False)
-        if hit_rock:
-            if interact_flag:
-                self.dialog_handle.examineRock(self.screen, hit_rock[0].ID)
-
-            self.rect.topleft = old_position[0], old_position[1]
-            if self.has_belt and self.push_timer <= 0:
-                if keys[K_LSHIFT]:
-                    hit_rock[0].getMovedP(rocks, self.momentum, self, enemyGroup)
-                    self.push_timer = 8 #to make rocks move slower
-                if keys[K_TAB]:
-                    hit_rock[0].getHit()
-                    self.push_timer = 8
-                if keys[K_p]:
-                    print "Oi, dis rock at ", hit_rock[0].rect.topleft
+        self.__checkRockCollision(hit_rock, interact_flag, old_position, keys, enemyGroup)
+        # ---------- END CHECK ----------
+        
         if self.invul > 0:
             self.invul -= 1
+        
 
+
+    def __move(self, k, x, y):
+        if k[K_LEFT] and not self.attacking and self.alive:
+
+            if not self.aiming:
+                x -= 5
+                self.direction = "left"
+                self.__checkPushAndWalk() # This method is used to check the push and walk timers
+            else:
+                if not self.direction == "right":
+                    self.targetX -= 2
+        if k[K_RIGHT] and not self.attacking and self.alive:
+
+            if not self.aiming:
+                x += 5
+                self.direction = "right"
+                self.__checkPushAndWalk()
+            else:
+                if not self.direction == "left":
+                    self.targetX += 2
+        if k[K_DOWN] and not self.attacking and self.alive:
+
+            if not self.aiming:
+                y += 5
+                self.direction = "down"
+                self.__checkPushAndWalk() 
+            else:
+                if not self.direction == "up":
+                    self.targetY += 2
+
+        if k[K_UP] and not self.attacking and self.alive:
+
+            if not self.aiming:
+                y -= 5
+                self.direction = "up"
+                self.__checkPushAndWalk() 
+            else:
+                if not self.direction == "down":
+                    self.targetY -= 2
+
+        x = self.__checkBounds(x, 15, 620)
+        y = self.__checkBounds(y, 15, 460)
+
+        return x, y
 
 
     def getBelt(self): #belt will be dropped by first boss, allows pushing rocks
@@ -264,6 +232,7 @@ class Player(pygame.sprite.Sprite):
 
     def getHealth(self):
         return str(self.health)
+    
     def getGaunt(self): #for breaking rocks, dropped by squik
         self.has_gaunt = True
 
@@ -290,9 +259,11 @@ class Player(pygame.sprite.Sprite):
     def startRoom(self, spot):
         self.rect.topleft = spot[0], spot[1]
         self.position = self.rect.topleft
+        print spot
         if self.hasFriend:
             self.companion_group.sprites()[0].rect.topleft = spot
             self.companion_group.sprites()[0].stayed_still = 0
+            
     def backUp(self):
         if self.direction == "left":
             self.rect.topleft = self.rect.topleft[0] +5, self.rect.topleft[1]
@@ -349,7 +320,84 @@ class Player(pygame.sprite.Sprite):
         else:
             return axis
 
+    # Handles Rock Collisions
+    def __checkRockCollision(self, rocks, inter_f, old_p, k, eg):
+        if rocks:
+            if inter_f:
+                self.dialog_handle.examineRock(self.screen, rocks[0].ID)
 
+            self.rect.topleft = old_p[0], old_p[1]
+            if self.has_belt and self.push_timer <= 0:
+                if k[K_LSHIFT]:
+                    rocks[0].getMovedP(rocks, self.momentum, self, eg)
+                    self.push_timer = 8 #to make rocks move slower
+                if k[K_TAB]:
+                    rocks[0].getHit()
+                    self.push_timer = 8
+                if k[K_p]:
+                    print "Oi, dis rock at ", rocks[0].rect.topleft
+
+    # Handles enemy collisions
+    def __checkEnemyCollision(self, enemies):
+        if enemies:
+            if self.clock == 0:
+                enemies[0].get_hit(self.direction, 2)
+                self.clock = 30
+        else:
+            if self.clock > 0:
+                self.clock -= 1
+
+    # Handles attacking
+    def __attack(self, k, pg):
+        
+        if k[K_SLASH] and self.weapon == 1 and self.alive:
+            self.aiming=True
+            self.targetX = self.rect.center[0]
+            self.targetY = self.rect.center[1]
+            self.lazor_sight = True
+        lazor_sight = PlayerTarget(self.rect.center)
+        if self.lazor_sight == True:
+            lazor_sight.move((self.targetX, self.targetY), self.screen)
+
+
+        if k[K_SPACE] and not self.attacking:
+
+            if self.weapon == 0:
+               self.attacking = True
+               pg.add(self.attack)
+            else:
+                if self.aiming==True:
+                   self.aiming = False
+                   attack = R_Attack(self.rect.center, (self.targetX, self.targetY), self.direction)
+                   self.attack_group.add(attack)
+                   self.target_main = False
+                   self.lazor_sight = False
+                   self.lazor_group.empty()
+                   print self.targetX, self.targetY
+
+    #Updates the companion if the player has one               
+    def __updateComp(self, r, eg):
+        if self.hasFriend == True:
+            self.companion_group.update(self, rocks, enemyGroup)
+            self.companion_group.draw(self.screen)
+
+    # Checks if the player is alive
+    def __checkMortality(self):
+        if self.health < 0: 
+            self.alive = False
+
+    # Continues the attack if it is in progress
+    def __contAttack(self):
+        if self.attacking:
+            self.attack.use(self, self.direction)
+        if self.attack.is_done():
+            self.attacking = False
+            self.attack.kill()
+
+    def __setInteractFlag(self, k):
+        if k[K_RSHIFT]:
+            return True
+            
 class PlayerTarget(pygame.sprite.Sprite):
 
 
