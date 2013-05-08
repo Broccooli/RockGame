@@ -14,8 +14,13 @@ class HandleDialog(object):
 	   self.handeled = False
 	   self.dialogBox = dialogBox
 	   self.screen = screen
+	   self.checked = False
 
-    def update(self, current_level, enemyGroup, windowSurface):
+    def update(self, current_level, enemyGroup, windowSurface, player):
+    	if current_level == 15 and self.checked == False:
+    		if not player.hasFriend:
+    			speech_by_level[current_level] = speechConstants.COMPANIONLESS_THRONE
+    			self.checked = True
         if self.handeled == False:
         	if speech_by_level[current_level][0] == "1":
         	   if enemyGroup:
@@ -279,6 +284,7 @@ def arrow_image(color):
 class DialogBox(object):
     
     def __init__(self, size, background_color, border_color, font):
+        self.screen = pygame.display.get_surface()
         self.dialog = []
         self.image = pygame.Surface(size)
         self.font = font
@@ -311,6 +317,7 @@ class DialogBox(object):
     
     def update_box(self):
         self.image.fill(self.background_color)
+        self.screen.fill(self.border_color, pygame.Rect(505, 335, 150, 160))
         pygame.draw.rect(self.image, self.border_color, 
             (0, 0, self.size[0], self.size[1]), 1)
     

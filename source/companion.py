@@ -161,7 +161,7 @@ class Companion(pygame.sprite.Sprite):
         
         hit_enemy = pygame.sprite.spritecollide(target, self.attack_group, False)
         if hit_enemy:
-               target.get_hit("none", 1)
+               target.get_hit("none", 10)
                hit_enemy[0].kill()
         
         self.attack_group.update()
@@ -202,7 +202,7 @@ class Companion(pygame.sprite.Sprite):
         
         hit_enemy = pygame.sprite.spritecollide(enemy[0], self.attack_group, False)
         if hit_enemy:
-               enemy[0].get_hit("none", 1)
+               enemy[0].get_hit("none", 10)
                hit_enemy[0].kill()
         
         self.attack_group.update()

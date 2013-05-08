@@ -149,6 +149,7 @@ class TahZi(pygame.sprite.Sprite):
           elif direction == "up":
                self.rect.topleft = self.position[0], self.position[1] -40
           self.stun_timer = 0
+          self.next_rock = self.rock_tops[randint(0,15)]
        if self.health <= 0:
                self.kill()
        self.position = self.rect.topleft

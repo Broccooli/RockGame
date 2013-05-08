@@ -139,3 +139,6 @@ MASTER_END =[
 
 COMPANION_DEATH = [
 "Lazy creature. It gets covered in red then just lays there. I'm leaving without it"]
+
+COMPANIONLESS_THRONE = [
+"Sure is one nice chair there."]

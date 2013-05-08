@@ -83,8 +83,8 @@ while True:
         	if event.key == K_RSHIFT:
         	    interact_flag = True
         	if event.key == K_k:
-        		current_level = len(doors_by_level)-3
-        		player.startRoom(player_entrance[current_level -3])
+        		current_level = len(doors_by_level)-8
+        		player.startRoom(player_entrance[current_level -8])
         		#to jump to last room
         		player.getBelt()
         		player.getGaunt()
@@ -92,6 +92,7 @@ while True:
         		reset = helpers.pauseBalls(windowSurface)
         	if event.key == K_o:
         		enemies_by_level[current_level].empty()
+        		print current_level
         	if event.key == K_1:
         		rocks_by_level[current_level].add(pygame.sprite.RenderPlain(Rock((player.rect.topleft[0] + 40, player.rect.topleft[1]))))
 
@@ -200,7 +201,7 @@ while True:
         enemies_by_level[current_level].draw(windowSurface)
         HUB.drawHealth(player, windowSurface)
         dialogbox.draw(windowSurface, (50, 400))
-        dialog_handle.update(current_level, enemies_by_level[current_level], windowSurface)
+        dialog_handle.update(current_level, enemies_by_level[current_level], windowSurface, player)
     else:
         trans_surface = transition.do()
         windowSurface.blit(trans_surface,(0,0))
@@ -240,7 +241,7 @@ while True:
         	if current_level >= 4:
         	   player.getBelt() 
         	if current_level >= 8:
-        	   player.getGaunt()	
+        	   player.getGaunt()
         	#helpers.set(current_level, player_entrance[current_level-1])
         	level_background = level_maker.drawBackground(windowSurface)
         	transitioning = True

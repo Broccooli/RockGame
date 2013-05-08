@@ -24,6 +24,7 @@ class M_Enemy(pygame.sprite.Sprite):
          self.back_walk2 = pygame.image.load('../images/arms_back_walk2.png')
          self.right_still = pygame.image.load('../images/arms_right_still.png')
          self.right_walk = pygame.image.load('../images/arms_right_walk.png')
+         self.health = 3
          self.right_walk2 = self.right_walk
        elif id == 3:
          self.front_still = pygame.image.load('../images/ff_front_still.png')
@@ -38,7 +39,9 @@ class M_Enemy(pygame.sprite.Sprite):
          self.back_walk2 = pygame.image.load('../images/ff_back_walk2.png')
          self.right_still = pygame.image.load('../images/ff_right_still.png')
          self.right_walk = pygame.image.load('../images/ff_right_walk1.png')
-         self.right_walk2 = pygame.image.load('../images/ff_right_walk2.png')  
+         self.right_walk2 = pygame.image.load('../images/ff_right_walk2.png')
+         self.health = 3
+           
        
        else:
          self.front_still = pygame.image.load('../images/headless_front_still.png')
@@ -53,11 +56,11 @@ class M_Enemy(pygame.sprite.Sprite):
          self.back_walk2 = pygame.image.load('../images/headless_back_walk2.png')
          self.right_still = pygame.image.load('../images/headless_right_still.png')
          self.right_walk = pygame.image.load('../images/headless_right_walk.png')
-         self.right_walk2 = pygame.image.load('../images/headless_right_walk2.png')   
+         self.right_walk2 = pygame.image.load('../images/headless_right_walk2.png')  
+         self.health = 2 
        self.rect = self.image.get_rect()
        self.position = position
        self.rect.topleft = position[0], position[1]
-       self.health = 1 #FOR TESTING
        self.clock = 0
        self.follow = False
        self.pat_directions = ["right", "down", "left", "up"]

@@ -187,7 +187,7 @@ class Levels():
 		enemies_by_level.append(pygame.sprite.RenderPlain(Grunk()))
 		
 		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((175, 100), windowSurface)))
-		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440), 1), R_Enemy((190, 25), windowSurface)))
+		enemies_by_level.append(pygame.sprite.RenderPlain(M_Enemy((379,440), 2), R_Enemy((190, 25), windowSurface)))
 		enemies_by_level.append(pygame.sprite.RenderPlain(R_Enemy((345, 90), windowSurface)))
 		enemies_by_level.append(pygame.sprite.RenderPlain(Squik()))
 		enemies_by_level.append(pygame.sprite.RenderPlain())
