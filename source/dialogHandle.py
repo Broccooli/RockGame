@@ -317,7 +317,6 @@ class DialogBox(object):
     
     def update_box(self):
         self.image.fill(self.background_color)
-        self.screen.fill(self.border_color, pygame.Rect(505, 335, 150, 160))
         pygame.draw.rect(self.image, self.border_color, 
             (0, 0, self.size[0], self.size[1]), 1)
     
@@ -335,7 +334,7 @@ class DialogBox(object):
         
         if self.shown and self.page < self.pages:
             my_font = pygame.font.SysFont('verdana', 15)
-            
+            self.screen.fill(self.border_color, pygame.Rect(505, 335, 150, 160))
             self.update_box()
             self.curr_dialog = self.dialog[self.page]
             if not self.curr_dialog.count("\"", 0, len(self.curr_dialog)) == 0:

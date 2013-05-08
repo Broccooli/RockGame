@@ -651,7 +651,7 @@ class Player(pygame.sprite.Sprite):
 
             if inter_f:
 
-                self.dialog_handle.examineRock(self.screen, rocks[0].ID)
+                self.dialog_handle.examineRock(self.screen, hit_rock[0].ID)
 
 
 
